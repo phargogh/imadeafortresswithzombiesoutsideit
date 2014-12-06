@@ -1,1 +1,1 @@
-this is a readme
+The zombies will eat you, you should build a wall.
