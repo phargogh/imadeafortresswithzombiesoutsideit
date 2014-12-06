@@ -8,23 +8,24 @@ public class Zombie : MonoBehaviour {
 	int y;
 	Point gridpos2D;
 	Point targetgridpos2D;
-	int xmax = Board.widthx;
-	int ymax = Board.widthy;
+	int xmax = Board.widthx - 1;
+	int ymax = Board.widthy - 1;
 	int searchx;
 	int searchy;
 	int directionx;
 	int directiony;
 	int attackrange;
 	bool xmove = true;
-	Board gameboard;
+	Board metaboardobj;
 
 	
-	public Zombie (Point gridpos2D, int attackrange, Board gameboard){
+	public Zombie (Point gridpos2D, int attackrange, Board metaboardobj){
 		this.gridpos2D = new Point(x, y);
 		this.attackrange = attackrange;
 		this.FindTargetDumbLoop();
-		this.gameboard = gameboard;
+		this.metaboardobj = metaboardobj;
 		MonoBehaviour.print("A zombie is on the loose!");
+		FindTargetDumbLoop ();
 
 	}
 	
@@ -43,7 +44,7 @@ public class Zombie : MonoBehaviour {
 		Point candgridpos2D; // = Board.wallgridpos2D[0];
 		int distance = xmax + ymax; 
 		
-		foreach (Point p in gameboard.wallgridpos2D) {
+		foreach (Point p in metaboardobj.wallgridpos2D) {
 			int cdistance = Math.Abs(this.gridpos2D.x - p.x) + Math.Abs(this.gridpos2D.y - p.y);
 						if (cdistance <= distance) {
 								distance = cdistance;
@@ -56,21 +57,27 @@ public class Zombie : MonoBehaviour {
 		DirectionUpdate();
 
 	}
-	bool Attackable (int x, int y){
+	bool Attackable (){
+		if(metaboardobj.board[this.targetgridpos2D.x, this.targetgridpos2D.y].GetType() == typeof(Wall)){
+			MonoBehaviour.print("Target acquired!");
 		return true; // add query to board
+		}
+		else{
+			return false;
+		}
 		}
 	void FindTargetDumbLoop(){
 		
 		bool targetacquired = false;
 
-		for (int i = 1; i <= this.xmax; i++){
+		for (int i = 0; i <= this.xmax; i++){
 			
 			if (targetacquired){
 				break;
 			}
 			else{
-				for (int j = 1; j <= this.ymax; j++){
-					if(Attackable(i,j)){ //need to actually define attackable or eliminate
+				for (int j = 0; j <= this.ymax; j++){
+					if(Attackable()){ //need to actually define attackable or eliminate
 						this.targetgridpos2D.x = i;
 						this.targetgridpos2D.y = j;
 						targetacquired = true;
