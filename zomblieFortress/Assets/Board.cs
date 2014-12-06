@@ -38,7 +38,7 @@ public class Board : MonoBehaviour {
 			new Point(17,17),
 		};
 		spawnWalls (start_walls, start_walls);
-		//DetectWasteland();
+		DetectWasteland();
 
 	}
 	
@@ -93,6 +93,9 @@ public class Board : MonoBehaviour {
 
 	int[,] RecurseWasteland (int[,] landscape, Point start_point) {
 		Debug.Log(start_point.x + ", " + start_point.y);
+
+		// We're visiting this cell, so assume wasteland until we know this is a wall.
+		landscape[start_point.x, start_point.y] = Board.wasteland;
 
 		//determine whether the start point is wasteland
 		if (this.board[start_point.x, start_point.y] is Wall){
@@ -157,7 +160,8 @@ public class Board : MonoBehaviour {
 				Debug.Log("Skipping boundary condition");
 			}
 			else{
-				landscape = this.RecurseWasteland(landscape, new_search_index);
+				Debug.Log ("Recursing");
+				landscape = RecurseWasteland(landscape, new_search_index);
 			}
 		}
 		return landscape;
