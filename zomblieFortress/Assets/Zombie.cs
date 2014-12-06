@@ -6,7 +6,7 @@ using System;
 public class Zombie : MonoBehaviour {
 	int x;
 	int y;
-	Point gridpos2D;
+	public Point gridpos2D;
 	Point targetgridpos2D;
 	int xmax = Board.widthx;
 	int ymax = Board.widthy;
