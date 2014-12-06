@@ -11,8 +11,8 @@ public class Board : MonoBehaviour {
 	GameObject [,] board = new GameObject[widthx,widthy];
 	List<Zombie> zombies = new List<Zombie>();
 	List<Wall> walls = new List<Wall>();
-	public static List<Vector2> zombiexy = new List<Vector2>();
-	public static List<Vector2> wallxy = new List<Vector2>();
+	public static List<Point> zombiegridpos2D = new List<Point>();
+	public static List<Point> wallgridpos2D = new List<Point>();
 
 
 	// Use this for initialization
