@@ -107,10 +107,12 @@ public class Board : MonoBehaviour {
 
 		// start out by starting from (0, 0) and investigating the board from there.
 		//bool[,] wasteland = new bool[landscape.GetLength(0), landscape.GetLength (1)];
-		Point start_point = new Point();
-		start_point.x = 0;
-		start_point.y = 1;
-		RecurseWasteland(ref wasteland, start_point);
+		foreach (Zombie live_zombie in this.zombies) {
+			Point start_point = new Point();
+			start_point.x = live_zombie.gridpos2D.x;
+			start_point.y = live_zombie.gridpos2D.y;
+			RecurseWasteland(ref wasteland, start_point);
+		}
 		return wasteland;
 	}
 
