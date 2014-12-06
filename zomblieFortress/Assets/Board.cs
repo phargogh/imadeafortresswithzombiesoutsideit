@@ -64,7 +64,8 @@ public class Board : MonoBehaviour {
 		// 0 = not searched
 		// 1 = has been searched, is wasteland
 		// 2 = has been searched, is wall.
-		int[,] wasteland = new int[8, 8];
+		int[,] wasteland = new int[Board.widthx, Board.widthy];
+		//int[,] wasteland = new int[8, 8];
 		for (int i = 0; i < wasteland.GetLength (0); i++){
 			for (int j = 0; j < wasteland.GetLength (1); j++){
 				Debug.Log(wasteland[i, j]);
@@ -76,7 +77,8 @@ public class Board : MonoBehaviour {
 		Point start_point = new Point();
 		start_point.x = 0;
 		start_point.y = 1;
-		PrintMatrix(RecurseWasteland(wasteland, start_point));
+		RecurseWasteland(ref wasteland, start_point);
+		PrintMatrix(wasteland);
 	}
 
 	// pretty-print the numeric value of an int matrix.
@@ -91,24 +93,28 @@ public class Board : MonoBehaviour {
 		}
 	}
 
-	int[,] RecurseWasteland (int[,] landscape, Point start_point) {
-		Debug.Log(start_point.x + ", " + start_point.y);
-
-		// We're visiting this cell, so assume wasteland until we know this is a wall.
-		landscape[start_point.x, start_point.y] = Board.wasteland;
-
-		//determine whether the start point is wasteland
-		if (this.board[start_point.x, start_point.y] is Wall){
-			// If this cell is a wall, we stop searching.  Set this index to False (not wasteland)
-			landscape[start_point.x, start_point.y] = Board.wall;
-			return landscape;
-		}
+	void RecurseWasteland (ref int[,] landscape, Point start_point) {
+		//PrintMatrix (landscape);
 
 		// If we've already positively confirmed this cell, skip.
 		if (landscape[start_point.x, start_point.y] != Board.unsearched) {
-			return landscape;
+			//Debug.Log ("Cell has previously been searched.");
+			return;
+		}
+		else {
+			// We're visiting this cell, so assume wasteland until we know this is a wall.
+			if (this.board[start_point.x, start_point.y] is Wall){
+				//Debug.Log ("Cell is wall");
+				landscape[start_point.x, start_point.y] = Board.wall;
+				return;
+			}
+			else {
+				// mark the board as having been visited.
+				landscape[start_point.x, start_point.y] = Board.wasteland;
+			}
 		}
 
+		
 		// determine the next place to search.
 		// Directions:
 		//   1 | 0 | 7
@@ -155,15 +161,13 @@ public class Board : MonoBehaviour {
 			}
 
 			// Check boundary conditions.  Don't recurse there, if out of bounds.
-			if (new_search_index.x < 0 || new_search_index.x > landscape.GetLength (0) || new_search_index.y < 0 || new_search_index.y > landscape.GetLength(1)){
+			if (new_search_index.x < 0 || new_search_index.x >= landscape.GetLength (0) || new_search_index.y < 0 || new_search_index.y >= landscape.GetLength(1)){
 				// do nothing ... we want to skip this.
-				Debug.Log("Skipping boundary condition");
+				//Debug.Log("Skipping boundary condition");
 			}
 			else{
-				Debug.Log ("Recursing");
-				landscape = RecurseWasteland(landscape, new_search_index);
+				RecurseWasteland(ref landscape, new_search_index);
 			}
-		}
-		return landscape;
+		} 
 	}
 }
