@@ -8,11 +8,11 @@ public class Board : MonoBehaviour {
 	public GameObject towerFab;
 	public static int widthx = 32;
 	public static int widthy = 32;
-	GameObject [,] board = new GameObject[widthx,widthy];
+	public GameObject [,] board = new GameObject[widthx,widthy];
 	List<Zombie> zombies = new List<Zombie>();
 	List<Wall> walls = new List<Wall>();
-	public static List<Point> zombiegridpos2D = new List<Point>();
-	public static List<Point> wallgridpos2D = new List<Point>();
+	public List<Point> zombiegridpos2D = new List<Point>();
+	public List<Point> wallgridpos2D = new List<Point>();
 
 	private static int wall = 2;
 	private static int wasteland = 1;
@@ -27,7 +27,19 @@ public class Board : MonoBehaviour {
 			}
 		}
 
+		List<Point> start_walls = new List<Point>(){
+			new Point(16,15),
+			new Point(15,16),
+			new Point(16,17),
+			new Point(17,16),
+			new Point(15,15),
+			new Point(15,17),
+			new Point(17,15),
+			new Point(17,17),
+		};
+		spawnWalls (start_walls, start_walls);
 		DetectWasteland();
+
 	}
 	
 	// Update is called once per frame
@@ -35,6 +47,14 @@ public class Board : MonoBehaviour {
 	
 	}
 
+	void spawnWalls(List<Point> walls, List<Point> towers){
+		foreach (Point w in walls) {
+			Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
+			GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
+			board[w.x, w.y] = wall;	
+		}
+	}
+	
 	void DetectWasteland () {
 		// build up an empty 2d matrix for indicating which cells are wasteland.
 		// initialize to false.
