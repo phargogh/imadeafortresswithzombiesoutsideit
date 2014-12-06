@@ -7,7 +7,8 @@ public class GameLoop : MonoBehaviour {
 	void Start () {
 
 		Board gameboard = new Board();
-		Zombie mydeadfriend = new Zombie (42, 4, 1, gameboard);
+		Point zgridpos2D = new Point(3, 5);
+		Zombie mydeadfriend = new Zombie (zgridpos2D, 1, gameboard);
 	
 	}
 	
