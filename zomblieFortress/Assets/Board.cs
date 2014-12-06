@@ -8,7 +8,7 @@ public class Board : MonoBehaviour {
 	public GameObject towerFab;
 	public static int widthx = 32;
 	public static int widthy = 32;
-	GameObject [,] board = new GameObject[widthx,widthy];
+	public GameObject [,] board = new GameObject[widthx,widthy];
 	List<Zombie> zombies = new List<Zombie>();
 	List<Wall> walls = new List<Wall>();
 	public static List<Point> zombiegridpos2D = new List<Point>();
@@ -19,7 +19,8 @@ public class Board : MonoBehaviour {
 	void Start () {
 		for (int x = 0; x < Board.widthx; x ++) {
 			for (int y = 0; y < Board.widthy; y++) {
-				GameObject wall = (GameObject) Instantiate(wallFab, new Vector3(x, y, 0), Quaternion.identity);
+				Vector3 pos = new Vector3(x - Board.widthx/2, y - Board.widthy/2, 0);
+				GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
 				board[x, y] = wall;
 			}
 		}
