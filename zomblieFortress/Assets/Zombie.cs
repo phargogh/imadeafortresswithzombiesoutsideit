@@ -27,8 +27,7 @@ public class Zombie : MonoBehaviour {
 		this.FindTargetDumbLoop ();
 		this.PrintZombiePosition ();
 		MonoBehaviour.print (this.targetgridpos2D.x);
-
-
+	
 		//MonoBehaviour.print (Math.Abs (this.targetdistancex) + Math.Abs (this.targetdistancey) > this.attackrange);
 		//MonoBehaviour.print (Math.Abs (this.targetdistancex));
 		//MonoBehaviour.print (Math.Abs (this.targetdistancey));
@@ -57,7 +56,7 @@ public class Zombie : MonoBehaviour {
 	}
 	
 	void FindTargetClosest(){
-		Point candgridpos2D; // = Board.wallgridpos2D[0];
+		Point candgridpos2D;
 		int distance = xmax + ymax; 
 		
 
