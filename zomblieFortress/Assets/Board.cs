@@ -13,8 +13,10 @@ public class Board : MonoBehaviour {
 	public GameObject [,] boardzombie = new GameObject[widthx,widthy];
 	List<Zombie> zombies = new List<Zombie>();
 	List<Wall> walls = new List<Wall>();
+	List<Tower> towers = new List<Tower>();
 	public List<Point> zombiegridpos2D = new List<Point>();
 	public List<Point> wallgridpos2D = new List<Point>();
+
 
 	private static int wall = 2;
 	private static int wasteland = 1;
