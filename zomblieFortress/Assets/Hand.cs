@@ -4,8 +4,13 @@ using System.Collections.Generic;
 
 public class Hand : MonoBehaviour {
 
+	public GameObject cardFab;
+
 	public Queue<Card> cards = new Queue<Card>();
 	public static int handSize = 5;
+
+	public float leftCardPosition = -12f;
+	public float cardSpacing = 6f;
 
 	// Use this for initialization
 	void Start () {
@@ -14,6 +19,20 @@ public class Hand : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (cards.Count < handSize) {
+			//cards.add
+		}
+	}
+
+	void ReposistionCards() {
+		int count = 0;
+		foreach (Card c in cards) {
+			c.gameObject.transform.position = GetCardPosition(count);
+			count++;
+		}
+	}
+
+	Vector3 GetCardPosition(int count) {
+		return new Vector3 (leftCardPosition + cardSpacing * count, gameObject.transform.position.y, -3);
 	}
 }
