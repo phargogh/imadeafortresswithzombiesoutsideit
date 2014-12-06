@@ -46,18 +46,25 @@ public class Board : MonoBehaviour {
 		};
 
 		
-		spawnWalls (start_walls, start_walls);
-		spawnWalls (corners,corners);
+		spawnWalls (start_walls, start_walls, new Point());
+		spawnWalls (corners,corners, new Point());
 		DetectWasteland();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
-	public bool spawnWalls(List<Point> walls, List<Point> towers){
+	public Point worldPosToGridPoint(Vector3 worldPos) {
+		Point gridPos = new Point ();
+		gridPos.x = Mathf.RoundToInt(worldPos.x - transform.position.x) - widthx/2;
+		gridPos.y = Mathf.RoundToInt(worldPos.y - transform.position.y) - widthy/2;
+		return gridPos;
+	}
+
+	public bool spawnWalls(List<Point> walls, List<Point> towers, Point gridPos){
 		foreach (Point w in walls) {
 			if (boardwall[w.x,w.y] == null){
 				Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
