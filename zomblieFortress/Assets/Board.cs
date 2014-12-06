@@ -14,21 +14,37 @@ public class Board : MonoBehaviour {
 	public List<Point> zombiegridpos2D = new List<Point>();
 	public List<Point> wallgridpos2D = new List<Point>();
 
-
+	private List<Point> adjacency_mask = new List<Point>(){
+		new Point(0,-1),
+		new Point(-1,0),
+		new Point(0,1),
+		new Point(1,0),
+		new Point(-1,-1),
+		new Point(-1,1),
+		new Point(1,-1),
+		new Point(1,1),
+	};
+	
 	// Use this for initialization
 	void Start () {
+		Point center = new Point (16, 16);
+		List<Point> start_walls = new List<Point>();
+		foreach (Point p in adjacency_mask) {
+			start_walls.Add(center+p);
+		}
 
-		List<Point> start_walls = new List<Point>(){
-			new Point(16,15),
-			new Point(15,16),
-			new Point(16,17),
-			new Point(17,16),
-			new Point(15,15),
-			new Point(15,17),
-			new Point(17,15),
-			new Point(17,17),
+
+		List<Point> corners = new List<Point> (){
+			new Point (0, 0),
+			new Point (0, 31),
+			new Point (31, 0),
+			new Point (31, 31),
 		};
+
+		
 		spawnWalls (start_walls, start_walls);
+		spawnWalls (corners,corners);
+
 	}
 	
 	// Update is called once per frame
@@ -40,7 +56,12 @@ public class Board : MonoBehaviour {
 		foreach (Point w in walls) {
 			Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
 			GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
-			board[w.x, w.y] = wall;	
+			if (board[w.x,w.y] == null){
+				board[w.x, w.y] = wall;	
+			}
+			else{
+				Debug.Log("Tried to place a wall on an occupied space:",wall);
+			}
 		}
 	}
 	
