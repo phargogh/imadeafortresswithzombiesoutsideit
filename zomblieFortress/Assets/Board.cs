@@ -49,7 +49,7 @@ public class Board : MonoBehaviour {
 		
 		spawnWalls (start_walls, start_walls);
 		spawnWalls (corners,corners);
-		DetectWasteland();
+		DetectFarmland();
 
 	}
 	
@@ -58,7 +58,7 @@ public class Board : MonoBehaviour {
 		long num_ticks = DateTime.Now.Ticks;
 		long current_time = num_ticks / 10000;  // time in ms
 		if (current_time >= this.last_update + 1000) {
-			DetectWasteland();
+			DetectFarmland();
 			this.last_update = current_time;
 		}
 	}
@@ -78,8 +78,23 @@ public class Board : MonoBehaviour {
 		}
 		return true;
 	}
+
+	bool[,] DetectFarmland () {
+		int[,] wasteland = DetectWasteland();
+
+		// farmland is anything that's not wasteland and not walls.
+		bool[,] farmland = new bool[wasteland.GetLength(0), wasteland.GetLength(1)];
+		for (int row = 0; row < wasteland.GetLength(0); row++) {
+			for (int col = 0; col < wasteland.GetLength(1); col++) {
+				if (wasteland[row, col] == 0) {
+					farmland[row, col] = true;
+				}
+			}
+		}
+		return farmland;
+	}
 	
-	void DetectWasteland () {
+	int[,] DetectWasteland () {
 		// build up an empty 2d matrix for indicating which cells are wasteland.
 		// initialize to false.
 		// TODO: use Board.widthx, Board.widthy
@@ -102,7 +117,7 @@ public class Board : MonoBehaviour {
 		start_point.x = 0;
 		start_point.y = 1;
 		RecurseWasteland(ref wasteland, start_point);
-		PrintMatrix(wasteland);
+		return wasteland;
 	}
 
 	// pretty-print the numeric value of an int matrix.
