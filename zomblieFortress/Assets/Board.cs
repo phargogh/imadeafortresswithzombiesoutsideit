@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -18,6 +19,8 @@ public class Board : MonoBehaviour {
 	private static int wall = 2;
 	private static int wasteland = 1;
 	private static int unsearched = 0;
+
+	private long last_update;
 
 	private List<Point> adjacency_mask = new List<Point>(){
 		new Point(0,-1),
@@ -52,7 +55,12 @@ public class Board : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		long num_ticks = DateTime.Now.Ticks;
+		long current_time = num_ticks / 10000;  // time in ms
+		if (current_time >= this.last_update + 1000) {
+			DetectWasteland();
+			this.last_update = current_time;
+		}
 	}
 
 	public bool spawnWalls(List<Point> walls, List<Point> towers){
