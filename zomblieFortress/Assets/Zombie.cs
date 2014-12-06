@@ -4,10 +4,10 @@ using System.Collections;
 public class Zombie : MonoBehaviour {
 	int x;
 	int y;
-	Vector2 xy;
+	Point xy;
 	int targetx;
 	int targety;
-	Vector2 targetxy;
+	Point targetxy;
 	int xmax = Board.widthx;
 	int ymax = Board.widthy;
 	int searchx;
@@ -20,7 +20,7 @@ public class Zombie : MonoBehaviour {
 	Zombie (int x, int y, int attackrange){
 		this.x = x;
 		this.y = y;
-		this.xy = new Vector2(x, y);
+		this.xy = new Point(x, y);
 		this.attackrange = attackrange;
 		this.FindTargetDumbLoop();
 	}
@@ -40,7 +40,7 @@ public class Zombie : MonoBehaviour {
 	Vector2 cvector;
 	int distance = this.xmax + this.ymax;
 		
-		foreach (Vector2 p in Board.wallxy) {
+		foreach (Point p in Board.wallxy) {
 						int cdistance = Abs (p - this.xy).Sum ();
 						if (cdistance <= distance) {
 								distance = cdistance;
