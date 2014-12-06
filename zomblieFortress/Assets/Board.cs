@@ -46,12 +46,9 @@ public class Board : MonoBehaviour {
 
 		
 		spawnWalls (start_walls, start_walls);
-<<<<<<< HEAD
 		spawnWalls (corners,corners);
-		DetectWasteland();
-=======
 		//DetectWasteland();
->>>>>>> 3d3fb925f1cf45a547ffb7ff81f3666b55031172
+
 
 	}
 	
