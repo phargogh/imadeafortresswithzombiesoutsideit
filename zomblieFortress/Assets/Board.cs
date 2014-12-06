@@ -17,13 +17,18 @@ public class Board : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		for (int x = 0; x < Board.widthx; x ++) {
-			for (int y = 0; y < Board.widthy; y++) {
-				Vector3 pos = new Vector3(x - Board.widthx/2, y - Board.widthy/2, 0);
-				GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
-				board[x, y] = wall;
-			}
-		}
+
+		List<Point> start_walls = new List<Point>(){
+			new Point(16,15),
+			new Point(15,16),
+			new Point(16,17),
+			new Point(17,16),
+			new Point(15,15),
+			new Point(15,17),
+			new Point(17,15),
+			new Point(17,17),
+		};
+		spawnWalls (start_walls, start_walls);
 	}
 	
 	// Update is called once per frame
@@ -31,6 +36,14 @@ public class Board : MonoBehaviour {
 	
 	}
 
+	void spawnWalls(List<Point> walls, List<Point> towers){
+		foreach (Point w in walls) {
+			Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
+			GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
+			board[w.x, w.y] = wall;	
+		}
+	}
+	
 	void DetectWasteland () {
 		// build up an empty 2d matrix for indicating which cells are wasteland.
 		// initialize to false.
