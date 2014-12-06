@@ -32,27 +32,25 @@ public class Zombie : MonoBehaviour {
 
 		bool targetacquired = false;
 
-		for (int i = 1; i <= this.xmax; i++)
-		{
+		for (int i = 1; i <= this.xmax; i++){
 		
-			if (targetacquired)
-			{
+			if (targetacquired){
 				break;
 			}
-			else
-			{
-				for (int j = 1; j <= this.ymax; j++)
-				{
+			else{
+				for (int j = 1; j <= this.ymax; j++){
 					if(attackable(i,j)){
 						this.targetx = i
 						this.targety = j
 						targetacquired = true;
 						break;
+						}
+
+
+
 					}
-
-
-
+				}
 			}
 		}
-		}
-}
+					
+	}
