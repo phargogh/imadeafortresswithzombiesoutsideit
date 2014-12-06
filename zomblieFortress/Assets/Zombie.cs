@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
+using System;
 
 public class Zombie : MonoBehaviour {
+}
+	/*	
 	int x;
 	int y;
 	Point gridpos2D;
@@ -16,6 +20,7 @@ public class Zombie : MonoBehaviour {
 	int directiony;
 	int attackrange;
 	bool xmove = true;
+	}
 	
 	Zombie (int x, int y, int attackrange){
 		this.x = x;
@@ -41,7 +46,7 @@ public class Zombie : MonoBehaviour {
 	int distance = this.xmax + this.ymax;
 		
 		foreach (Point p in Board.wallgridpos2D) {
-						int cdistance = Abs (p - this.gridpos2D).Sum (); 
+			int cdistance = Math.Abs(this.gridpos2D.x - p.x) + Math.Abs(this.gridpos2D.y - p.y);
 						if (cdistance <= distance) {
 								distance = cdistance;
 								candgridpos2D = p;
@@ -140,4 +145,4 @@ public class Zombie : MonoBehaviour {
 	}
 	
 }
-
+*/
