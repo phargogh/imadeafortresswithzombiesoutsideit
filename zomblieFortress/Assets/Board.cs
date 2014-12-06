@@ -9,7 +9,8 @@ public class Board : MonoBehaviour {
 	static int width = 32;
 	GameObject [,] board = new GameObject[width,width];
 	List<Zombie> zombies = new List<Zombie>();
-	//List<Wall> walls = new List<Wall>();
+	List<Wall> walls = new List<Wall>();
+	List<Blankspace> = new List<blankspace>();
 
 	// Use this for initialization
 	void Start () {

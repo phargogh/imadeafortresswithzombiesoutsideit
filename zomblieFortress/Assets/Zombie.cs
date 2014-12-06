@@ -10,10 +10,12 @@ public class Zombie : MonoBehaviour {
 	int ymax = getboardy ();
 	int searchx;
 	int searchy;
-	
-	Zombie (int x, int y){
+	int attackrange;
+
+	Zombie (int x, int y, int attackrange){
 		this.x = x;
 		this.y = y;
+		this.attackrange = attackrange
 		this.FindTarget();
 	}
 	
@@ -69,10 +71,11 @@ public class Zombie : MonoBehaviour {
 			this.xmove = true 
 		}
 
-	
-				
-				
-				
+		if (Abs(this.targetx) + Abs(this.targety) <= this.attackrange){
+			this.attack(targetx, targety)
+				break; //this needs to be the equivalent of a return statement that breaks the function here.
+			
+
 		if (this.xmove & this.x != this.targetx) {
 			this.xmove = false
 			if(this.directionx > 0){
