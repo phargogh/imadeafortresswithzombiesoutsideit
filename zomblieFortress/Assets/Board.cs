@@ -67,7 +67,6 @@ public class Board : MonoBehaviour {
 		for (int cardinal_dir = 0; cardinal_dir < 4; cardinal_dir++){
 
 			Point new_search_index = new Point();
-			// TODO: check the boundary cases.
 			if (cardinal_dir == 0){ // new direction is N.
 				new_search_index.x = start_point.x;
 				new_search_index.y = start_point.y - 1;
@@ -83,6 +82,11 @@ public class Board : MonoBehaviour {
 			else {  // new direction is E
 				new_search_index.x = start_point.x + 1;
 				new_search_index.y = start_point.y;
+			}
+
+			// Check boundary conditions.  Don't recurse there, if out of bounds.
+			if (new_search_index.x < 0 || new_search_index.x > landscape.GetLength (0) || new_search_index.y < 0 || new_search_index.y > landscape.GetLength(1)){
+				return landscape;
 			}
 
 			landscape = this.RecurseWasteland(landscape, new_search_index);
