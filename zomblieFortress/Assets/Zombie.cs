@@ -4,8 +4,10 @@ using System.Collections;
 public class Zombie : MonoBehaviour {
 	int x;
 	int y;
+	Vector2 xy
 	int targetx;
 	int targety;
+	Vector2 xy = Vector2(targetx,targety)
 	int xmax = getboardx ();
 	int ymax = getboardy ();
 	int searchx;
@@ -15,6 +17,7 @@ public class Zombie : MonoBehaviour {
 	Zombie (int x, int y, int attackrange){
 		this.x = x;
 		this.y = y;
+		this.xy = Vector2(x,y)
 		this.attackrange = attackrange
 		this.FindTarget();
 	}
@@ -29,7 +32,23 @@ public class Zombie : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	void FindTargetClosest();
+	Vector2 cvector;
+	int distance = this.xmax + this.ymax
+
+	foreach (Vector2 p in Board.wallxy) 
+	{
+		int cdistance = Abs(p - this.xy).Sum()
+		if(cdistance <= distance){
+			cvector = p
+		}
 	
+	this.targetxy = cvector
+	this.targetx = cvector[0]
+	this.targety = cvector[1]
+	}
+
 	void FindTargetDumbLoop(){
 		
 		bool targetacquired = false;
@@ -73,7 +92,7 @@ public class Zombie : MonoBehaviour {
 
 		if (Abs(this.targetx) + Abs(this.targety) <= this.attackrange){
 			this.attack(targetx, targety)
-				break; //this needs to be the equivalent of a return statement that breaks the function here.
+			break; //this needs to be the equivalent of a return statement that breaks the function here.
 			
 
 		if (this.xmove & this.x != this.targetx) {
