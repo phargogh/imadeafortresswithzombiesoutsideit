@@ -26,6 +26,8 @@ public class Board : MonoBehaviour {
 				board[x, y] = wall;
 			}
 		}
+
+		DetectWasteland();
 	}
 	
 	// Update is called once per frame
@@ -51,7 +53,22 @@ public class Board : MonoBehaviour {
 
 		// start out by starting from (0, 0) and investigating the board from there.
 		//bool[,] wasteland = new bool[landscape.GetLength(0), landscape.GetLength (1)];
+		Point start_point = new Point();
+		start_point.x = 0;
+		start_point.y = 1;
+		PrintMatrix(RecurseWasteland(wasteland, start_point));
+	}
 
+	// pretty-print the numeric value of an int matrix.
+	void PrintMatrix(int[,] matrix){
+		string row_string;
+		for (int i = 0; i < matrix.GetLength(0); i++){
+			row_string = "";
+			for (int j = 0; j < matrix.GetLength(1); j++){
+				row_string += " " + matrix[i, j];
+			}
+			Debug.Log (row_string);
+		}
 	}
 
 	int[,] RecurseWasteland (int[,] landscape, Point start_point) {
