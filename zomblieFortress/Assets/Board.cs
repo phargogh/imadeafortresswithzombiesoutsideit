@@ -8,7 +8,8 @@ public class Board : MonoBehaviour {
 	public GameObject towerFab;
 	public static int widthx = 32;
 	public static int widthy = 32;
-	public GameObject [,] board = new GameObject[widthx,widthy];
+	public GameObject [,] boardwall = new GameObject[widthx,widthy];
+	public GameObject [,] boardzombie = new GameObject[widthx,widthy];
 	List<Zombie> zombies = new List<Zombie>();
 	List<Wall> walls = new List<Wall>();
 	public List<Point> zombiegridpos2D = new List<Point>();
@@ -59,10 +60,10 @@ public class Board : MonoBehaviour {
 
 	public void spawnWalls(List<Point> walls, List<Point> towers){
 		foreach (Point w in walls) {
-			if (board[w.x,w.y] == null){
+			if (boardwall[w.x,w.y] == null){
 				Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
 				GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
-				board[w.x, w.y] = wall;
+				boardwall[w.x, w.y] = wall;
 				this.walls.Add(wall.GetComponent<Wall>());
 			}
 			else{
@@ -111,7 +112,7 @@ public class Board : MonoBehaviour {
 		Debug.Log(start_point.x + ", " + start_point.y);
 
 		//determine whether the start point is wasteland
-		if (this.board[start_point.x, start_point.y] is Wall){
+		if (this.boardwall[start_point.x, start_point.y] is Wall){
 			// If this cell is a wall, we stop searching.  Set this index to False (not wasteland)
 			landscape[start_point.x, start_point.y] = Board.wall;
 			return landscape;

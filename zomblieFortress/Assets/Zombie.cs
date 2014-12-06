@@ -24,7 +24,6 @@ public class Zombie : MonoBehaviour {
 		this.metaboardobj = metaboardobj;
 		this.attackrange = attackrange;
 		MonoBehaviour.print("A zombie is on the loose!");
-		MonoBehaviour.print(this.metaboardobj.board[this.targetgridpos2D.x, this.targetgridpos2D.y]);
 		this.FindTargetDumbLoop ();
 		
 	}
@@ -61,16 +60,11 @@ public class Zombie : MonoBehaviour {
 
 	bool Attackable (){
 
-				if (this.metaboardobj.board [this.targetgridpos2D.x, this.targetgridpos2D.y] == null) {
+				if (this.metaboardobj.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y] == null) {
 						return false;
 				}
-		MonoBehaviour.print ("here");
-		if (this.metaboardobj.board [this.targetgridpos2D.x, this.targetgridpos2D.y].GetType() == typeof(Wall)) {
-						
-						return true; // add query to board
-				}
 
-		return false;
+		return true;
 		}
 
 	void FindTargetDumbLoop(){
@@ -83,7 +77,8 @@ public class Zombie : MonoBehaviour {
 						this.targetgridpos2D.x = i; 
 						this.targetgridpos2D.y = j;
 						MonoBehaviour.print ("Target acquired!");
-
+						MonoBehaviour.print(i);
+						MonoBehaviour.print(j);
 						return;
 				}
 					
