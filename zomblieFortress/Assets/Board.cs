@@ -62,7 +62,8 @@ public class Board : MonoBehaviour {
 			Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
 			GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
 			if (board[w.x,w.y] == null){
-				board[w.x, w.y] = wall;	
+				board[w.x, w.y] = wall;
+				this.walls.Add(wall.GetComponent<Wall>());
 			}
 			else{
 				Debug.Log("Tried to place a wall on an occupied space:",wall);
