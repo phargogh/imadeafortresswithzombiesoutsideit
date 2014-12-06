@@ -21,13 +21,15 @@ public class Zombie : MonoBehaviour {
 	Board gameboard;
 
 	
-	Zombie (int x, int y, int attackrange, Board gameboard){
+	public Zombie (int x, int y, int attackrange, Board gameboard){
 		this.x = x;
 		this.y = y;
 		this.gridpos2D = new Point(x, y);
 		this.attackrange = attackrange;
 		this.FindTargetDumbLoop();
 		this.gameboard = gameboard;
+		MonoBehaviour.print("This is C#");
+
 	}
 	
 	// Use this for initialization
