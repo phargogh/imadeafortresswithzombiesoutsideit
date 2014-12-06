@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -12,12 +13,16 @@ public class Board : MonoBehaviour {
 	public GameObject [,] boardzombie = new GameObject[widthx,widthy];
 	List<Zombie> zombies = new List<Zombie>();
 	List<Wall> walls = new List<Wall>();
+	List<Tower> towers = new List<Tower>();
 	public List<Point> zombiegridpos2D = new List<Point>();
 	public List<Point> wallgridpos2D = new List<Point>();
+
 
 	private static int wall = 2;
 	private static int wasteland = 1;
 	private static int unsearched = 0;
+
+	private long last_update;
 
 	private List<Point> adjacency_mask = new List<Point>(){
 		new Point(0,-1),
@@ -33,10 +38,8 @@ public class Board : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Point center = new Point (16, 16);
-		List<Point> start_walls = new List<Point>();
-		foreach (Point p in adjacency_mask) {
-			start_walls.Add(center+p);
-		}
+		List<Point> start_walls = CardGen.getAdjacent (center);
+
 
 		List<Point> corners = new List<Point> (){
 			new Point (0, 0),
@@ -44,17 +47,21 @@ public class Board : MonoBehaviour {
 			new Point (31, 0),
 			new Point (31, 31),
 		};
-
 		
 		spawnWalls (start_walls, start_walls, new Point());
 		spawnWalls (corners,corners, new Point());
-		DetectWasteland();
+		DetectFarmland();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		long num_ticks = DateTime.Now.Ticks;
+		long current_time = num_ticks / 10000;  // time in ms
+		if (current_time >= this.last_update + 1000) {
+			DetectFarmland();
+			this.last_update = current_time;
+		}
 	}
 
 	public Point worldPosToGridPoint(Vector3 worldPos) {
@@ -79,23 +86,32 @@ public class Board : MonoBehaviour {
 		}
 		return true;
 	}
+
+	bool[,] DetectFarmland () {
+		Debug.Log ("Determining farms");
+		int[,] wasteland = DetectWasteland();
+
+		// farmland is anything that's not wasteland and not walls.
+		bool[,] farmland = new bool[wasteland.GetLength(0), wasteland.GetLength(1)];
+		for (int row = 0; row < wasteland.GetLength(0); row++) {
+			for (int col = 0; col < wasteland.GetLength(1); col++) {
+				if (wasteland[row, col] == 0) {
+					farmland[row, col] = true;
+				}
+			}
+		}
+		return farmland;
+	}
 	
-	void DetectWasteland () {
+	int[,] DetectWasteland () {
 		// build up an empty 2d matrix for indicating which cells are wasteland.
 		// initialize to false.
-		// TODO: use Board.widthx, Board.widthy
 
 		// wasteland meanings:
 		// 0 = not searched
 		// 1 = has been searched, is wasteland
 		// 2 = has been searched, is wall.
 		int[,] wasteland = new int[Board.widthx, Board.widthy];
-		//int[,] wasteland = new int[8, 8];
-		for (int i = 0; i < wasteland.GetLength (0); i++){
-			for (int j = 0; j < wasteland.GetLength (1); j++){
-				Debug.Log(wasteland[i, j]);
-			}
-		}
 
 		// start out by starting from (0, 0) and investigating the board from there.
 		//bool[,] wasteland = new bool[landscape.GetLength(0), landscape.GetLength (1)];
@@ -103,7 +119,7 @@ public class Board : MonoBehaviour {
 		start_point.x = 0;
 		start_point.y = 1;
 		RecurseWasteland(ref wasteland, start_point);
-		PrintMatrix(wasteland);
+		return wasteland;
 	}
 
 	// pretty-print the numeric value of an int matrix.
@@ -149,41 +165,10 @@ public class Board : MonoBehaviour {
 		//   3 | 4 | 5
 
 
-		for (int direction = 0; direction < 8; direction++){
-
+		foreach (Point mask_values in this.adjacency_mask) {
 			Point new_search_index = new Point();
-			if (direction == 0){ // new direction is N.
-				new_search_index.x = start_point.x;
-				new_search_index.y = start_point.y - 1;
-			}
-			else if (direction == 1) { // NW
-				new_search_index.x = start_point.x - 1;
-				new_search_index.y = start_point.y - 1;
-			}
-			else if (direction == 2) { // new direction is W
-				new_search_index.x = start_point.x - 1;
-				new_search_index.y = start_point.y;
-			}
-			else if (direction == 3) { // SW
-				new_search_index.x = start_point.x - 1;
-				new_search_index.y = start_point.y + 1;
-			}
-			else if (direction == 4) { // new direction is S
-				new_search_index.x = start_point.x;
-				new_search_index.y = start_point.y + 1;
-			}
-			else if (direction == 5) { // SE
-				new_search_index.x = start_point.x + 1;
-				new_search_index.y = start_point.y + 1;
-			}
-			else if (direction == 6) {  // new direction is E
-				new_search_index.x = start_point.x + 1;
-				new_search_index.y = start_point.y;
-			}
-			else {  // NE
-				new_search_index.x = start_point.x + 1;
-				new_search_index.y = start_point.y - 1;
-			}
+			new_search_index.x = start_point.x + mask_values.x;
+			new_search_index.y = start_point.y + mask_values.y;
 
 			// Check boundary conditions.  Don't recurse there, if out of bounds.
 			if (new_search_index.x < 0 || new_search_index.x >= landscape.GetLength (0) || new_search_index.y < 0 || new_search_index.y >= landscape.GetLength(1)){

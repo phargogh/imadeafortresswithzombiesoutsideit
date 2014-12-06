@@ -6,14 +6,14 @@ using System;
 public class Zombie : MonoBehaviour {
 	int x;
 	int y;
-	Point gridpos2D;
+	public Point gridpos2D;
 	Point targetgridpos2D;
 	int xmax = Board.widthx;
 	int ymax = Board.widthy;
 	int searchx;
 	int searchy;
-	int directionx;
-	int directiony;
+	int targetdistancex;
+	int targetdistancey;
 	int attackrange;
 	bool xmove = true;
 	Board metaboardobj;
@@ -25,6 +25,22 @@ public class Zombie : MonoBehaviour {
 		this.attackrange = attackrange;
 		MonoBehaviour.print("A zombie is on the loose!");
 		this.FindTargetDumbLoop ();
+		this.PrintZombiePosition ();
+		MonoBehaviour.print (this.targetgridpos2D.x);
+	
+		//MonoBehaviour.print (Math.Abs (this.targetdistancex) + Math.Abs (this.targetdistancey) > this.attackrange);
+		//MonoBehaviour.print (Math.Abs (this.targetdistancex));
+		//MonoBehaviour.print (Math.Abs (this.targetdistancey));
+		//MonoBehaviour.print (this.attackrange);
+		int counter = 1;
+		while (Math.Abs (this.targetdistancex) + Math.Abs (this.targetdistancey) > this.attackrange & counter < 50) {
+
+			this.Move();
+			counter += 1;
+			//this.PrintZombiePosition ();
+
+				}
+
 		
 	}
 	
@@ -35,11 +51,12 @@ public class Zombie : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//this.Move ();
 		
 	}
 	
 	void FindTargetClosest(){
-		Point candgridpos2D; // = Board.wallgridpos2D[0];
+		Point candgridpos2D;
 		int distance = xmax + ymax; 
 		
 
@@ -77,8 +94,9 @@ public class Zombie : MonoBehaviour {
 						this.targetgridpos2D.x = i; 
 						this.targetgridpos2D.y = j;
 						MonoBehaviour.print ("Target acquired!");
-						MonoBehaviour.print(i);
-						MonoBehaviour.print(j);
+					DirectionUpdate();
+						//MonoBehaviour.print(i);
+						//MonoBehaviour.print(j);
 						return;
 				}
 					
@@ -92,20 +110,29 @@ public class Zombie : MonoBehaviour {
 
 	
 	
-	
+	void TakeTurn(){
+		}
 	void DirectionUpdate(){
-		this.directionx = this.targetgridpos2D.x - this.gridpos2D.x;
-		this.directiony = this.targetgridpos2D.y - this.gridpos2D.y;
+		this.targetdistancex = this.targetgridpos2D.x - this.gridpos2D.x;
+		this.targetdistancey = this.targetgridpos2D.y - this.gridpos2D.y;
 	}
 
 	void Attack(){
 		// this.targetgridpos2D.x, this.targetgridpos2D.y, this.damage
 		}
 
+	void PrintZombiePosition(){
+		string pstring = "Zombie position: " + this.gridpos2D.x.ToString() + ',' + gridpos2D.y.ToString();
+		MonoBehaviour.print(pstring);
+		}
+
 	void Move(){
+		MonoBehaviour.print ("Zombie position before move");
+		PrintZombiePosition ();
+
 		
 		
-		if (Math.Abs (this.targetgridpos2D.x) + Math.Abs (this.targetgridpos2D.y) <= this.attackrange) {
+		if (Math.Abs (this.targetdistancex) + Math.Abs (this.targetdistancey) <= this.attackrange) {
 						this.Attack ();
 						return;
 				}
@@ -120,7 +147,7 @@ public class Zombie : MonoBehaviour {
 			
 		if (this.xmove & this.gridpos2D.x != this.targetgridpos2D.x) {
 				this.xmove = false;
-			if(this.directionx > 0){
+			if(this.targetdistancex > 0){
 				this.gridpos2D.x += 1;
 			}
 			
@@ -133,12 +160,12 @@ public class Zombie : MonoBehaviour {
 			
 		else{
 				this.xmove = true;
-			if(this.directiony > 0){
-				this.gridpos2D.x += 1;
+			if(this.targetdistancey > 0){
+				this.gridpos2D.y += 1;
 			}
 			
 			else{
-				this.gridpos2D.x -= 1;
+				this.gridpos2D.y -= 1;
 			}
 			
 				this.DirectionUpdate();
