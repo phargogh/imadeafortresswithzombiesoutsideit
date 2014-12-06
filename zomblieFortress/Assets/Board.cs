@@ -67,7 +67,7 @@ public class Board : MonoBehaviour {
 				this.walls.Add(wall.GetComponent<Wall>());
 			}
 			else{
-				Debug.Log("Tried to place a wall on an occupied space:",wall);
+				Debug.Log("Tried to place a wall on an occupied space: " + w.x + ", " + w.y );
 			}
 		}
 	}
