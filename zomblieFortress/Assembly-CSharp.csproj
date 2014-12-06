@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Board.cs" />
      <Compile Include="Assets\Card.cs" />
+     <Compile Include="Assets\CardGen.cs" />
      <Compile Include="Assets\GameLoop.cs" />
      <Compile Include="Assets\Hand.cs" />
      <Compile Include="Assets\Point.cs" />
