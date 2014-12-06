@@ -18,27 +18,37 @@ public class Board : MonoBehaviour {
 	private static int wasteland = 1;
 	private static int unsearched = 0;
 
+	private List<Point> adjacency_mask = new List<Point>(){
+		new Point(0,-1),
+		new Point(-1,0),
+		new Point(0,1),
+		new Point(1,0),
+		new Point(-1,-1),
+		new Point(-1,1),
+		new Point(1,-1),
+		new Point(1,1),
+	};
+	
 	// Use this for initialization
 	void Start () {
-		for (int x = 0; x < Board.widthx; x ++) {
-			for (int y = 0; y < Board.widthy; y++) {
-				GameObject wall = (GameObject) Instantiate(wallFab, new Vector3(x, y, 0), Quaternion.identity);
-				board[x, y] = wall;
-			}
+		Point center = new Point (16, 16);
+		List<Point> start_walls = new List<Point>();
+		foreach (Point p in adjacency_mask) {
+			start_walls.Add(center+p);
 		}
 
-		List<Point> start_walls = new List<Point>(){
-			new Point(16,15),
-			new Point(15,16),
-			new Point(16,17),
-			new Point(17,16),
-			new Point(15,15),
-			new Point(15,17),
-			new Point(17,15),
-			new Point(17,17),
+		List<Point> corners = new List<Point> (){
+			new Point (0, 0),
+			new Point (0, 31),
+			new Point (31, 0),
+			new Point (31, 31),
 		};
+
+		
 		spawnWalls (start_walls, start_walls);
-		DetectWasteland();
+		spawnWalls (corners,corners);
+		//DetectWasteland();
+
 
 	}
 	
@@ -51,7 +61,12 @@ public class Board : MonoBehaviour {
 		foreach (Point w in walls) {
 			Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
 			GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
-			board[w.x, w.y] = wall;	
+			if (board[w.x,w.y] == null){
+				board[w.x, w.y] = wall;	
+			}
+			else{
+				Debug.Log("Tried to place a wall on an occupied space:",wall);
+			}
 		}
 	}
 	
@@ -64,7 +79,7 @@ public class Board : MonoBehaviour {
 		// 0 = not searched
 		// 1 = has been searched, is wasteland
 		// 2 = has been searched, is wall.
-		int[,] wasteland = new int[4, 4];
+		int[,] wasteland = new int[8, 8];
 		for (int i = 0; i < wasteland.GetLength (0); i++){
 			for (int j = 0; j < wasteland.GetLength (1); j++){
 				Debug.Log(wasteland[i, j]);
@@ -92,11 +107,17 @@ public class Board : MonoBehaviour {
 	}
 
 	int[,] RecurseWasteland (int[,] landscape, Point start_point) {
+		Debug.Log(start_point.x + ", " + start_point.y);
 
 		//determine whether the start point is wasteland
 		if (this.board[start_point.x, start_point.y] is Wall){
 			// If this cell is a wall, we stop searching.  Set this index to False (not wasteland)
 			landscape[start_point.x, start_point.y] = Board.wall;
+			return landscape;
+		}
+
+		// If we've already positively confirmed this cell, skip.
+		if (landscape[start_point.x, start_point.y] != Board.unsearched) {
 			return landscape;
 		}
 
@@ -147,10 +168,12 @@ public class Board : MonoBehaviour {
 
 			// Check boundary conditions.  Don't recurse there, if out of bounds.
 			if (new_search_index.x < 0 || new_search_index.x > landscape.GetLength (0) || new_search_index.y < 0 || new_search_index.y > landscape.GetLength(1)){
-				return landscape;
+				// do nothing ... we want to skip this.
+				Debug.Log("Skipping boundary condition");
 			}
-
-			landscape = this.RecurseWasteland(landscape, new_search_index);
+			else{
+				landscape = this.RecurseWasteland(landscape, new_search_index);
+			}
 		}
 		return landscape;
 	}
