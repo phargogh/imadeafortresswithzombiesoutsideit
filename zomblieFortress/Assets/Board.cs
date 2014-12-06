@@ -140,41 +140,10 @@ public class Board : MonoBehaviour {
 		//   3 | 4 | 5
 
 
-		for (int direction = 0; direction < 8; direction++){
-
+		foreach (Point mask_values in this.adjacency_mask) {
 			Point new_search_index = new Point();
-			if (direction == 0){ // new direction is N.
-				new_search_index.x = start_point.x;
-				new_search_index.y = start_point.y - 1;
-			}
-			else if (direction == 1) { // NW
-				new_search_index.x = start_point.x - 1;
-				new_search_index.y = start_point.y - 1;
-			}
-			else if (direction == 2) { // new direction is W
-				new_search_index.x = start_point.x - 1;
-				new_search_index.y = start_point.y;
-			}
-			else if (direction == 3) { // SW
-				new_search_index.x = start_point.x - 1;
-				new_search_index.y = start_point.y + 1;
-			}
-			else if (direction == 4) { // new direction is S
-				new_search_index.x = start_point.x;
-				new_search_index.y = start_point.y + 1;
-			}
-			else if (direction == 5) { // SE
-				new_search_index.x = start_point.x + 1;
-				new_search_index.y = start_point.y + 1;
-			}
-			else if (direction == 6) {  // new direction is E
-				new_search_index.x = start_point.x + 1;
-				new_search_index.y = start_point.y;
-			}
-			else {  // NE
-				new_search_index.x = start_point.x + 1;
-				new_search_index.y = start_point.y - 1;
-			}
+			new_search_index.x = start_point.x + mask_values.x;
+			new_search_index.y = start_point.y + mask_values.y;
 
 			// Check boundary conditions.  Don't recurse there, if out of bounds.
 			if (new_search_index.x < 0 || new_search_index.x >= landscape.GetLength (0) || new_search_index.y < 0 || new_search_index.y >= landscape.GetLength(1)){
