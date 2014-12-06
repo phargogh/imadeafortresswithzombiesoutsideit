@@ -10,16 +10,11 @@ public class Zombie : MonoBehaviour {
 	int ymax = getboardy ();
 	int searchx;
 	int searchy;
-	int directionx;
-	int directiony;
-	bool targetacquired
-		bool xmove;
 	
 	Zombie (int x, int y){
 		this.x = x;
 		this.y = y;
 		this.FindTarget();
-		this.xmove = true; //randomize
 	}
 	
 	// Use this for initialization
@@ -33,30 +28,32 @@ public class Zombie : MonoBehaviour {
 		
 	}
 	
-	void FindTarget(){
+	void FindTargetLoop(){
 		
 		bool targetacquired = false;
 		
 		for (int i = 1; i <= this.xmax; i++){
 			
-			if (self.targetacquired){
+			if (targetacquired){
 				break;
 			}
 			else{
 				for (int j = 1; j <= this.ymax; j++){
 					if(attackable(i,j)){
-						this.targetx = i;
-						this.targety = j;
-						this.targetacquired = true;
+						this.targetx = i
+							this.targety = j
+								targetacquired = true;
 						break;
 					}
+					
+					
 					
 				}
 			}
 		}
-		this.DirectionUpdate()				
 	}
 	
+
 	
 	void DirectionUpdate(){
 		this.directionx = this.targetx - this.x;
@@ -109,3 +106,6 @@ public class Zombie : MonoBehaviour {
 		}
 		
 	}
+
+}
+
