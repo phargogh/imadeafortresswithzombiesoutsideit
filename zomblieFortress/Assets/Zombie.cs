@@ -64,7 +64,7 @@ public class Zombie : MonoBehaviour {
 				if (this.metaboardobj.board [this.targetgridpos2D.x, this.targetgridpos2D.y] == null) {
 						return false;
 				}
-		MonoBehaviour.print ("here");
+		MonoBehaviour.print (this.metaboardobj.board [this.targetgridpos2D.x, this.targetgridpos2D.y]);
 		if (this.metaboardobj.board [this.targetgridpos2D.x, this.targetgridpos2D.y].GetType() == typeof(Wall)) {
 						
 						return true; // add query to board
