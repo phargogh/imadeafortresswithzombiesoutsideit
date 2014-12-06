@@ -33,10 +33,8 @@ public class Board : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Point center = new Point (16, 16);
-		List<Point> start_walls = new List<Point>();
-		foreach (Point p in adjacency_mask) {
-			start_walls.Add(center+p);
-		}
+		List<Point> start_walls = CardGen.getAdjacent (center);
+
 
 		List<Point> corners = new List<Point> (){
 			new Point (0, 0),
