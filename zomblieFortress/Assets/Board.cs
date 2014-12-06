@@ -14,6 +14,10 @@ public class Board : MonoBehaviour {
 	public List<Point> zombiegridpos2D = new List<Point>();
 	public List<Point> wallgridpos2D = new List<Point>();
 
+	private static int wall = 2;
+	private static int wasteland = 1;
+	private static int unsearched = 0;
+
 	private List<Point> adjacency_mask = new List<Point>(){
 		new Point(0,-1),
 		new Point(-1,0),
@@ -33,7 +37,6 @@ public class Board : MonoBehaviour {
 			start_walls.Add(center+p);
 		}
 
-
 		List<Point> corners = new List<Point> (){
 			new Point (0, 0),
 			new Point (0, 31),
@@ -44,6 +47,7 @@ public class Board : MonoBehaviour {
 		
 		spawnWalls (start_walls, start_walls);
 		spawnWalls (corners,corners);
+		DetectWasteland();
 
 	}
 	
@@ -69,45 +73,99 @@ public class Board : MonoBehaviour {
 		// build up an empty 2d matrix for indicating which cells are wasteland.
 		// initialize to false.
 		// TODO: use Board.widthx, Board.widthy
-		bool[,] wasteland = new bool[4, 4];
-		for (int i = 0; i < Board.widthx; i++){
-			for (int j = 0; j < Board.widthy; j++){
+
+		// wasteland meanings:
+		// 0 = not searched
+		// 1 = has been searched, is wasteland
+		// 2 = has been searched, is wall.
+		int[,] wasteland = new int[4, 4];
+		for (int i = 0; i < wasteland.GetLength (0); i++){
+			for (int j = 0; j < wasteland.GetLength (1); j++){
 				Debug.Log(wasteland[i, j]);
 			}
 		}
 
 		// start out by starting from (0, 0) and investigating the board from there.
 		//bool[,] wasteland = new bool[landscape.GetLength(0), landscape.GetLength (1)];
-
+		Point start_point = new Point();
+		start_point.x = 0;
+		start_point.y = 1;
+		PrintMatrix(RecurseWasteland(wasteland, start_point));
 	}
 
-	bool[,] RecurseWasteland (bool[,] landscape, Point start_point) {
-		//determine whether the start point is wasteland
+	// pretty-print the numeric value of an int matrix.
+	void PrintMatrix(int[,] matrix){
+		string row_string;
+		for (int i = 0; i < matrix.GetLength(0); i++){
+			row_string = "";
+			for (int j = 0; j < matrix.GetLength(1); j++){
+				row_string += " " + matrix[i, j];
+			}
+			Debug.Log (row_string);
+		}
+	}
 
-		bool[,] wasteland = new bool[landscape.GetLength(0), landscape.GetLength (1)];
-		for (int cardinal_dir = 0; cardinal_dir < 4; cardinal_dir++){
+	int[,] RecurseWasteland (int[,] landscape, Point start_point) {
+
+		//determine whether the start point is wasteland
+		if (this.board[start_point.x, start_point.y] is Wall){
+			// If this cell is a wall, we stop searching.  Set this index to False (not wasteland)
+			landscape[start_point.x, start_point.y] = Board.wall;
+			return landscape;
+		}
+
+		// determine the next place to search.
+		// Directions:
+		//   1 | 0 | 7
+		//   - + - + -
+		//   2 | X | 6
+		//   - + - + -
+		//   3 | 4 | 5
+
+
+		for (int direction = 0; direction < 8; direction++){
 
 			Point new_search_index = new Point();
-			// TODO: check the boundary cases.
-			if (cardinal_dir == 0){ // new direction is N.
+			if (direction == 0){ // new direction is N.
 				new_search_index.x = start_point.x;
 				new_search_index.y = start_point.y - 1;
 			}
-			else if (cardinal_dir == 1) { // new direction is W
+			else if (direction == 1) { // NW
+				new_search_index.x = start_point.x - 1;
+				new_search_index.y = start_point.y - 1;
+			}
+			else if (direction == 2) { // new direction is W
 				new_search_index.x = start_point.x - 1;
 				new_search_index.y = start_point.y;
 			}
-			else if (cardinal_dir == 2) { // new direction is S
+			else if (direction == 3) { // SW
+				new_search_index.x = start_point.x - 1;
+				new_search_index.y = start_point.y + 1;
+			}
+			else if (direction == 4) { // new direction is S
 				new_search_index.x = start_point.x;
 				new_search_index.y = start_point.y + 1;
 			}
-			else {  // new direction is E
+			else if (direction == 5) { // SE
+				new_search_index.x = start_point.x + 1;
+				new_search_index.y = start_point.y + 1;
+			}
+			else if (direction == 6) {  // new direction is E
 				new_search_index.x = start_point.x + 1;
 				new_search_index.y = start_point.y;
 			}
+			else {  // NE
+				new_search_index.x = start_point.x + 1;
+				new_search_index.y = start_point.y - 1;
+			}
 
-			wasteland = this.RecurseWasteland(landscape, new_search_index);
+			// Check boundary conditions.  Don't recurse there, if out of bounds.
+			if (new_search_index.x < 0 || new_search_index.x > landscape.GetLength (0) || new_search_index.y < 0 || new_search_index.y > landscape.GetLength(1)){
+				return landscape;
+			}
+
+			landscape = this.RecurseWasteland(landscape, new_search_index);
 		}
-		return wasteland;
+		return landscape;
 	}
 }
