@@ -121,7 +121,7 @@ public class Board : MonoBehaviour {
 		}
 		else {
 			// We're visiting this cell, so assume wasteland until we know this is a wall.
-			if (this.board[start_point.x, start_point.y] is Wall){
+			if (this.boardwall[start_point.x, start_point.y] != null){
 				//Debug.Log ("Cell is wall");
 				landscape[start_point.x, start_point.y] = Board.wall;
 				return;
