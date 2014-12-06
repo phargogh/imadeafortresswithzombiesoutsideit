@@ -5,10 +5,10 @@ public class Zombie : MonoBehaviour {
 	int x;
 	int y;
 	Vector2 xy
-		int targetx;
+	int targetx;
 	int targety;
 	Vector2 xy = Vector2(targetx,targety)
-		int xmax = getboardx ();
+	int xmax = getboardx ();
 	int ymax = getboardy ();
 	int searchx;
 	int searchy;
