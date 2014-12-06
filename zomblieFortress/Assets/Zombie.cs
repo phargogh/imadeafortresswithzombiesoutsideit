@@ -55,10 +55,11 @@ public class Zombie : MonoBehaviour {
 		this.targetgridpos2D = candgridpos2D;
 		this.targetx = candgridpos2D.x;
 		this.targety = candgridpos2D.y;
+		DirectionUpdate();
 
 	}
-	bool attackable (int x, int y){
-		return true; // add query to zombie
+	bool Attackable (int x, int y){
+		return true; // add query to board
 		}
 	void FindTargetDumbLoop(){
 		
@@ -71,7 +72,7 @@ public class Zombie : MonoBehaviour {
 			}
 			else{
 				for (int j = 1; j <= this.ymax; j++){
-					if(attackable(i,j)){ //need to actually define attackable or eliminate
+					if(Attackable(i,j)){ //need to actually define attackable or eliminate
 						this.targetx = i;
 						this.targety = j;
 						targetacquired = true;
@@ -98,19 +99,19 @@ public class Zombie : MonoBehaviour {
 
 	void Move(){
 		
+		
+		if (Math.Abs (this.targetx) + Math.Abs (this.targety) <= this.attackrange) {
+						this.Attack ();
+						return;
+				}
+
 		if (this.x == this.targetx){
 			this.xmove = false;
 		}
 		
 		if (this.y == this.targety){
 			this.xmove = true; 
-		}
-		
-		if (Math.Abs (this.targetx) + Math.Abs (this.targety) <= this.attackrange) {
-						this.Attack ();
-						return;
-				}
-			
+		}			
 			
 		if (this.xmove & this.x != this.targetx) {
 				this.xmove = false;
