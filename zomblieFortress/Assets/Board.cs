@@ -48,8 +48,13 @@ public class Board : MonoBehaviour {
 
 	bool[,] RecurseWasteland (bool[,] landscape, Point start_point) {
 		//determine whether the start point is wasteland
+		if (this.board[start_point.x, start_point.y] is Wall){
+			// If this cell is a wall, we stop searching.  Set this index to False (not wasteland)
+			landscape[start_point.x, start_point.y] = false;
+			return landscape;
+		}
 
-		bool[,] wasteland = new bool[landscape.GetLength(0), landscape.GetLength (1)];
+		// determine the next place to search.
 		for (int cardinal_dir = 0; cardinal_dir < 4; cardinal_dir++){
 
 			Point new_search_index = new Point();
@@ -71,8 +76,8 @@ public class Board : MonoBehaviour {
 				new_search_index.y = start_point.y;
 			}
 
-			wasteland = this.RecurseWasteland(landscape, new_search_index);
+			landscape = this.RecurseWasteland(landscape, new_search_index);
 		}
-		return wasteland;
+		return landscape;
 	}
 }
