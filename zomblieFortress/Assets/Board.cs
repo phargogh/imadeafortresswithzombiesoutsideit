@@ -49,6 +49,7 @@ public class Board : MonoBehaviour {
 	bool[,] RecurseWasteland (bool[,] landscape, Point start_point) {
 		//determine whether the start point is wasteland
 
+		bool[,] wasteland = new bool[landscape.GetLength(0), landscape.GetLength (1)];
 		for (int cardinal_dir = 0; cardinal_dir < 4; cardinal_dir++){
 
 			Point new_search_index = new Point();
