@@ -15,6 +15,7 @@ public class Zombie : MonoBehaviour {
 	int directionx;
 	int directiony;
 	int attackrange;
+	bool xmove = true;
 	
 	Zombie (int x, int y, int attackrange){
 		this.x = x;
@@ -84,6 +85,11 @@ public class Zombie : MonoBehaviour {
 		this.directionx = this.targetx - this.x;
 		this.directiony = this.targety - this.y;
 	}
+
+	void Attack(){
+		// this.targetx, this.targety, this.damage
+		}
+
 	void Move(){
 		
 		if (this.x == this.targetx){
@@ -95,8 +101,8 @@ public class Zombie : MonoBehaviour {
 		}
 		
 		if (Abs(this.targetx) + Abs(this.targety) <= this.attackrange){
-			this.attack(targetx, targety);
-				break; //this needs to be the equivalent of a return statement that breaks the function here.
+			this.Attack();
+				return;
 			
 			
 		if (this.xmove & this.x != this.targetx) {
