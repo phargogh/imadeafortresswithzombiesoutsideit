@@ -57,7 +57,7 @@ public class Board : MonoBehaviour {
 	
 	}
 
-	public void spawnWalls(List<Point> walls, List<Point> towers){
+	public bool spawnWalls(List<Point> walls, List<Point> towers){
 		foreach (Point w in walls) {
 			if (boardwall[w.x,w.y] == null){
 				Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
@@ -67,8 +67,10 @@ public class Board : MonoBehaviour {
 			}
 			else{
 				Debug.Log("Tried to place a wall on an occupied space: " + w.x + ", " + w.y );
+				return false;
 			}
 		}
+		return true;
 	}
 	
 	void DetectWasteland () {

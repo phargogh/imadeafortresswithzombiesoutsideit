@@ -9,6 +9,10 @@ public class Card : MonoBehaviour {
 	public int cost = 5;
 	private Board board;
 	private Hand hand;
+	public bool isSelected = false;
+
+	public Color defaultColor = Color.gray;
+	public Color selectedColor = Color.yellow;
 
 	// Use this for initialization
 	void Start () {
@@ -41,6 +45,16 @@ public class Card : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void select() {
+		isSelected = true;
+		GetComponent<SpriteRenderer>().color = selectedColor;
+	}
+
+	public void unselect() {
+		isSelected = false;
+		GetComponent<SpriteRenderer>().color = defaultColor;
 	}
 
 	void OnMouseDown(){

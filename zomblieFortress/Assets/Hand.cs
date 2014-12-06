@@ -8,24 +8,38 @@ public class Hand : MonoBehaviour {
 	public Board board; 
 
 	public List<Card> cards = new List<Card>();
-	public static int handSize = 5;
+	public int handSize = 5;
 
 	public float leftCardPosition = -12f;
 	public float cardSpacing = 6f;
 
 	public int resources = 0;
 
+	public Card selected;
+
 	// Use this for initialization
 	void Start () {
 	
 	}
 
-	public void playCard(Card card) {
+	public void SelectCard (Card card) {
 		if (resources >= card.cost) {
+			selected = card;
+			card.select();
+			foreach (Card c in cards) {
+				if (c.isSelected && c != selected) c.unselect();
+			}
+		} else {
+			Debug.Log("Cannot aford. need: " + card.cost + " have: " + resources);
+		}
+	}
+
+	public void playCard(Card card) {
+		if (resources >= card.cost && board.spawnWalls(card.walls, card.towers)) {
 			resources -= card.cost;
-			board.spawnWalls(card.walls, card.towers);
 			cards.Remove(card);
 			Destroy(card.gameObject);
+			ReposistionCards();
 		}
 	}
 
@@ -38,6 +52,7 @@ public class Hand : MonoBehaviour {
 			Card card = cardOjb.GetComponent<Card>();
 			card.init(board, this);
 			cards.Add(card);
+			ReposistionCards();
 		}
 	}
 
