@@ -4,22 +4,24 @@ using System.Collections;
 public class Zombie : MonoBehaviour {
 	int x;
 	int y;
-	Vector2 xy
+	Vector2 xy;
 	int targetx;
 	int targety;
-	Vector2 xy = Vector2(targetx,targety)
-	int xmax = getboardx ();
-	int ymax = getboardy ();
+	Vector2 targetxy;
+	int xmax = Board.widthx;
+	int ymax = Board.widthy;
 	int searchx;
 	int searchy;
+	int directionx;
+	int directiony;
 	int attackrange;
 	
 	Zombie (int x, int y, int attackrange){
 		this.x = x;
 		this.y = y;
-		this.xy = Vector2(x,y)
-			this.attackrange = attackrange
-				this.FindTarget();
+		this.xy = new Vector2(x, y);
+		this.attackrange = attackrange;
+		this.FindTargetDumbLoop();
 	}
 	
 	// Use this for initialization
@@ -33,20 +35,22 @@ public class Zombie : MonoBehaviour {
 		
 	}
 	
-	void FindTargetClosest();
+	void FindTargetClosest(){
 	Vector2 cvector;
-	int distance = this.xmax + this.ymax
+	int distance = this.xmax + this.ymax;
 		
-		foreach (Vector2 p in Board.wallxy) 
-	{
-		int cdistance = Abs(p - this.xy).Sum()
-		if(cdistance <= distance){
-			cvector = p
-		}
+		foreach (Vector2 p in Board.wallxy) {
+						int cdistance = Abs (p - this.xy).Sum ();
+						if (cdistance <= distance) {
+								distance = cdistance;
+								cvector = p;
+						}
+				}
 		
-		this.targetxy = cvector
-		this.targetx = cvector[0]
-		this.targety = cvector[1]
+		this.targetxy = cvector;
+		this.targetx = cvector[0];
+		this.targety = cvector[1];
+
 	}
 	
 	void FindTargetDumbLoop(){
@@ -61,9 +65,9 @@ public class Zombie : MonoBehaviour {
 			else{
 				for (int j = 1; j <= this.ymax; j++){
 					if(attackable(i,j)){
-						this.targetx = i
-							this.targety = j
-								targetacquired = true;
+						this.targetx = i;
+						this.targety = j;
+						targetacquired = true;
 						break;
 					}
 					
@@ -83,42 +87,42 @@ public class Zombie : MonoBehaviour {
 	void Move(){
 		
 		if (this.x == this.targetx){
-			this.xmove = false 
+			this.xmove = false;
 		}
 		
 		if (this.y == this.targety){
-			this.xmove = true 
+			this.xmove = true; 
 		}
 		
 		if (Abs(this.targetx) + Abs(this.targety) <= this.attackrange){
-			this.attack(targetx, targety)
+			this.attack(targetx, targety);
 				break; //this needs to be the equivalent of a return statement that breaks the function here.
 			
 			
-			if (this.xmove & this.x != this.targetx) {
-				this.xmove = false
-				if(this.directionx > 0){
-					this.x += 1;
-				}
-				
-				else{
-					this.x -= 1;
-				}
+		if (this.xmove & this.x != this.targetx) {
+				this.xmove = false;
+			if(this.directionx > 0){
+				this.x += 1;
+			}
+			
+			else{
+				this.x -= 1;
+			}
 				
 				
 			}
 			
+		else{
+				this.xmove = true;
+			if(this.directiony > 0){
+				this.x += 1;
+			}
+			
 			else{
-				this.xmove = true
-				if(this.directiony > 0){
-					this.x += 1;
-				}
-				
-				else{
-					this.x -= 1;
-				}
-				
-				this.DirectionUpdate()
+				this.x -= 1;
+			}
+			
+				this.DirectionUpdate();
 			}
 			
 			
