@@ -10,7 +10,9 @@ public class Board : MonoBehaviour {
 	GameObject [,] board = new GameObject[width,width];
 	List<Zombie> zombies = new List<Zombie>();
 	List<Wall> walls = new List<Wall>();
-	List<Blankspace> = new List<blankspace>();
+	List<Vector2> zombiexy = new List<Vector2>();
+	List<Vector2> wallxy = new List<Vector2>();
+
 
 	// Use this for initialization
 	void Start () {

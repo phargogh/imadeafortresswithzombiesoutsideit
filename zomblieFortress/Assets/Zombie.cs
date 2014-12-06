@@ -30,7 +30,7 @@ public class Zombie : MonoBehaviour {
 		
 	}
 	
-	void FindTargetLoop(){
+	void FindTargetDumbLoop(){
 		
 		bool targetacquired = false;
 		
