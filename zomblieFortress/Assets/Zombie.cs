@@ -54,7 +54,8 @@ public class Zombie : MonoBehaviour {
 		//this.Move ();
 		
 	}
-	
+
+
 	void FindTargetClosest(){
 		Point candgridpos2D;
 		int distance = xmax + ymax; 
@@ -83,6 +84,9 @@ public class Zombie : MonoBehaviour {
 
 		return true;
 		}
+
+
+
 
 	void FindTargetDumbLoop(){
 
