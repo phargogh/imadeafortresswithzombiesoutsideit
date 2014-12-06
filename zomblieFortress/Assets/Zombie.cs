@@ -20,17 +20,15 @@ public class Zombie : MonoBehaviour {
 	public Zombie (Point gridpos2D, int attackrange, Board metaboardobj){
 		this.gridpos2D = gridpos2D;
 		this.attackrange = attackrange;
-		this.FindTargetDumbLoop();
-		this.metaboardobj = metaboardobj;
+		this.metaboardobj = metaboardobj; 
 		MonoBehaviour.print("A zombie is on the loose!");
-		FindTargetDumbLoop ();
-
+		MonoBehaviour.print(this.metaboardobj.board[this.targetgridpos2D.x, this.targetgridpos2D.y]);
+		//this.FindTargetDumbLoop ();
 	}
 	
 	// Use this for initialization
 	void Start () {
-		
-		
+
 	}
 	
 	// Update is called once per frame
@@ -42,7 +40,7 @@ public class Zombie : MonoBehaviour {
 		Point candgridpos2D; // = Board.wallgridpos2D[0];
 		int distance = xmax + ymax; 
 		
-		foreach (Point p in metaboardobj.wallgridpos2D) {
+		foreach (Point p in this.metaboardobj.wallgridpos2D) {
 			int cdistance = Math.Abs(this.gridpos2D.x - p.x) + Math.Abs(this.gridpos2D.y - p.y);
 						if (cdistance <= distance) {
 								distance = cdistance;
@@ -56,7 +54,10 @@ public class Zombie : MonoBehaviour {
 
 	}
 	bool Attackable (){
-		if(metaboardobj.board[this.targetgridpos2D.x, this.targetgridpos2D.y].GetType() == typeof(Wall)){
+		if (this.metaboardobj.board [this.targetgridpos2D.x, this.targetgridpos2D.y] == null) {
+			return false;
+				}
+		if(this.metaboardobj.board[this.targetgridpos2D.x, this.targetgridpos2D.y].GetType() == typeof(Wall)){
 			MonoBehaviour.print("Target acquired!");
 		return true; // add query to board
 		}
