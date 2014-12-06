@@ -57,11 +57,11 @@ public class Board : MonoBehaviour {
 	
 	}
 
-	void spawnWalls(List<Point> walls, List<Point> towers){
+	public void spawnWalls(List<Point> walls, List<Point> towers){
 		foreach (Point w in walls) {
-			Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
-			GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
 			if (board[w.x,w.y] == null){
+				Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
+				GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
 				board[w.x, w.y] = wall;
 				this.walls.Add(wall.GetComponent<Wall>());
 			}
