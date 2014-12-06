@@ -6,7 +6,7 @@ public class Hand : MonoBehaviour {
 
 	public GameObject cardFab;
 
-	public Queue<Card> cards = new Queue<Card>();
+	public List<Card> cards = new List<Card>();
 	public static int handSize = 5;
 
 	public float leftCardPosition = -12f;
@@ -20,7 +20,9 @@ public class Hand : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (cards.Count < handSize) {
-			//cards.add
+			Vector3 pos = GetCardPosition(cards.Count + 1);
+			GameObject card = (GameObject) Instantiate(cardFab, pos, Quaternion.identity);
+			cards.Add(card.GetComponent<Card>());
 		}
 	}
 
