@@ -115,6 +115,7 @@ public class Zombie : MonoBehaviour {
 	
 	
 	void TakeTurn(){
+		this.Move ()
 		}
 	void DirectionUpdate(){
 		this.targetdistancex = this.targetgridpos2D.x - this.gridpos2D.x;
