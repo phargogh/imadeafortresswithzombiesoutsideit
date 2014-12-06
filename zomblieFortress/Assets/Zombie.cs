@@ -4,8 +4,6 @@ using System.Collections;
 using System;
 
 public class Zombie : MonoBehaviour {
-	int x;
-	int y;
 	Point gridpos2D;
 	Point targetgridpos2D;
 	int xmax = Board.widthx - 1;
@@ -20,7 +18,7 @@ public class Zombie : MonoBehaviour {
 
 	
 	public Zombie (Point gridpos2D, int attackrange, Board metaboardobj){
-		this.gridpos2D = new Point(x, y);
+		this.gridpos2D = gridpos2D;
 		this.attackrange = attackrange;
 		this.FindTargetDumbLoop();
 		this.metaboardobj = metaboardobj;
