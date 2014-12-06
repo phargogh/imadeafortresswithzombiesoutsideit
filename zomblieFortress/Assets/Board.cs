@@ -8,7 +8,8 @@ public class Board : MonoBehaviour {
 	public GameObject towerFab;
 	public static int widthx = 32;
 	public static int widthy = 32;
-	public GameObject [,] board = new GameObject[widthx,widthy];
+	public GameObject [,] boardwall = new GameObject[widthx,widthy];
+	public GameObject [,] boardzombie = new GameObject[widthx,widthy];
 	List<Zombie> zombies = new List<Zombie>();
 	List<Wall> walls = new List<Wall>();
 	public List<Point> zombiegridpos2D = new List<Point>();
@@ -18,26 +19,35 @@ public class Board : MonoBehaviour {
 	private static int wasteland = 1;
 	private static int unsearched = 0;
 
+	private List<Point> adjacency_mask = new List<Point>(){
+		new Point(0,-1),
+		new Point(-1,0),
+		new Point(0,1),
+		new Point(1,0),
+		new Point(-1,-1),
+		new Point(-1,1),
+		new Point(1,-1),
+		new Point(1,1),
+	};
+	
 	// Use this for initialization
 	void Start () {
-		for (int x = 0; x < Board.widthx; x ++) {
-			for (int y = 0; y < Board.widthy; y++) {
-				GameObject wall = (GameObject) Instantiate(wallFab, new Vector3(x, y, 0), Quaternion.identity);
-				board[x, y] = wall;
-			}
+		Point center = new Point (16, 16);
+		List<Point> start_walls = new List<Point>();
+		foreach (Point p in adjacency_mask) {
+			start_walls.Add(center+p);
 		}
 
-		List<Point> start_walls = new List<Point>(){
-			new Point(16,15),
-			new Point(15,16),
-			new Point(16,17),
-			new Point(17,16),
-			new Point(15,15),
-			new Point(15,17),
-			new Point(17,15),
-			new Point(17,17),
+		List<Point> corners = new List<Point> (){
+			new Point (0, 0),
+			new Point (0, 31),
+			new Point (31, 0),
+			new Point (31, 31),
 		};
+
+		
 		spawnWalls (start_walls, start_walls);
+		spawnWalls (corners,corners);
 		DetectWasteland();
 
 	}
@@ -47,11 +57,17 @@ public class Board : MonoBehaviour {
 	
 	}
 
-	void spawnWalls(List<Point> walls, List<Point> towers){
+	public void spawnWalls(List<Point> walls, List<Point> towers){
 		foreach (Point w in walls) {
-			Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
-			GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
-			board[w.x, w.y] = wall;	
+			if (boardwall[w.x,w.y] == null){
+				Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
+				GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
+				boardwall[w.x, w.y] = wall;
+				this.walls.Add(wall.GetComponent<Wall>());
+			}
+			else{
+				Debug.Log("Tried to place a wall on an occupied space:",wall);
+			}
 		}
 	}
 	

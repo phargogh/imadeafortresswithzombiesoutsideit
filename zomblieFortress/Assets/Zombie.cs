@@ -4,10 +4,12 @@ using System.Collections;
 using System;
 
 public class Zombie : MonoBehaviour {
+	int x;
+	int y;
 	Point gridpos2D;
 	Point targetgridpos2D;
-	int xmax = Board.widthx - 1;
-	int ymax = Board.widthy - 1;
+	int xmax = Board.widthx;
+	int ymax = Board.widthy;
 	int searchx;
 	int searchy;
 	int directionx;
@@ -19,18 +21,16 @@ public class Zombie : MonoBehaviour {
 	
 	public Zombie (Point gridpos2D, int attackrange, Board metaboardobj){
 		this.gridpos2D = gridpos2D;
-		this.attackrange = attackrange;
-		this.FindTargetDumbLoop();
 		this.metaboardobj = metaboardobj;
+		this.attackrange = attackrange;
 		MonoBehaviour.print("A zombie is on the loose!");
-		FindTargetDumbLoop ();
-
+		this.FindTargetDumbLoop ();
+		
 	}
 	
 	// Use this for initialization
 	void Start () {
-		
-		
+
 	}
 	
 	// Update is called once per frame
@@ -42,7 +42,9 @@ public class Zombie : MonoBehaviour {
 		Point candgridpos2D; // = Board.wallgridpos2D[0];
 		int distance = xmax + ymax; 
 		
-		foreach (Point p in metaboardobj.wallgridpos2D) {
+
+		foreach (Point p in this.metaboardobj.wallgridpos2D) {
+
 			int cdistance = Math.Abs(this.gridpos2D.x - p.x) + Math.Abs(this.gridpos2D.y - p.y);
 						if (cdistance <= distance) {
 								distance = cdistance;
@@ -55,39 +57,39 @@ public class Zombie : MonoBehaviour {
 		DirectionUpdate();
 
 	}
+
 	bool Attackable (){
-		if(metaboardobj.board[this.targetgridpos2D.x, this.targetgridpos2D.y].GetType() == typeof(Wall)){
-			MonoBehaviour.print("Target acquired!");
-		return true; // add query to board
+
+				if (this.metaboardobj.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y] == null) {
+						return false;
+				}
+
+		return true;
 		}
-		else{
-			return false;
-		}
-		}
+
 	void FindTargetDumbLoop(){
-		
-		bool targetacquired = false;
 
 		for (int i = 0; i <= this.xmax; i++){
-			
-			if (targetacquired){
-				break;
-			}
-			else{
+
+
 				for (int j = 0; j <= this.ymax; j++){
 					if(Attackable()){ //need to actually define attackable or eliminate
-						this.targetgridpos2D.x = i;
+						this.targetgridpos2D.x = i; 
 						this.targetgridpos2D.y = j;
-						targetacquired = true;
-						break;
-					}
+						MonoBehaviour.print ("Target acquired!");
+						MonoBehaviour.print(i);
+						MonoBehaviour.print(j);
+						return;
+				}
 					
 					
 					
 				}
 			}
+		MonoBehaviour.print("A target was not acquired");
 		}
-	}
+		
+
 	
 	
 	
