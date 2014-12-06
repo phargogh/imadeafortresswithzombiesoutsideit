@@ -48,6 +48,8 @@
   <ItemGroup>
      <Compile Include="Assets\Board.cs" />
      <Compile Include="Assets\GameLoop.cs" />
+     <Compile Include="Assets\Tower.cs" />
+     <Compile Include="Assets\Wall.cs" />
      <Compile Include="Assets\Zombie.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
