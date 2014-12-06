@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System.Collections;
 
 public class Zombie : MonoBehaviour {
@@ -10,52 +10,81 @@ public class Zombie : MonoBehaviour {
 	int ymax = getboardy ();
 	int searchx;
 	int searchy;
+<<<<<<< HEAD
 	int directionx;
 	int directiony;
 	bool targetacquired
 	bool xmove;
 
+=======
+	
+>>>>>>> origin/master
 	Zombie (int x, int y){
 		this.x = x;
 		this.y = y;
 		this.FindTarget();
+<<<<<<< HEAD
 		this.xmove = true; //randomize
 		}
+=======
+	}
+>>>>>>> origin/master
 	
 	// Use this for initialization
 	void Start () {
-
-
+		
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
+<<<<<<< HEAD
 
 	void FindTarget(){
 
-		bool targetacquired = false;
-
-		for (int i = 1; i <= this.xmax; i++){
+=======
+	
+	void FindTargetLoop(){
 		
+>>>>>>> origin/master
+		bool targetacquired = false;
+		
+<<<<<<< HEAD
 			if (self.targetacquired){
+=======
+		for (int i = 1; i <= this.xmax; i++){
+			
+			if (targetacquired){
+>>>>>>> origin/master
 				break;
 			}
 			else{
 				for (int j = 1; j <= this.ymax; j++){
 					if(attackable(i,j)){
+<<<<<<< HEAD
 						this.targetx = i;
 							this.targety = j;
 						this.targetacquired = true;
 						break;
 						}
 
+=======
+						this.targetx = i
+							this.targety = j
+								targetacquired = true;
+						break;
+>>>>>>> origin/master
 					}
+					
+					
+					
 				}
 			}
 		this.DirectionUpdate()				
 		}
+<<<<<<< HEAD
 
 
 	void DirectionUpdate(){
@@ -100,4 +129,8 @@ public class Zombie : MonoBehaviour {
 
 	}
 					
+=======
+>>>>>>> origin/master
 	}
+	
+}
