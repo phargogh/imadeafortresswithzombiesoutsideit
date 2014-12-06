@@ -28,6 +28,22 @@ public class GameLoop : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		ZombieTurn ();
+		TurretTurn ();
 	 
+	}
+
+	void ZombieTurn(){
+		foreach (Zombie z in Board.zombies) {
+			z.TakeTurn();
+
+		}
+	}
+
+	void TurretTurn(){
+		foreach (Tower t in Board.towers) {
+			z.TakeTurn();
+			
+		}
 	}
 }

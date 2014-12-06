@@ -6,7 +6,7 @@ using System;
 public class Zombie : MonoBehaviour {
 	int x;
 	int y;
-	Point gridpos2D;
+	public Point gridpos2D;
 	Point targetgridpos2D;
 	int xmax = Board.widthx;
 	int ymax = Board.widthy;
@@ -110,7 +110,8 @@ public class Zombie : MonoBehaviour {
 
 	
 	
-	
+	void TakeTurn(){
+		}
 	void DirectionUpdate(){
 		this.targetdistancex = this.targetgridpos2D.x - this.gridpos2D.x;
 		this.targetdistancey = this.targetgridpos2D.y - this.gridpos2D.y;
