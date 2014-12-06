@@ -77,7 +77,8 @@ public class Zombie : MonoBehaviour {
 						this.targetgridpos2D.x = i; 
 						this.targetgridpos2D.y = j;
 						MonoBehaviour.print ("Target acquired!");
-
+						MonoBehaviour.print(i);
+						MonoBehaviour.print(j);
 						return;
 				}
 					
