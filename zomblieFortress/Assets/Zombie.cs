@@ -63,37 +63,45 @@ public class Zombie : MonoBehaviour {
 		this.directiony = this.targety - this.y;
 	}
 	void Move(){
+
 		if (this.x == this.targetx){
 			this.xmove = false 
+		}
+
+		if (this.y == this.targety){
+			this.xmove = true 
+		}
+
+	
 				
 				
 				
-			if (this.xmove & this.x != this.targetx) {
-				this.xmove = false
-				if(this.directionx > 0){
-					this.x += 1;
-				}
-				
-				else{
-					this.x -= 1;
-				}
-				
-				
+		if (this.xmove & this.x != this.targetx) {
+			this.xmove = false
+			if(this.directionx > 0){
+				this.x += 1;
 			}
 			
 			else{
-				this.xmove = true
-				if(this.directiony > 0){
-					this.x += 1;
-				}
-				
-				else{
-					this.x -= 1;
-				}
-				
-				this.DirectionUpdate()
+				this.x -= 1;
 			}
 			
+			
+		}
+		
+		else{
+			this.xmove = true
+			if(this.directiony > 0){
+				this.x += 1;
+			}
+			
+			else{
+				this.x -= 1;
+			}
+			
+			this.DirectionUpdate()
+		}
+		
 			
 			
 			
