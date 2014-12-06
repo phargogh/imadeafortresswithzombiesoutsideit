@@ -80,6 +80,7 @@ public class Board : MonoBehaviour {
 	}
 
 	bool[,] DetectFarmland () {
+		Debug.Log ("Determining farms");
 		int[,] wasteland = DetectWasteland();
 
 		// farmland is anything that's not wasteland and not walls.
@@ -97,19 +98,12 @@ public class Board : MonoBehaviour {
 	int[,] DetectWasteland () {
 		// build up an empty 2d matrix for indicating which cells are wasteland.
 		// initialize to false.
-		// TODO: use Board.widthx, Board.widthy
 
 		// wasteland meanings:
 		// 0 = not searched
 		// 1 = has been searched, is wasteland
 		// 2 = has been searched, is wall.
 		int[,] wasteland = new int[Board.widthx, Board.widthy];
-		//int[,] wasteland = new int[8, 8];
-		for (int i = 0; i < wasteland.GetLength (0); i++){
-			for (int j = 0; j < wasteland.GetLength (1); j++){
-				Debug.Log(wasteland[i, j]);
-			}
-		}
 
 		// start out by starting from (0, 0) and investigating the board from there.
 		//bool[,] wasteland = new bool[landscape.GetLength(0), landscape.GetLength (1)];
