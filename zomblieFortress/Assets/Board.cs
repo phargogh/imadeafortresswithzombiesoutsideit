@@ -14,6 +14,9 @@ public class Board : MonoBehaviour {
 	public static List<Point> zombiegridpos2D = new List<Point>();
 	public static List<Point> wallgridpos2D = new List<Point>();
 
+	private static int wall = 2;
+	private static int wasteland = 1;
+	private static int unsearched = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -34,9 +37,14 @@ public class Board : MonoBehaviour {
 		// build up an empty 2d matrix for indicating which cells are wasteland.
 		// initialize to false.
 		// TODO: use Board.widthx, Board.widthy
-		bool[,] wasteland = new bool[4, 4];
-		for (int i = 0; i < Board.widthx; i++){
-			for (int j = 0; j < Board.widthy; j++){
+
+		// wasteland meanings:
+		// 0 = not searched
+		// 1 = has been searched, is wasteland
+		// 2 = has been searched, is wall.
+		int[,] wasteland = new int[4, 4];
+		for (int i = 0; i < wasteland.GetLength (0); i++){
+			for (int j = 0; j < wasteland.GetLength (1); j++){
 				Debug.Log(wasteland[i, j]);
 			}
 		}
@@ -46,11 +54,12 @@ public class Board : MonoBehaviour {
 
 	}
 
-	bool[,] RecurseWasteland (bool[,] landscape, Point start_point) {
+	int[,] RecurseWasteland (int[,] landscape, Point start_point) {
+
 		//determine whether the start point is wasteland
 		if (this.board[start_point.x, start_point.y] is Wall){
 			// If this cell is a wall, we stop searching.  Set this index to False (not wasteland)
-			landscape[start_point.x, start_point.y] = false;
+			landscape[start_point.x, start_point.y] = Board.wall;
 			return landscape;
 		}
 
