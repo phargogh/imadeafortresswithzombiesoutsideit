@@ -17,7 +17,12 @@ public class Board : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		for (int x = 0; x < Board.widthx; x ++) {
+			for (int y = 0; y < Board.widthy; y++) {
+				GameObject wall = (GameObject) Instantiate(wallFab, new Vector3(x, y, 0), Quaternion.identity);
+				board[x, y] = wall;
+			}
+		}
 	}
 	
 	// Update is called once per frame
