@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿//using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,10 +14,13 @@ public class CardGen{
 		else {
 			List<Point> shape = createShape(n-1);
 			// choose random point in shape 
-			int index = Math.Floor(Random.Range(0,shape.Count));
+			System.Random rand = new System.Random();
+			int index = (int)Math.Floor((double)rand.Next() * (double)shape.Count);
 			Point p = shape[index];
 
 			//then choose a random unoccupied adjacent point and place point
+
+			return shape;
 
 		}
 	
