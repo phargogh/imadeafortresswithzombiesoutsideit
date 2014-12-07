@@ -61,7 +61,10 @@ public class GameLoop : MonoBehaviour {
 	void SpawnZombies(int z){
 		int i = 0;
 		while(i < z){
-			i += SpawnZombie()
+			i += SpawnZombie();
+			}
+
+	}
 
 
 
@@ -98,9 +101,9 @@ public class GameLoop : MonoBehaviour {
 						return 1;
 
 				}
-		
-		}
 		return 0;
+		}
+		
 
 
 
