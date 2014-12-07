@@ -81,12 +81,12 @@ public class Zombie : MonoBehaviour {
 	}
 
 	bool Attackable (){
-		return (this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y] == null);
+		return (this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y] != null);
 	}
 
 
 	void FindTargetRandom(){
-		needtarget = false; //eventually change
+		this.needtarget = false; //eventually change
 		this.targetinrange = false; //eventually program call
 		int wallN = this.metaboard.walls.Count;
 
@@ -135,6 +135,7 @@ public class Zombie : MonoBehaviour {
 
 
 		if (this.targetinrange) {
+			MonoBehaviour.print ("target in range!!!!!!!");
 			if(this.Attack()){
 				return;
 			}
@@ -223,6 +224,7 @@ public class Zombie : MonoBehaviour {
 	}
 
 	bool Attack(){
+				MonoBehaviour.print("Inside attack function!");
 				if (Attackable ()) {
 						this.metaboard.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage (this.attackdamage);
 						return true;

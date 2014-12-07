@@ -19,6 +19,7 @@ public class GameLoop : MonoBehaviour {
 	void Start () {
 		//MonoBehaviour.print("Game loop started");
 		//ZombieApocalypse ();
+
 		SpawnZombies(this.spawnNzombies);
 
 	}
@@ -51,7 +52,6 @@ public class GameLoop : MonoBehaviour {
 
 
 	void Tick(){
-
 		SpawnZombieTurn ();
 		ZombieTurn ();
 		TowerTurn ();
@@ -152,4 +152,36 @@ public class GameLoop : MonoBehaviour {
 			r += SpawnZomblieP(p);
 				}
 		}
+
+
+	void ZombieWall(){
+	int r = 0;
+	int side = UnityEngine.Random.Range(0,4);
+	
+	if(side == 0){
+		foreach (Point p in board.borderListLeft) {
+			r += SpawnZomblieP(p);
+		}
 	}
+
+	if(side == 1){
+		foreach (Point p in board.borderListRight) {
+			r += SpawnZomblieP(p);
+		}
+	}
+
+	if(side == 2){
+		foreach (Point p in board.borderListTop) {
+			r += SpawnZomblieP(p);
+		}
+	}
+
+	if(side == 3){
+		foreach (Point p in board.borderListBottom) {
+			r += SpawnZomblieP(p);
+		}
+	}
+}
+
+
+}
