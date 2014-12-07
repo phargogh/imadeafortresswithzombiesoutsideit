@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class Board : MonoBehaviour {
 
+	public static Board gameBoard;
+
 	public GameObject wallFab;
 	public GameObject towerFab;
 	public GameObject farmFab;
@@ -62,6 +64,7 @@ public class Board : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Board.gameBoard = this;
 		long num_ticks = DateTime.Now.Ticks;
 		long current_time = num_ticks / 10000;  // time in ms
 		if (current_time >= this.last_update + 1000 || this.trigger_farm_detection == true) {
