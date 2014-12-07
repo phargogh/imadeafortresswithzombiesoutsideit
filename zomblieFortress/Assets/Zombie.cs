@@ -14,6 +14,7 @@ public class Zombie : MonoBehaviour {
 	int searchy;
 	int targetdistancex;
 	int targetdistancey;
+	float health = 100f;
 	public int attackrange = 1;
 	public float attackdamage = 5f;
 	bool xmove = true;
@@ -56,6 +57,16 @@ public class Zombie : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		
+	}
+
+	public void TakeDamage(float damage) {
+		this.health -= damage;
+		if (this.health < 0f) {
+			MonoBehaviour.print("This zombie is dead");
+			Board.gameBoard.boardzombie[this.gridpos2D.x,this.gridpos2D.y]= null;
+			Board.gameBoard.zombies.Remove(this);
+		}
 		
 	}
 
@@ -291,4 +302,6 @@ public class Zombie : MonoBehaviour {
 		}
 		
 	}
+
+
 	
