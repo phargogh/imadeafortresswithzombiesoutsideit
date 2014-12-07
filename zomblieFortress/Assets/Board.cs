@@ -25,6 +25,8 @@ public class Board : MonoBehaviour {
 	public List<Zombie> zombies = new List<Zombie>();
 	public List<Wall> walls = new List<Wall>();
 
+    public List<FarmCluster> farmclusters = new List<FarmCluster>();
+
 	public Stack<GameObject> shadowSquares = new Stack<GameObject> ();
 	public Stack<GameObject> inactiveShadowSquares = new Stack<GameObject> ();
 
@@ -45,9 +47,24 @@ public class Board : MonoBehaviour {
 		spawnWalls (start_walls, start_towers, new Point());
 		BorderPoints();
 
-		Farm.DetectFarmland(this);
-
+		List<Point> corners = new List<Point> (){
+			new Point (0, 0),
+			new Point (0, 31),
+			new Point (31, 0),
+			new Point (31, 31),
+		};
+		
+		spawnWalls (start_walls, start_walls, new Point());
+		spawnWalls (corners,corners, new Point());
+        FindFarmClusters();
 	}
+
+    void FindFarmClusters(){
+		bool[,] known_farms = Farm.DetectFarmland(this);
+        List<FarmCluster> detected_clusters = FarmCluster.FindClusters(known_farms);
+        this.farmclusters = detected_clusters;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -55,7 +72,7 @@ public class Board : MonoBehaviour {
 		long num_ticks = DateTime.Now.Ticks;
 		long current_time = num_ticks / 10000;  // time in ms
 		if (current_time >= this.last_update + 1000 || this.trigger_farm_detection == true) {
-			Farm.DetectFarmland(this);
+            FindFarmClusters();
 			this.last_update = current_time;
 			this.trigger_farm_detection = false;  // reset so we don't re-detect farmland
 		}
@@ -217,6 +234,17 @@ public class Board : MonoBehaviour {
 
         string farm_count_label = "Active farms: ";
         GUI.Label(new Rect(label_x_pos, label_y_pos + row_y_offset, 150, 150), farm_count_label + this.farms.Count.ToString());
+
+        string farm_cluster_label = "Active farm clusters: ";
+        GUI.Label(new Rect(label_x_pos, label_y_pos + 40, 150, 150), farm_cluster_label + this.farmclusters.Count.ToString());
+
+        int offset = 3;
+        foreach (FarmCluster farm_cluster in this.farmclusters) {
+            GUI.Label(new Rect(label_x_pos, label_y_pos + row_y_offset*offset , 150, 150), farm_cluster.farms_contained.ToString());
+            Point cluster_center = FarmCluster.ToPixelDims(farm_cluster.center);
+            GUI.Label(new Rect(cluster_center.x, cluster_center.y , 20, 20), farm_cluster.farms_contained.ToString());
+            offset++;
+        }
 
     }
 }

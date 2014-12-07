@@ -19,7 +19,18 @@ public class Farm : MonoBehaviour {
 	}
 
 	// pretty-print the numeric value of an int matrix.
-	void PrintMatrix(int[,] matrix){
+	public static void PrintMatrix(int[,] matrix){
+		string row_string;
+		for (int i = 0; i < matrix.GetLength(0); i++){
+			row_string = "";
+			for (int j = 0; j < matrix.GetLength(1); j++){
+				row_string += " " + matrix[i, j];
+			}
+			Debug.Log (row_string);
+		}
+	}
+
+	public static void PrintMatrix(bool[,] matrix){
 		string row_string;
 		for (int i = 0; i < matrix.GetLength(0); i++){
 			row_string = "";
