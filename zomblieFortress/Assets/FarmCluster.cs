@@ -1,4 +1,4 @@
-
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +19,13 @@ public class FarmCluster {
 
     public static Point CenterPoint(List<Point> point_list) {
         return point_list[0];  // TODO: calculate the centerpoint.
+    }
+
+    public static Point ToPixelDims(Point target_point) {
+        int label_x_pos = Screen.width/2 + target_point.x;
+        int label_y_pos = Screen.height/2 - target_point.y;
+
+        return new Point(label_x_pos, label_y_pos);
     }
 
     public static List<FarmCluster> FindClusters (bool[,] known_farms) {
@@ -48,7 +55,8 @@ public class FarmCluster {
                 if (cluster_hash.ContainsKey(found_id)) {
                     List<Point> cluster_points = (List<Point>) cluster_hash[found_id];
                     cluster_points.Add(found_point);
-                    cluster_hash[found_id] = cluster_points;
+                    cluster_hash.Remove(found_id);
+                    cluster_hash.Add(found_id, cluster_points);
                 }
                 else {
                     List<Point> cluster_list = new List<Point>();
