@@ -121,6 +121,8 @@ public class GameLoop : MonoBehaviour {
 						Zombie czombie = gzombie.GetComponent<Zombie> ();
 						czombie.metaboard = board;
 						czombie.gridpos2D = Spawngridpos2D;
+						czombie.oldgridpos2D = Spawngridpos2D;
+						czombie.UpdateZombieBoard();
 						board.zombies.Add(czombie);
 						return 1;
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class Zombie : MonoBehaviour {
 	public Point gridpos2D;
+	public Point oldgridpos2D;
 	Point targetgridpos2D;
 	int xmax = Board.widthx -1;
 	int ymax = Board.widthy -1;
@@ -62,7 +63,7 @@ public class Zombie : MonoBehaviour {
 		int distance = xmax + ymax; 
 		
 
-		foreach (Wall w in metaboard.walls) {
+		foreach (Wall w in this.metaboard.walls) {
 			Point p = w.gridpos2D;
 
 
@@ -82,7 +83,7 @@ public class Zombie : MonoBehaviour {
 
 	bool Attackable (){
 
-		if (metaboard.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y] == null) {
+		if (this.metaboard.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y] == null) {
 						return false;
 				}
 
@@ -90,7 +91,11 @@ public class Zombie : MonoBehaviour {
 		}
 
 
+	void FindTargetRandom(){
+		//metaboard.walls.Count()
 
+
+		}
 
 	void FindTargetDumbLoop(){
 
@@ -114,13 +119,19 @@ public class Zombie : MonoBehaviour {
 			}
 		MonoBehaviour.print("A target was not acquired");
 		}
-		
 
+	public void UpdateZombieBoard(){
+		this.metaboard.boardzombie [this.oldgridpos2D.x, this.oldgridpos2D.y] = null;
+		this.metaboard.boardzombie [this.gridpos2D.x, this.gridpos2D.y] = this.gameObject;
+	}
+
+	
 	void UpdateUnityPosition(){
 		Vector3 pos = this.metaboard.gridPointToWorldPos (this.gridpos2D, 0);
 		this.gameObject.transform.position = pos;
 		}
-	
+
+
 	public void TakeTurn(){
 		MonoBehaviour.print ("zombie is taking a turn");
 
@@ -128,9 +139,12 @@ public class Zombie : MonoBehaviour {
 			this.FindTargetDumbLoop();
 			needtarget = true; //eventually change
 				}
+
 		Move();
-		UpdateUnityPosition ();
+		UpdateZombieBoard ();
+		UpdateUnityPosition();
 		}
+
 
 	void DirectionUpdate(){
 		this.targetdistancex = this.targetgridpos2D.x - this.gridpos2D.x;
@@ -155,6 +169,7 @@ public class Zombie : MonoBehaviour {
 
 	void Move(){
 				this.DirectionUpdate ();
+				this.oldgridpos2D = this.gridpos2D;
 
 				if (Math.Abs (this.targetdistancex) + Math.Abs (this.targetdistancey) <= this.attackrange) {
 						this.Attack ();
@@ -178,18 +193,23 @@ public class Zombie : MonoBehaviour {
 				cmoves.Add (left);
 
 				foreach (Point p in cmoves) {
+							
 						cdistance = DistanceToTarget (p);
-						if (cdistance < distance) {
-								distance = cdistance;
-								move = p;
+						if (p.x < Board.widthx & p.y < Board.widthy & p.x >= 0 & p.y >= 0) {
+								if (cdistance < distance & this.metaboard.boardwall [p.x, p.y] == null & this.metaboard.boardzombie [p.x, p.y] == null) {
+										distance = cdistance;
+										move = p;
+								}
+
+						
+
 						}
 
-						this.gridpos2D = move;
-
 				}
-		DirectionUpdate ();
+				this.gridpos2D = move;
+				DirectionUpdate ();
 		}
-
+		
 
 	void OldMove(){
 		MonoBehaviour.print ("Zombie position before move");
