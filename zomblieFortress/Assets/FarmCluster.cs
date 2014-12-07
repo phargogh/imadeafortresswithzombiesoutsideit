@@ -43,7 +43,7 @@ public class FarmCluster {
 
         for (int i = 0; i < found_clusters.GetLength(0); i++){
             for (int j = 0; j < found_clusters.GetLength(1); j++) {
-                if (known_farms[i, j] == true &&found_clusters[i, j] != 0){
+                if (known_farms[i, j] == true && found_clusters[i, j] == 0){
                     Point start_point = new Point(i, j);
                     RecursiveLocate(ref found_clusters, known_farms, start_point, cluster_id);
                     cluster_id++;
@@ -51,20 +51,24 @@ public class FarmCluster {
             }
         }
 
+        Farm.PrintMatrix(found_clusters);
+
         Hashtable cluster_hash = new Hashtable();
         for (int i = 0; i < found_clusters.GetLength(0); i++) {
             for (int j = 0; j < found_clusters.GetLength(1); j++) {
-                int found_id = found_clusters[i, j];
-                Point found_point = new Point(i, j);
-                if (cluster_hash.ContainsKey(found_id)) {
-                    List<Point> cluster_points = (List<Point>) cluster_hash[found_id];
-                    cluster_points.Add(found_point);
-                    cluster_hash.Remove(found_id);
-                    cluster_hash.Add(found_id, cluster_points);
-                }
-                else {
-                    List<Point> cluster_list = new List<Point>();
-                    cluster_hash.Add(found_id, cluster_list);
+                if (found_clusters[i, j] != 0) {
+                    int found_id = found_clusters[i, j];
+                    Point found_point = new Point(i, j);
+                    if (cluster_hash.ContainsKey(found_id)) {
+                        List<Point> cluster_points = (List<Point>) cluster_hash[found_id];
+                        cluster_points.Add(found_point);
+                        cluster_hash[found_id] = cluster_points;
+                    }
+                    else {
+                        List<Point> cluster_list = new List<Point>();
+                        cluster_list.Add(found_point);
+                        cluster_hash.Add(found_id, cluster_list);
+                    }
                 }
             }
         }
@@ -87,16 +91,19 @@ public class FarmCluster {
     }
 
     private static void RecursiveLocate(ref int[,] found_clusters, bool[,] known_farms, Point start_point, int cluster_id){
-        // base case: this cell is not a farm.
         if (known_farms[start_point.x, start_point.y] == false){
-            return;
+            return;  // base case: this cell is not a known farm
+        }
+        else if (found_clusters[start_point.x, start_point.y] != 0) {
+            return;  // base case: this cell has already been visited
         }
         else {
+            // otherwise, this is a new farm to add to the cluster.
             found_clusters[start_point.x, start_point.y] = cluster_id;
         }
 
         foreach (Point new_search_index in CardGen.getAdjacent(start_point)) {
-            if (PointInBounds(new_search_index, found_clusters) == false) {
+            if (PointInBounds(new_search_index, found_clusters) == true) {
                 RecursiveLocate(ref found_clusters, known_farms, new_search_index, cluster_id);
             }
         }

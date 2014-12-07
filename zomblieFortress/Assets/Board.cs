@@ -62,7 +62,9 @@ public class Board : MonoBehaviour {
 
     void FindFarmClusters(){
 		bool[,] known_farms = Farm.DetectFarmland(this);
-        this.farmclusters = FarmCluster.FindClusters(known_farms);
+        List<FarmCluster> detected_clusters = FarmCluster.FindClusters(known_farms);
+        this.farmclusters = detected_clusters;
+
     }
 	
 	// Update is called once per frame
