@@ -16,9 +16,7 @@ public class GameLoop : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		SpawnZombieTurn ();
-		ZombieTurn ();
-		TurretTurn ();
+
 	 
 	}
 
@@ -38,12 +36,15 @@ public class GameLoop : MonoBehaviour {
 
 	void Tick(){
 				
-				DateTime stime =  DateTime.Now;
-				ZombieTurn ();
-				TurretTurn ();
+		DateTime stime =  DateTime.Now;
+		SpawnZombieTurn ();
+		ZombieTurn ();
+		TurretTurn ();
 		}
 
 	void SpawnZombieTurn(){
+
+		SpawnZombies (2)
 
 		/*
 		comp.gameObject.transform.position = new Vector3 ();
