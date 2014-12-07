@@ -25,7 +25,7 @@ public class Zombie : MonoBehaviour {
 
 	public void init(Board board, Point Spawngridpos2D){
 		this.attackrange = 1;
-		this.attackdamage = 10f;
+		this.attackdamage = 5f;
 		this.health = 100f;
 		this.metaboard = board;
 		this.gridpos2D = Spawngridpos2D;

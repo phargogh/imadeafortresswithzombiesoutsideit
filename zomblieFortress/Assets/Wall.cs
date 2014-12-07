@@ -3,13 +3,14 @@ using System.Collections;
 
 public class Wall : MonoBehaviour {
 
-	public float health = 100f;
+	public float health = 100f; //NOT REAL
 	Tower tower = null;
 	public Point gridpos2D;
 	public Board board;
 
 	// Use this for initialization
 	void Start () {
+		this.health = 1000f;
 	
 	}
 	
