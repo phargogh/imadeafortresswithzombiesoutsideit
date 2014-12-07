@@ -217,7 +217,6 @@ public class Zombie : MonoBehaviour {
 
 								if (Board.gameBoard.boardwall [p.x, p.y] == null) {
 								} else {
-										MonoBehaviour.print ("wall next door error");
 										MonoBehaviour.print (Board.gameBoard.boardwall [p.x, p.y]);
 										this.targetgridpos2D = p;
 										return;
@@ -231,7 +230,7 @@ public class Zombie : MonoBehaviour {
 
 	
 	void Move(){
-		WallNextDoor ();
+		//WallNextDoor ();
 		this.DirectionUpdate ();
 		this.oldgridpos2D = this.gridpos2D;
 				//MonoBehaviour.print("Distance to target: " + DistanceToTarget(this.gridpos2D).ToString() + " Attack range: " + this.attackrange.ToString());
