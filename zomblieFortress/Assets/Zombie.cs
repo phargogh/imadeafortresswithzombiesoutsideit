@@ -4,7 +4,6 @@ using System.Collections;
 using System;
 
 public class Zombie : MonoBehaviour {
-	public Board board;
 	public Point gridpos2D;
 	Point targetgridpos2D;
 	int xmax = Board.widthx -1;
@@ -15,12 +14,15 @@ public class Zombie : MonoBehaviour {
 	int targetdistancey;
 	int attackrange;
 	bool xmove = true;
+	bool needtarget = false;
+	public Board metaboard;
 
 
 	
-	public Zombie (Point gridpos2D, int attackrange){
+	public Zombie (Point gridpos2D, int attackrange, Board gameboard){
 		this.gridpos2D = gridpos2D;
 		this.attackrange = attackrange;
+		this.metaboard = metaboard;
 		MonoBehaviour.print("A zombie is on the loose!");
 		this.FindTargetDumbLoop ();
 		this.PrintZombiePosition ();
@@ -55,11 +57,11 @@ public class Zombie : MonoBehaviour {
 
 
 	void FindTargetClosest(){
-		Point candgridpos2D = board.walls[0].gridpos2D;
+		Point candgridpos2D = this.metaboard.walls[0].gridpos2D;
 		int distance = xmax + ymax; 
 		
 
-		foreach (Wall w in board.walls) {
+		foreach (Wall w in metaboard.walls) {
 			Point p = w.gridpos2D;
 
 
@@ -79,7 +81,7 @@ public class Zombie : MonoBehaviour {
 
 	bool Attackable (){
 
-				if (board.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y] == null) {
+		if (metaboard.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y] == null) {
 						return false;
 				}
 
@@ -118,6 +120,10 @@ public class Zombie : MonoBehaviour {
 		}
 	
 	public void TakeTurn(){
+		if (needtarget) {
+			this.FindTargetDumbLoop();
+			needtarget = true; //eventually change
+				}
 		Move();
 		UpdateUnityPosition ();
 		}
@@ -132,7 +138,7 @@ public class Zombie : MonoBehaviour {
 		}
 
 	void PrintZombiePosition(){
-		string pstring = "Zombie position: " + this.gridpos2D.x.ToString() + ',' + gridpos2D.y.ToString();
+		string pstring = "Zombie position: " + this.gridpos2D.x.ToString() + ',' + this.gridpos2D.y.ToString();
 		MonoBehaviour.print(pstring);
 		}
 

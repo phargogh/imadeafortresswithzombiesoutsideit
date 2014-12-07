@@ -10,13 +10,16 @@ public class GameLoop : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		MonoBehaviour.print("Game loop started");
 		SpawnZombieTurn ();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//MonoBehaviour.print("Game loop started");
+		//SpawnZombieTurn ();
+		ZombieTurn ();
 
 	 
 	}
@@ -44,8 +47,9 @@ public class GameLoop : MonoBehaviour {
 		}
 
 	void SpawnZombieTurn(){
+		print("SpawnZombieTurn");
 
-		SpawnZombies (10);
+		SpawnZombies(10);
 
 		/*
 		comp.gameObject.transform.position = new Vector3 ();
@@ -61,12 +65,18 @@ public class GameLoop : MonoBehaviour {
 		}
 
 	void SpawnZombies(int z){
+		MonoBehaviour.print("SpawnZombies running");
+
 				int i = 0;
 				int failcount = 0;
 				int sresult;
 				while (i < z) {
+
 						sresult = SpawnZombie ();
+						i += sresult;
+						
 						if (sresult == 0) {
+							MonoBehaviour.print("Error spawning zombie");
 								failcount += 1;
 								if (failcount > 30) {
 										return;
@@ -83,9 +93,9 @@ public class GameLoop : MonoBehaviour {
 				Point Spawngridpos2D;
 
 
-				if (UnityEngine.Random.Range (0, 1) == 1) {
+				if (UnityEngine.Random.Range (0, 2) == 1) {
 						Spawngridpos2D.x = UnityEngine.Random.Range (0, Board.widthx - 1);
-						if (UnityEngine.Random.Range (0, 1) == 1) {
+						if (UnityEngine.Random.Range (0, 2) == 1) {
 								Spawngridpos2D.y = Board.widthy - 1;
 						} else {
 								Spawngridpos2D.y = 0;
@@ -93,18 +103,22 @@ public class GameLoop : MonoBehaviour {
 				} else {
 						Spawngridpos2D.y = UnityEngine.Random.Range (0, Board.widthy - 1);
 
-						if (UnityEngine.Random.Range (0, 1) == 1) {
+						if (UnityEngine.Random.Range (0, 2) == 1) {
 								Spawngridpos2D.x = Board.widthy - 1;
 						} else {
 								Spawngridpos2D.x = 0;
 						}
 				}
 
-		if (board.boardwall [Spawngridpos2D.x, Spawngridpos2D.y] == null & board.boardzombie [Spawngridpos2D.x, Spawngridpos2D.y]) {
+		//MonoBehaviour.print (Spawngridpos2D.x.ToString() + ',' + Spawngridpos2D.y.ToString());
+		//MonoBehaviour.print (board.boardwall [Spawngridpos2D.x, Spawngridpos2D.y]);
+
+		if (board.boardwall [Spawngridpos2D.x, Spawngridpos2D.y] == null & board.boardzombie [Spawngridpos2D.x, Spawngridpos2D.y] == null) {
 
 						Vector3 pos = new Vector3 (Spawngridpos2D.x, Spawngridpos2D.y, 0);
 						GameObject gzombie = (GameObject)Instantiate (zombieFab, pos, Quaternion.identity);
 						Zombie czombie = gzombie.GetComponent<Zombie> ();
+						czombie.metaboard = board;
 						czombie.gridpos2D = Spawngridpos2D;
 						board.zombies.Add(czombie);
 						return 1;
