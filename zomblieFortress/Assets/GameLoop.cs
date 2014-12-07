@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+
 
 public class GameLoop : MonoBehaviour {
 
@@ -11,18 +13,7 @@ public class GameLoop : MonoBehaviour {
 
 
 
-		Vector3 pos1 = new Vector3(2 , 9, 0);
-		GameObject zombie = (GameObject) Instantiate(zombieFab, pos1, Quaternion.identity);
-		Zombie comp = zombie.GetComponent<Zombie> ();
-		comp.gameObject.transform.position = new Vector3 ();
-		Vector3 pos2 = new Vector3(4 , 9, 0);
-		GameObject zombie2 = (GameObject) Instantiate(zombieFab, pos2, Quaternion.identity);
 
-		Vector3 pos3 = new Vector3(9 , 9, 0);
-		GameObject zombie3 = (GameObject) Instantiate(zombieFab, pos3, Quaternion.identity);
-			
-		Point zgridpos2D = new Point(9, 9);
-		Zombie mydeadfriend = new Zombie (zgridpos2D, 1, board);
 
 
 	
@@ -30,6 +21,7 @@ public class GameLoop : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		SpawnZombieTurn ();
 		ZombieTurn ();
 		TurretTurn ();
 	 
@@ -48,4 +40,29 @@ public class GameLoop : MonoBehaviour {
 
 		}
 	}
-}
+
+	void Tick(){
+				
+				DateTime stime =  DateTime.Now;
+				ZombieTurn ();
+				TurretTurn ();
+		}
+
+	void SpawnZombieTurn(){
+		Vector3 pos1 = new Vector3(2 , 9, 0);
+		GameObject zombie = (GameObject) Instantiate(zombieFab, pos1, Quaternion.identity);
+		Zombie comp = zombie.GetComponent<Zombie> ();
+		board.zombies.Add(comp);
+		/*
+		comp.gameObject.transform.position = new Vector3 ();
+		Vector3 pos2 = new Vector3(4 , 9, 0);
+		GameObject zombie2 = (GameObject) Instantiate(zombieFab, pos2, Quaternion.identity);
+		
+		Vector3 pos3 = new Vector3(9 , 9, 0);
+		GameObject zombie3 = (GameObject) Instantiate(zombieFab, pos3, Quaternion.identity);
+		
+		Point zgridpos2D = new Point(9, 9);
+		Zombie mydeadfriend = new Zombie (zgridpos2D, 1, board);
+		*/
+		}
+	}
