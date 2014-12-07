@@ -25,6 +25,7 @@ public class Card : MonoBehaviour {
 	void Start () {
 		defaultColor = Palette.DarkBrown;
 		selectedColor = Palette.Red;
+		GetComponent<SpriteRenderer>().color = defaultColor;
 	}
 
 	public void init (Board board, Hand hand) {
@@ -35,7 +36,6 @@ public class Card : MonoBehaviour {
 		SetTowers ();
 		SetCost ();
 		RefreshDisplay ();
-
 	}
 
 	void RefreshDisplay ()
