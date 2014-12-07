@@ -14,15 +14,16 @@ public class Card : MonoBehaviour {
 	private Hand hand;
 	public bool isSelected = false;
 
-	public Color defaultColor = new Color32(139,138,127,255);
-	public Color selectedColor = Color.yellow;
+	public Color defaultColor; 
+	public Color selectedColor; 
 
 	public Stack<GameObject> cardSquares = new Stack<GameObject> ();
 	private float cardScale = 0.5f;
 
 	// Use this for initialization
 	void Start () {
-
+		defaultColor = Palette.DarkBrown;
+		selectedColor = Palette.Red;
 	}
 
 	public void init (Board board, Hand hand) {
