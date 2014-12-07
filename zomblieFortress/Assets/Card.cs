@@ -31,7 +31,7 @@ public class Card : MonoBehaviour {
 		this.board = board;
 		this.hand = hand;
 		SetWalls ();
-		//RefreshDisplay ();
+		RefreshDisplay ();
 	}
 
 	void RefreshDisplay ()
@@ -42,16 +42,18 @@ public class Card : MonoBehaviour {
 		cardSquares.Clear ();
 		foreach(Point w in walls) {
 			Vector3 pos = GridOffsetToCardPos(w);
-			GameObject g = (GameObject) Instantiate(board.wallFab, pos, Quaternion.identity);
+			GameObject g = (GameObject) Instantiate(board.wallFab, new Vector3(), Quaternion.identity);
+			g.transform.parent = this.transform;
+			g.transform.localPosition = pos;
 			g.transform.localScale = g.transform.localScale * cardScale;
 			g.GetComponent<SpriteRenderer>().color = Color.white;
 		}
 	}
 
 	Vector3 GridOffsetToCardPos(Point gridOffest) {
-		float x = transform.position.x + gridOffest.x * cardScale;
-		float y = transform.position.y + gridOffest.y * cardScale;
-		return new Vector3 (x, y, -5);
+		float x = gridOffest.x * cardScale / transform.localScale.x;
+		float y = gridOffest.y * cardScale / transform.localScale.y;
+		return new Vector3 (x, y, -1);
 	}
 
 	void SetWalls() {
