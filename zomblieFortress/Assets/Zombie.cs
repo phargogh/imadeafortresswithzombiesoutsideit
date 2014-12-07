@@ -48,7 +48,7 @@ public class Zombie : MonoBehaviour {
 		Debug.Log ("ow " + health + " - " + damage);
 		this.health -= damage;
 		if (this.health < 0f) {
-			MonoBehaviour.print("This zombie is dead");
+			//MonoBehaviour.print("This zombie is dead");
 			Board.gameBoard.boardzombie[this.gridpos2D.x,this.gridpos2D.y]= null;
 			Board.gameBoard.zombies.Remove(this);
 			Destroy(gameObject);
@@ -92,7 +92,7 @@ public class Zombie : MonoBehaviour {
 		int wallR = UnityEngine.Random.Range (0, wallN);
 		this.targetgridpos2D.x = this.metaboard.walls [wallR].gridpos2D.x;
 		this.targetgridpos2D.y = this.metaboard.walls [wallR].gridpos2D.y;
-		MonoBehaviour.print ("Got random wall! " + wallR.ToString());
+		//MonoBehaviour.print ("Got random wall! " + wallR.ToString());
 	}
 
 	void FindTargetDumbLoop(){
@@ -102,7 +102,7 @@ public class Zombie : MonoBehaviour {
 				if(Attackable()){ //need to actually define attackable or eliminate
 					this.targetgridpos2D.x = i; 
 					this.targetgridpos2D.y = j;
-					MonoBehaviour.print ("Target acquired!");
+					//MonoBehaviour.print ("Target acquired!");
 					DirectionUpdate();
 					//MonoBehaviour.print(i);
 					//MonoBehaviour.print(j);
@@ -110,7 +110,7 @@ public class Zombie : MonoBehaviour {
 				}
 			}
 		}
-		MonoBehaviour.print("A target was not acquired");
+		//MonoBehaviour.print("A target was not acquired");
 	}
 
 	public void UpdateZombieBoard(){
@@ -240,44 +240,7 @@ public class Zombie : MonoBehaviour {
 		this.gridpos2D = move;
 		DirectionUpdate ();
 	}
-		
 
-	void OldMove(){
-		MonoBehaviour.print ("Zombie position before move");
-		PrintZombiePosition ();
-		
-		if (Math.Abs (this.targetdistancex) + Math.Abs (this.targetdistancey) <= this.attackrange) {
-			this.Attack ();
-			return;
-		}
-
-		if (this.gridpos2D.x == this.targetgridpos2D.x){
-			this.xmove = false;
-		}
-		
-		if (this.gridpos2D.y == this.targetgridpos2D.y){
-			this.xmove = true; 
-		}			
-			
-		if (this.xmove & this.gridpos2D.x != this.targetgridpos2D.x) {
-			this.xmove = false;
-			if (this.targetdistancex > 0) {
-					this.gridpos2D.x += 1;
-			} else {
-					this.gridpos2D.x -= 1;
-			}
-		} else {
-			if (this.xmove == false & this.gridpos2D.y != this.targetgridpos2D.y) {
-				this.xmove = true;
-				if (this.targetdistancey > 0) {
-						this.gridpos2D.y += 1;
-				} else {
-						this.gridpos2D.y -= 1;
-				}	
-			}
-		}
-		this.DirectionUpdate ();	
-	}
 		
 }
 
