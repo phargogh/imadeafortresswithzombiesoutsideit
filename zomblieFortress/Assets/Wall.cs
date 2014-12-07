@@ -6,6 +6,7 @@ public class Wall : MonoBehaviour {
 	public float health = 100f;
 	Tower tower = null;
 	public Point gridpos2D;
+	public Board board;
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +27,14 @@ public class Wall : MonoBehaviour {
 	}
 
 	public void SetTower(Tower tower) {
+		tower.init(this);
 		this.tower = tower;
+	}
+
+	public void TakeTurn() {
+		if (tower) {
+			tower.TakeTurn();
+		}
 	}
 
 	void RemoveDeadWall(){

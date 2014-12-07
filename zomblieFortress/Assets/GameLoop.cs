@@ -32,15 +32,15 @@ public class GameLoop : MonoBehaviour {
 	}
 
 	void ZombieTurn(){
-		MonoBehaviour.print("Zombie turn");
+		//MonoBehaviour.print("Zombie turn");
 		foreach (Zombie z in board.zombies) {
 			z.TakeTurn();
 		}
 	}
 
 	void TowerTurn(){
-		foreach (Tower t in board.towers) {
-			t.TakeTurn();
+		foreach (Wall w in board.walls) {
+			w.TakeTurn();
 		}
 	}
 

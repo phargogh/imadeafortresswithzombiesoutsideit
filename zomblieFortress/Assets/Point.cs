@@ -14,6 +14,10 @@ public struct Point {
 		return !(p1.x == p2.x && p1.y == p2.y);
 	}
 
+	public static int ManhattanDistance(Point p1, Point p2){
+		return System.Math.Abs(p1.x-p2.x) + System.Math.Abs(p1.y-p2.y);
+	}
+
 	public Point (int x, int y){
 		this.x = x;
 		this.y = y;

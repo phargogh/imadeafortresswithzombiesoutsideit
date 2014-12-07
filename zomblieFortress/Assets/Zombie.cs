@@ -110,7 +110,7 @@ public class Zombie : MonoBehaviour {
 		int wallR = UnityEngine.Random.Range (0, wallN);
 		this.targetgridpos2D.x = this.metaboard.walls [wallR].gridpos2D.x;
 		this.targetgridpos2D.y = this.metaboard.walls [wallR].gridpos2D.y;
-		MonoBehaviour.print ("Got random wall! " + wallR.ToString());
+		//MonoBehaviour.print ("Got random wall! " + wallR.ToString());
 
 
 
