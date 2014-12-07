@@ -56,7 +56,9 @@ public class Board : MonoBehaviour {
 		
 		spawnWalls (start_walls, start_walls, new Point());
 		spawnWalls (corners,corners, new Point());
-		Farm.DetectFarmland(this);
+
+		bool[,] known_farms = Farm.DetectFarmland(this);
+        FarmCluster.FindClusters(known_farms);
 
 	}
 	
@@ -65,7 +67,8 @@ public class Board : MonoBehaviour {
 		long num_ticks = DateTime.Now.Ticks;
 		long current_time = num_ticks / 10000;  // time in ms
 		if (current_time >= this.last_update + 1000 || this.trigger_farm_detection == true) {
-			Farm.DetectFarmland(this);
+			bool[,] known_farms = Farm.DetectFarmland(this);
+            FarmCluster.FindClusters(known_farms);
 			this.last_update = current_time;
 			this.trigger_farm_detection = false;  // reset so we don't re-detect farmland
 		}
