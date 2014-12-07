@@ -188,8 +188,8 @@ public class GameLoop : MonoBehaviour {
 		int r = 0;
 		foreach (Point p in board.borderList) {
 			r += SpawnZombieP(p);
-				}
 		}
+	}
 
 
 	void ZombieWall(){
@@ -224,9 +224,9 @@ public class GameLoop : MonoBehaviour {
 			foreach (Point p in board.borderListBottom) {
 				r += SpawnZombieP(p);
 			}
+		}
+		//MonoBehaviour.print ("Zombie wall selected " + side.ToString () + " " + r.ToString () + " spawned!");
 	}
-	//MonoBehaviour.print ("Zombie wall selected " + side.ToString () + " " + r.ToString () + " spawned!");
-}
 
 
 }

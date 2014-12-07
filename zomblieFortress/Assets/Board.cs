@@ -102,7 +102,7 @@ public class Board : MonoBehaviour {
 			int y = gridPos.y + w.y;
 			GameObject g = inactiveShadowSquares.Count > 0 ? inactiveShadowSquares.Pop() : (GameObject) Instantiate(wallFab, new Vector3(), Quaternion.identity);
 			g.SetActive(true);
-			g.transform.position = gridPointToWorldPos(new Point(x, y), 0f);
+			g.transform.position = gridPointToWorldPos(new Point(x, y), -0.5f);
 			Color c = (x >= 1 && x < widthx-1 && y >= 1 && y < widthy-1 && boardwall[x,y] == null) ? (boardzombie[x,y] == null ? Color.white : Color.magenta) : Color.red;
 			g.GetComponent<SpriteRenderer>().color = c;
 			shadowSquares.Push(g);
@@ -118,7 +118,7 @@ public class Board : MonoBehaviour {
 			int y = gridPos.y + t.y;
 			GameObject g = inactiveShadowTowers.Count > 0 ? inactiveShadowTowers.Pop() : (GameObject) Instantiate(towerFab, new Vector3(), Quaternion.identity);
 			g.SetActive(true);
-			g.transform.position = gridPointToWorldPos(new Point(x, y), -0.2f);
+			g.transform.position = gridPointToWorldPos(new Point(x, y), -0.6f);
 			shadowTowers.Push(g);
 		}
 
@@ -146,8 +146,7 @@ public class Board : MonoBehaviour {
 			Point p = new Point(gridPos.x + w.x, gridPos.y + w.y);
 			if (p.x >= 1 && p.x < widthx-1 && p.y >= 1 && p.y < widthy-1 && boardwall[p.x,p.y] == null){
 				wallsToPlace.Add(p);
-			}
-			else{
+			} else {
 				return false;
 			}
 		}

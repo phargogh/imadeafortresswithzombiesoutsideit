@@ -51,7 +51,7 @@ public class Card : MonoBehaviour {
 		cardTowers.Clear ();
 
 		foreach(Point w in walls) {
-			Vector3 pos = GridOffsetToCardPos(w, -1);
+			Vector3 pos = GridOffsetToCardPos(w, 0);
 			GameObject g = (GameObject) Instantiate(board.wallFab, new Vector3(), Quaternion.identity);
 			g.transform.parent = this.transform;
 			g.transform.localPosition = pos;
@@ -61,7 +61,7 @@ public class Card : MonoBehaviour {
 
 
 		foreach(Point t in towers) {
-			Vector3 pos = GridOffsetToCardPos(t, -2);
+			Vector3 pos = GridOffsetToCardPos(t, -0.2f);
 			GameObject g = (GameObject) Instantiate(board.towerFab, new Vector3(), Quaternion.identity);
 			g.transform.parent = this.transform;
 			g.transform.localPosition = pos;
@@ -70,9 +70,10 @@ public class Card : MonoBehaviour {
 		}
 	}
 
-	Vector3 GridOffsetToCardPos(Point gridOffest, float z) {
+	Vector3 GridOffsetToCardPos(Point gridOffest, float zOffest) {
 		float x = gridOffest.x * cardScale / transform.localScale.x;
 		float y = gridOffest.y * cardScale / transform.localScale.y;
+		float z = transform.position.z - 20 + gridOffest.y + zOffest;
 		return new Vector3 (x, y, z);
 	}
 
