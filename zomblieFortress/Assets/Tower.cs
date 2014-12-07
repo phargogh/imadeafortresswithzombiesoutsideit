@@ -31,10 +31,9 @@ public class Tower : MonoBehaviour {
 		if (ticksToFire < 0) {
 			Zombie target = FindTarget();
 			if (target) {
-				Debug.Log("************* Found Target **************");
 				ticksToFire = cooldown + Random.Range(0, coolDownVariation);
 				Debug.DrawLine(transform.position, target.transform.position, Color.yellow, 0.1f);
-
+				target.TakeDamage(damage);
 			}
 		}
 	}
