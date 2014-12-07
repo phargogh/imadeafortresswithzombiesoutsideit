@@ -7,10 +7,12 @@ public class Board : MonoBehaviour {
 
 	public GameObject wallFab;
 	public GameObject towerFab;
+	public GameObject farmFab;
 	public static int widthx = 32;
 	public static int widthy = 32;
 	public GameObject [,] boardwall = new GameObject[widthx,widthy];
 	public GameObject [,] boardzombie = new GameObject[widthx,widthy];
+	public List<GameObject> farms = new List<GameObject>();
 	public List<Zombie> zombies = new List<Zombie>();
 	public List<Wall> walls = new List<Wall>();
 	public List<Tower> towers = new List<Tower>();
@@ -69,24 +71,30 @@ public class Board : MonoBehaviour {
 
 	public Point worldPosToGridPoint(Vector3 worldPos) {
 		Point gridPos = new Point ();
-		gridPos.x = Mathf.RoundToInt(worldPos.x - transform.position.x) - widthx/2;
-		gridPos.y = Mathf.RoundToInt(worldPos.y - transform.position.y) - widthy/2;
+		gridPos.x = Mathf.RoundToInt(worldPos.x - transform.position.x) + widthx/2;
+		gridPos.y = Mathf.RoundToInt(worldPos.y - transform.position.y) + widthy/2;
 		return gridPos;
 	}
 
 	public bool spawnWalls(List<Point> walls, List<Point> towers, Point gridPos){
+		Debug.Log("placing walls near: " + gridPos.x + ", " + gridPos.y + " like " + walls[0].x);
+		List<Point> wallsToPlace = new List<Point> ();
 		foreach (Point w in walls) {
-			if (boardwall[w.x,w.y] == null){
-				Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);
-				GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
-				boardwall[w.x, w.y] = wall;
-				this.walls.Add(wall.GetComponent<Wall>());
+			Point p = new Point(gridPos.x + w.x, gridPos.y + w.y);
+			if (p.x >= 0 && p.x < widthx && p.y >= 0 && p.y < widthy && boardwall[p.x,p.y] == null){
+				wallsToPlace.Add(p);
 			}
 			else{
-				Debug.Log("Tried to place a wall on an occupied space: " + w.x + ", " + w.y );
 				return false;
 			}
 		}
+		foreach (Point p in wallsToPlace) {
+			Vector3 pos = new Vector3(p.x - Board.widthx/2, p.y - Board.widthy/2, 0);
+			GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
+			boardwall[p.x, p.y] = wall;
+			this.walls.Add(wall.GetComponent<Wall>());
+		}
+		
 		return true;
 	}
 
@@ -94,12 +102,23 @@ public class Board : MonoBehaviour {
 		Debug.Log ("Determining farms");
 		int[,] wasteland = DetectWasteland();
 
+		// remove all the farm sites that were set up in the last frame.
+		foreach (GameObject farm_site in this.farms) {
+			Destroy(farm_site);
+		}
+		this.farms = new List<GameObject>();
+
 		// farmland is anything that's not wasteland and not walls.
 		bool[,] farmland = new bool[wasteland.GetLength(0), wasteland.GetLength(1)];
 		for (int row = 0; row < wasteland.GetLength(0); row++) {
 			for (int col = 0; col < wasteland.GetLength(1); col++) {
 				if (wasteland[row, col] == 0) {
 					farmland[row, col] = true;
+
+					Vector3 pos = new Vector3(row - Board.widthx/2, col - Board.widthy/2, 0);
+					GameObject farm = (GameObject) Instantiate(farmFab, pos, Quaternion.identity);
+					this.farms.Add (farm);
+
 				}
 			}
 		}
@@ -119,9 +138,18 @@ public class Board : MonoBehaviour {
 		// start out by starting from (0, 0) and investigating the board from there.
 		//bool[,] wasteland = new bool[landscape.GetLength(0), landscape.GetLength (1)];
 		Point start_point = new Point();
-		start_point.x = 0;
-		start_point.y = 1;
-		RecurseWasteland(ref wasteland, start_point);
+		if (this.zombies.Count == 0) {
+			start_point.x = 0;
+			start_point.y = 1;
+			RecurseWasteland(ref wasteland, start_point);
+		}
+		else {
+			foreach (Zombie live_zombie in this.zombies) {
+				start_point.x = live_zombie.gridpos2D.x;
+				start_point.y = live_zombie.gridpos2D.y;
+				RecurseWasteland(ref wasteland, start_point);
+			}
+		}
 		return wasteland;
 	}
 
