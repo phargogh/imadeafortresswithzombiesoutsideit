@@ -31,6 +31,7 @@ public class Card : MonoBehaviour {
 		this.board = board;
 		this.hand = hand;
 		SetWalls ();
+		SetTowers ();
 		//RefreshDisplay ();
 	}
 
