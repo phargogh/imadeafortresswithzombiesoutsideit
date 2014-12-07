@@ -46,9 +46,12 @@ public class GameLoop : MonoBehaviour {
 		}
 	}
 
+	void ZombieControl (){
+		}
+
 	void Tick(){
 		this.ticksElapsed += 1;
-		if (this.ticksElapsed == 100) {
+		if (this.ticksElapsed == 50) {
 			SpawnZombieTurn ();
 			this.spawnNzombies += 1;
 			this.ticksElapsed = 0;
