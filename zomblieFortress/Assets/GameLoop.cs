@@ -9,6 +9,7 @@ public class GameLoop : MonoBehaviour {
 	public GameObject zombieFab;
 
 	float tickLength = 0.1f;
+	float timeSinceTick = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -21,33 +22,35 @@ public class GameLoop : MonoBehaviour {
 	void Update () {
 		//MonoBehaviour.print("Game loop started");
 		//SpawnZombieTurn ();
-		ZombieTurn ();
+		//ZombieTurn ();
 
-		//Time.deltaTime
+		timeSinceTick += Time.deltaTime;
+		if (timeSinceTick > tickLength) {
+			timeSinceTick -= tickLength;
+			Tick();
+		}
 	}
 
 	void ZombieTurn(){
 		MonoBehaviour.print("Zombie turn");
 		foreach (Zombie z in board.zombies) {
 			z.TakeTurn();
-
 		}
 	}
 
 	void TowerTurn(){
 		foreach (Tower t in board.towers) {
 			t.TakeTurn();
-
 		}
 	}
 
 	void Tick(){
 				
-		SpawnZombieTurn ();
+		//SpawnZombieTurn ();
 		ZombieTurn ();
 		TowerTurn ();
 
-		}
+	}
 
 	void SpawnZombieTurn(){
 		print("SpawnZombieTurn");
