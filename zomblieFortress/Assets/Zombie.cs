@@ -15,12 +15,11 @@ public class Zombie : MonoBehaviour {
 	int targetdistancey;
 	int attackrange;
 	bool xmove = true;
-	Board metaboardobj;
+
 
 	
 	public Zombie (Point gridpos2D, int attackrange){
 		this.gridpos2D = gridpos2D;
-		this.metaboardobj = metaboardobj;
 		this.attackrange = attackrange;
 		MonoBehaviour.print("A zombie is on the loose!");
 		this.FindTargetDumbLoop ();
@@ -60,7 +59,9 @@ public class Zombie : MonoBehaviour {
 		int distance = xmax + ymax; 
 		
 
-		foreach (Point p in this.metaboardobj.wallgridpos2D) {
+		foreach (Wall w in board.walls) {
+			Point p = w.gridpos2D;
+
 
 			int cdistance = Math.Abs(this.gridpos2D.x - p.x) + Math.Abs(this.gridpos2D.y - p.y);
 						if (cdistance <= distance) {
@@ -77,7 +78,7 @@ public class Zombie : MonoBehaviour {
 
 	bool Attackable (){
 
-				if (this.metaboardobj.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y] == null) {
+				if (board.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y] == null) {
 						return false;
 				}
 
@@ -122,7 +123,7 @@ public class Zombie : MonoBehaviour {
 
 	void DirectionUpdate(){
 		this.targetdistancex = this.targetgridpos2D.x - this.gridpos2D.x;
-		//this.targetdistancey = this.targetgridpos2D.y - this.gridpos2D.y;
+		this.targetdistancey = this.targetgridpos2D.y - this.gridpos2D.y;
 	}
 
 	void Attack(){

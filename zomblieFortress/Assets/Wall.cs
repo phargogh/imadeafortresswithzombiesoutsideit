@@ -5,8 +5,7 @@ public class Wall : MonoBehaviour {
 
 	float health = 100f;
 	Tower tower = null;
-	int tileX;
-	int tileY;
+	public Point gridpos2D;
 
 	// Use this for initialization
 	void Start () {
