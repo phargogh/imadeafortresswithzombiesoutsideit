@@ -53,9 +53,12 @@ public class FarmCluster {
         int board_centerx = Board.widthx / 2;
         int board_centery = Board.widthy / 2;
 
+        int scale = 5;
 
-        int label_x_pos = Screen.width/2 + (target_point.x * 5);
-        int label_y_pos = Screen.height/2 - (target_point.y * 5);
+
+
+        int label_x_pos = (Screen.width/2 + target_point.x - board_centerx) * scale;
+        int label_y_pos = (Screen.height/2 - target_point.y - board_centery) * scale;
 
         return new Point(label_x_pos, label_y_pos);
     }
