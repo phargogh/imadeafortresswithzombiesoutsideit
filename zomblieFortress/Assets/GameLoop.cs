@@ -59,12 +59,19 @@ public class GameLoop : MonoBehaviour {
 		}
 
 	void SpawnZombies(int z){
-		int i = 0;
-		while(i < z){
-			i += SpawnZombie();
-			}
-
-	}
+				int i = 0;
+				int failcount = 0;
+				int sresult;
+				while (i < z) {
+						sresult = SpawnZombie ();
+						if (sresult == 0) {
+								failcount += 1;
+								if (failcount > 30) {
+										return;
+								}
+						}
+				}
+		}
 
 
 
