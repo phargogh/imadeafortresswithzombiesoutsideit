@@ -86,6 +86,8 @@ public class Zombie : MonoBehaviour {
 
 
 	void FindTargetRandom(){
+		needtarget = false; //eventually change
+		this.targetinrange = false; //eventually program call
 		int wallN = this.metaboard.walls.Count;
 
 		int wallR = UnityEngine.Random.Range (0, wallN);
@@ -128,14 +130,21 @@ public class Zombie : MonoBehaviour {
 		//MonoBehaviour.print (needtarget);
 		if (needtarget) {
 			this.FindTargetRandom(); //this.FindTargetDumbLoop();
-			needtarget = false; //eventually change
+
 		}
 
+		/*
+		if (this.targetinrange) {
+			if(this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y] != null){
+				this.Attack ();
+				return;
+			}
+			else{
+				this.FindTargetRandom();
+			}
 
-		//if (inrange) {
-			//this.Attack();
-				//}
-
+				}
+*/
 		bool nonewmove = true;
 		int failcount = 0;
 
@@ -225,6 +234,8 @@ public class Zombie : MonoBehaviour {
 		this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(this.attackdamage);
 
 	}
+	
+	
 
 	void PrintZombiePosition(){
 		string pstring = "Zombie position: " + this.gridpos2D.x.ToString() + ',' + this.gridpos2D.y.ToString();
