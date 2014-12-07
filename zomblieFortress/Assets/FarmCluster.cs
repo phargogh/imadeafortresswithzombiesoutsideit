@@ -51,8 +51,6 @@ public class FarmCluster {
             }
         }
 
-        Farm.PrintMatrix(found_clusters);
-
         Hashtable cluster_hash = new Hashtable();
         for (int i = 0; i < found_clusters.GetLength(0); i++) {
             for (int j = 0; j < found_clusters.GetLength(1); j++) {
