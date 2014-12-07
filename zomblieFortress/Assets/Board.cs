@@ -243,11 +243,7 @@ public class Board : MonoBehaviour {
 		//   3 | 4 | 5
 
 
-		foreach (Point mask_values in this.adjacency_mask) {
-			Point new_search_index = new Point();
-			new_search_index.x = start_point.x + mask_values.x;
-			new_search_index.y = start_point.y + mask_values.y;
-
+		foreach (Point new_search_index in CardGen.getAdjacent(start_point)) {
 			// Check boundary conditions.  Don't recurse there, if out of bounds.
 			if (new_search_index.x < 0 || new_search_index.x >= landscape.GetLength (0) || new_search_index.y < 0 || new_search_index.y >= landscape.GetLength(1)){
 				// do nothing ... we want to skip this.
