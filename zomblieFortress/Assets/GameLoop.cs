@@ -12,7 +12,7 @@ public class GameLoop : MonoBehaviour {
 	float timeSinceTick = 0f;
 	int ticksElapsed = 0;
 	int spawnNzombies = 1;
-	int ticksTozombies = 50;
+	int ticksTozombies = 500;
 	int apocalypse = 1000000;
 
 	// Use this for initialization
