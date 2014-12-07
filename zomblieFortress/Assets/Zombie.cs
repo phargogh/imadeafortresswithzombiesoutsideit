@@ -147,8 +147,25 @@ public class Zombie : MonoBehaviour {
 			this.FindTargetRandom(); //this.FindTargetDumbLoop();
 			needtarget = false; //eventually change
 				}
+		bool nonewmove = true;
+		int failcount = 0;
 
-		Move();
+		while (nonewmove & failcount < 5) {
+				Move();
+				if(this.gridpos2D == this.oldgridpos2D){
+				failcount += 1;
+				this.FindTargetRandom();
+				}
+				else{
+				nonewmove = false;
+			}
+
+		}
+
+
+
+
+
 		UpdateZombieBoard ();
 		UpdateUnityPosition();
 		}
