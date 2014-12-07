@@ -59,7 +59,7 @@ public class GameLoop : MonoBehaviour {
 		ZombieTurn ();
 		TowerTurn ();
 		//ZombieWall ();
-		ZombieApocalypse ();
+		//ZombieApocalypse ();
 
 	}
 
