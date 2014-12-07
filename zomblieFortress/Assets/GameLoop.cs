@@ -59,7 +59,7 @@ public class GameLoop : MonoBehaviour {
 	void SpawnZombieTurn(){
 		this.ticksElapsed += 1;
 		if (this.ticksElapsed == this.ticksTozombies) {
-			int zN = UnityEngine.Random.Range(1, this.spawnNzombies);
+			int zN = UnityEngine.Random.Range(1, this.spawnNzombies + 1);
 			MonoBehaviour.print(zN.ToString() + " zombies spawning out of " + this.spawnNzombies.ToString());
 			SpawnZombies(zN);
 			this.spawnNzombies += 1;
