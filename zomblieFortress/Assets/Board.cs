@@ -12,11 +12,16 @@ public class Board : MonoBehaviour {
 	public static int widthy = 32;
 	public GameObject [,] boardwall = new GameObject[widthx,widthy];
 	public GameObject [,] boardzombie = new GameObject[widthx,widthy];
-	List<Zombie> zombies = new List<Zombie>();
-	List<Wall> walls = new List<Wall>();
-	List<GameObject> farms = new List<GameObject>();
+	public List<GameObject> farms = new List<GameObject>();
+	public List<Zombie> zombies = new List<Zombie>();
+	public List<Wall> walls = new List<Wall>();
+	public List<Tower> towers = new List<Tower>();
 	public List<Point> zombiegridpos2D = new List<Point>();
 	public List<Point> wallgridpos2D = new List<Point>();
+
+	public GameObject shadowSquareFab;
+	public List<GameObject> shadowSquares = new List<GameObject> ();
+
 
 	private static int wall = 2;
 	private static int wasteland = 1;
@@ -47,10 +52,9 @@ public class Board : MonoBehaviour {
 			new Point (31, 0),
 			new Point (31, 31),
 		};
-
 		
-		spawnWalls (start_walls, start_walls);
-		spawnWalls (corners,corners);
+		spawnWalls (start_walls, start_walls, new Point());
+		spawnWalls (corners,corners, new Point());
 		DetectFarmland();
 
 	}
@@ -65,7 +69,14 @@ public class Board : MonoBehaviour {
 		}
 	}
 
-	public bool spawnWalls(List<Point> walls, List<Point> towers){
+	public Point worldPosToGridPoint(Vector3 worldPos) {
+		Point gridPos = new Point ();
+		gridPos.x = Mathf.RoundToInt(worldPos.x - transform.position.x) - widthx/2;
+		gridPos.y = Mathf.RoundToInt(worldPos.y - transform.position.y) - widthy/2;
+		return gridPos;
+	}
+
+	public bool spawnWalls(List<Point> walls, List<Point> towers, Point gridPos){
 		foreach (Point w in walls) {
 			if (boardwall[w.x,w.y] == null){
 				Vector3 pos = new Vector3(w.x - Board.widthx/2, w.y - Board.widthy/2, 0);

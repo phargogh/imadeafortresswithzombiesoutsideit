@@ -51,10 +51,11 @@ public class Zombie : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//this.Move ();
+
 		
 	}
-	
+
+
 	void FindTargetClosest(){
 		Point candgridpos2D;
 		int distance = xmax + ymax; 
@@ -84,6 +85,9 @@ public class Zombie : MonoBehaviour {
 		return true;
 		}
 
+
+
+
 	void FindTargetDumbLoop(){
 
 		for (int i = 0; i <= this.xmax; i++){
@@ -108,12 +112,17 @@ public class Zombie : MonoBehaviour {
 		}
 		
 
+	void UpdateUnityPosition(){
+		this.gameObject.transform.position = new Vector3 (this.gridpos2D.x, this.gridpos2D.y, 0);
+		}
 	
-	
-	
+	public void TakeTurn(){
+		Move();
+		UpdateUnityPosition ();
+		}
 	void DirectionUpdate(){
 		this.targetdistancex = this.targetgridpos2D.x - this.gridpos2D.x;
-		this.targetdistancey = this.targetgridpos2D.y - this.gridpos2D.y;
+		//this.targetdistancey = this.targetgridpos2D.y - this.gridpos2D.y;
 	}
 
 	void Attack(){
