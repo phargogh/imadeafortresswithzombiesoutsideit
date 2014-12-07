@@ -11,12 +11,13 @@ public class GameLoop : MonoBehaviour {
 	float tickLength = 0.1f;
 	float timeSinceTick = 0f;
 	int ticksElapsed = 0;
-	int spawnNzombies = 10;
+	int spawnNzombies = 1;
+	int ticksTozombies = 50;
 
 	// Use this for initialization
 	void Start () {
 		MonoBehaviour.print("Game loop started");
-		SpawnZombieTurn ();
+		SpawnZombies(this.spawnNzombies);
 
 	}
 	
@@ -46,23 +47,24 @@ public class GameLoop : MonoBehaviour {
 		}
 	}
 
-	void ZombieControl (){
-		}
 
 	void Tick(){
-		this.ticksElapsed += 1;
-		if (this.ticksElapsed == 50) {
-			SpawnZombieTurn ();
-			this.spawnNzombies += 1;
-			this.ticksElapsed = 0;
-		}
+
+		SpawnZombieTurn ();
 		ZombieTurn ();
 		TowerTurn ();
 
 	}
 
 	void SpawnZombieTurn(){
-		SpawnZombies(this.spawnNzombies);
+		this.ticksElapsed += 1;
+		if (this.ticksElapsed == this.ticksTozombies) {
+			int zN = UnityEngine.Random.Range(1, this.spawnNzombies);
+			MonoBehaviour.print(zN.ToString() + " zombies spawning out of " + this.spawnNzombies.ToString());
+			SpawnZombies(zN);
+			this.spawnNzombies += 1;
+			this.ticksElapsed = 0;
+		}
 
 
 
