@@ -16,14 +16,16 @@ public class Wall : MonoBehaviour {
 	void Update () {
 	
 	}
-
-	float TakeDamage(float damage) {
+	/*
+	void TakeDamage(float damage) {
 		this.health -= damage;
 		if (this.health < 0) {
-			DeleteObject(self);
+				//
 				}
 
 	}
+
+*/
 
 
 }

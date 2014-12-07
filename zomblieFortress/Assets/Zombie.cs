@@ -164,7 +164,7 @@ public class Zombie : MonoBehaviour {
 		}
 
 	void Attack(){
-		this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(self.attackdamage);
+		//this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(self.attackdamage);
 		// this.targetgridpos2D.x, this.targetgridpos2D.y, this.damage
 		}
 
