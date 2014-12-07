@@ -7,6 +7,7 @@ public class GameLoop : MonoBehaviour {
 
 	public Board board;
 	public GameObject zombieFab;
+	public Hand hand;
 
 	float tickLength = 0.1f;
 	float timeSinceTick = 0f;
@@ -14,7 +15,7 @@ public class GameLoop : MonoBehaviour {
 	int spawnNzombies = 3;
 	int ticksTozombies = 100;
 	int apocalypse = 1000000;
-	int wallofzombies = 10000;
+	int wallofzombies = 100000;
 
 	// Use this for initialization
 	void Start () {
@@ -30,6 +31,7 @@ public class GameLoop : MonoBehaviour {
 		//MonoBehaviour.print("Game loop started");
 		//SpawnZombieTurn ();
 		//ZombieTurn ();
+
 
 		timeSinceTick += Time.deltaTime;
 		if (timeSinceTick > tickLength) {
@@ -57,29 +59,45 @@ public class GameLoop : MonoBehaviour {
 		ZombieTurn ();
 		TowerTurn ();
 		//ZombieWall ();
-		//ZombieApocalypse ();
+		ZombieApocalypse ();
 
 	}
 
+	bool GameBalance(){
+		int ftoz = 1;
+		if (this.spawnNzombies * ftoz > board.farms.Count) {
+						MonoBehaviour.print("Game is not balanced, not increading zombie wave size");	
+						return false;
+				}
+		return true;
+		}
+
+
 	void SpawnZombieTurn(){
 
-				this.ticksElapsed += 1;
-				if (this.ticksElapsed == this.ticksTozombies) {
-						int zN = UnityEngine.Random.Range (1, this.spawnNzombies + 1);
-						//MonoBehaviour.print (zN.ToString () + " zombies spawning out of " + this.spawnNzombies.ToString ());
-						SpawnZombies (zN);
-						this.spawnNzombies += 1;
-						this.ticksElapsed = 0;
-				}
-				this.apocalypse -= 1;
-				this.wallofzombies -= 1;
-				if (UnityEngine.Random.Range (0, this.apocalypse)  == 0) {
-						this.apocalypse = 1000000;
-						ZombieApocalypse ();		
-				}
+		this.ticksElapsed += 1;
+		if (this.ticksElapsed == this.ticksTozombies) {
+			int zN = UnityEngine.Random.Range (1, this.spawnNzombies + 1);
+			//MonoBehaviour.print (zN.ToString () + " zombies spawning out of " + this.spawnNzombies.ToString ());
+			SpawnZombies (zN);
+						
+			this.ticksElapsed = 0;
+
+			if(GameBalance()){
+				this.spawnNzombies += 1;
+			}
+		}
+				
+		this.apocalypse -= 1;
+		this.wallofzombies -= 1;
+
+		if (UnityEngine.Random.Range (0, this.apocalypse)  == 0) {
+			this.apocalypse = 1000000;
+			ZombieApocalypse ();		
+			}
 
 		if (UnityEngine.Random.Range (0, this.wallofzombies)  == 0) {
-			this.wallofzombies = 10000;
+			this.wallofzombies = 100000;
 			ZombieWall();
 			
 			
@@ -165,6 +183,7 @@ public class GameLoop : MonoBehaviour {
 
 
 	void ZombieWall(){
+		MonoBehaviour.print ("Wall of zombies!!!");
 		int r = 0;
 		int side = UnityEngine.Random.Range(0,4);
 	

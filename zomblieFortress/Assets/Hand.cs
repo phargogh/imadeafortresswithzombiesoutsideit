@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class Hand : MonoBehaviour {
 
 	public GameObject cardFab;
-	public Board board; 
+	public Board board;
+
 
 	public List<Card> cards = new List<Card>();
 	public int handSize = 5;
@@ -13,7 +14,7 @@ public class Hand : MonoBehaviour {
 	public float leftCardPosition = -12f;
 	public float cardSpacing = 6f;
 
-	private int resources = 1000;
+	private int resources = 500;
 
 	public Card selected;
 
