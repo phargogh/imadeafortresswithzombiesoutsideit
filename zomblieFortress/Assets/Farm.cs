@@ -118,7 +118,7 @@ public class Farm : MonoBehaviour {
 		return wasteland;
 	}
 
-	public static void RecurseWasteland (ref int[,] landscape, Point start_point, GameObject[,] boardwall) {
+	public static void RecurseWasteland (ref int[,] landscape, Point start_point, Wall[,] boardwall) {
 		//PrintMatrix (landscape);
 
 		// If we've already positively confirmed this cell, skip.
