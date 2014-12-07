@@ -59,7 +59,7 @@ public class CardGen{
 	}
 
 	public static Point ChoosePoint(List<Point> points){
-		int index = CardGen.rand.Next(0, points.Count -1);
+		int index = CardGen.rand.Next(0, points.Count);
 		if (index >= points.Count) {
 			return new Point();
 		}
