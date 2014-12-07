@@ -142,6 +142,8 @@ public class Zombie : MonoBehaviour {
 		MonoBehaviour.print(pstring);
 		}
 
+
+
 	void Move(){
 		MonoBehaviour.print ("Zombie position before move");
 		PrintZombiePosition ();
@@ -162,34 +164,30 @@ public class Zombie : MonoBehaviour {
 		}			
 			
 		if (this.xmove & this.gridpos2D.x != this.targetgridpos2D.x) {
-				this.xmove = false;
-			if(this.targetdistancex > 0){
-				this.gridpos2D.x += 1;
-			}
-			
-			else{
-				this.gridpos2D.x -= 1;
-			}
+						this.xmove = false;
+						if (this.targetdistancex > 0) {
+								this.gridpos2D.x += 1;
+						} else {
+								this.gridpos2D.x -= 1;
+						}
 				
 				
-			}
+				} else {
+						if (this.xmove == false & this.gridpos2D.y != this.targetgridpos2D.y) {
+								this.xmove = true;
+								if (this.targetdistancey > 0) {
+										this.gridpos2D.y += 1;
+								} else {
+										this.gridpos2D.y -= 1;
+								}
 			
-		else{
-				this.xmove = true;
-			if(this.targetdistancey > 0){
-				this.gridpos2D.y += 1;
-			}
-			
-			else{
-				this.gridpos2D.y -= 1;
-			}
-			
-				this.DirectionUpdate();
-			}
+								
+						}
+				}
 			
 			
 			
-			
+		this.DirectionUpdate ();
 			
 		}
 		
