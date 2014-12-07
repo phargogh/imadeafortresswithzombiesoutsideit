@@ -25,14 +25,17 @@ public class Wall : MonoBehaviour {
 			//MonoBehaviour.print("This wall is dead");
 			Board.gameBoard.boardwall[this.gridpos2D.x,this.gridpos2D.y]= null;
 			Board.gameBoard.walls.Remove(this);
+			if (tower) {
+				Destroy(tower.gameObject);
+			}
 			Destroy(gameObject);
 		}
 
 	}
 
 	public void SetTower(Tower tower) {
-		tower.init(this);
 		this.tower = tower;
+		tower.init(this);
 	}
 
 	public void TakeTurn() {

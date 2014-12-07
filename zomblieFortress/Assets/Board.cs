@@ -24,7 +24,7 @@ public class Board : MonoBehaviour {
 	public List<GameObject> farms = new List<GameObject>();
 	public List<Zombie> zombies = new List<Zombie>();
 	public List<Wall> walls = new List<Wall>();
-	public List<Tower> towers = new List<Tower>();
+	//public List<Tower> towers = new List<Tower>();
 
 	public Stack<GameObject> shadowSquares = new Stack<GameObject> ();
 	public Stack<GameObject> inactiveShadowSquares = new Stack<GameObject> ();
