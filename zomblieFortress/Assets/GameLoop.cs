@@ -73,7 +73,7 @@ public class GameLoop : MonoBehaviour {
 
 		if (priorfarmcount > board.farms.Count) {
 
-			this.spawnNzombies = Math.Max(1, this.spawnNzombies - 2);
+			this.spawnNzombies = Math.Max(1, this.spawnNzombies - 1);
 				}
 		if (this.spawnNzombies > board.farms.Count * this.ftoz) {
 						MonoBehaviour.print("Game is not balanced, not increading zombie wave size");	
