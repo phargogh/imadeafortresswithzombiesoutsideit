@@ -15,6 +15,7 @@ public class Zombie : MonoBehaviour {
 	int targetdistancex;
 	int targetdistancey;
 	float health;
+	float maxHealth;
 	public int attackrange;
 	public float attackdamage;
 	bool xmove = true;
@@ -22,11 +23,14 @@ public class Zombie : MonoBehaviour {
 	public bool targetinrange = false; 
 	public Board metaboard;
 
+	public Sprite[] healthFrames;
+
 
 	public void init(Board board, Point Spawngridpos2D){
 		this.attackrange = 1;
 		this.attackdamage = 5f;
 		this.health = 100f;
+		this.maxHealth = 100f;
 		this.metaboard = board;
 		this.gridpos2D = Spawngridpos2D;
 		this.oldgridpos2D = Spawngridpos2D;
@@ -47,15 +51,19 @@ public class Zombie : MonoBehaviour {
 	}
 
 	public void TakeDamage(float damage) {
-		Debug.Log ("ow " + health + " - " + damage);
+		//Debug.Log ("ow " + health + " - " + damage);
 		this.health -= damage;
 		if (this.health < 0f) {
 			//MonoBehaviour.print("This zombie is dead");
 			Board.gameBoard.boardzombie[this.gridpos2D.x,this.gridpos2D.y]= null;
 			Board.gameBoard.zombies.Remove(this);
-			Destroy(gameObject);
+			Destroy(gameObject, 1f);
 		}
-		
+
+		float h = health / maxHealth;
+		int healthFramesIndex = (h <= 0f) ? 3 : (h <= 0.33f) ? 2 : (h <= 0.66f) ? 1 : 0;
+
+		GetComponent<SpriteRenderer>().sprite = healthFrames[healthFramesIndex];
 	}
 
 
@@ -81,12 +89,12 @@ public class Zombie : MonoBehaviour {
 	}
 
 	bool Attackable (){
-		return (this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y] != null);
+		return (this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y] == null);
 	}
 
 
 	void FindTargetRandom(){
-		this.needtarget = false; //eventually change
+		needtarget = false; //eventually change
 		this.targetinrange = false; //eventually program call
 		int wallN = this.metaboard.walls.Count;
 
@@ -135,7 +143,6 @@ public class Zombie : MonoBehaviour {
 
 
 		if (this.targetinrange) {
-			MonoBehaviour.print ("target in range!!!!!!!");
 			if(this.Attack()){
 				return;
 			}
@@ -224,17 +231,14 @@ public class Zombie : MonoBehaviour {
 	}
 
 	bool Attack(){
-				MonoBehaviour.print("Inside attack function!");
-				if (Attackable ()) {
-						this.metaboard.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage (this.attackdamage);
-						return true;
-				} else {
-						this.FindTargetRandom ();
-						return false;
-
-
-				}
+		if (Attackable ()) {
+			this.metaboard.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage (this.attackdamage);
+			return true;
+		} else {
+			this.FindTargetRandom ();
+			return false;
 		}
+	}
 	
 	
 
