@@ -11,6 +11,10 @@ public class GameLoop : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+		SpawnZombieTurn ();
+
+
+
 
 
 	}
@@ -28,7 +32,7 @@ public class GameLoop : MonoBehaviour {
 		}
 	}
 
-	void TurretTurn(){
+	void TowerTurn(){
 		foreach (Tower t in board.towers) {
 			t.TakeTurn();
 
@@ -37,16 +41,15 @@ public class GameLoop : MonoBehaviour {
 
 	void Tick(){
 				
-		DateTime stime =  DateTime.Now;
 		SpawnZombieTurn ();
 		ZombieTurn ();
-		TurretTurn ();
+		TowerTurn ();
 
 		}
 
 	void SpawnZombieTurn(){
 
-		SpawnZombies (2);
+		SpawnZombies (10);
 
 		/*
 		comp.gameObject.transform.position = new Vector3 ();
