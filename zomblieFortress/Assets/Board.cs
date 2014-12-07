@@ -183,6 +183,8 @@ public class Board : MonoBehaviour {
         int offset = 3;
         foreach (FarmCluster farm_cluster in this.farmclusters) {
             GUI.Label(new Rect(label_x_pos, label_y_pos + row_y_offset*offset , 150, 150), farm_cluster.farms_contained.ToString());
+            Point cluster_center = FarmCluster.ToPixelDims(farm_cluster.center);
+            GUI.Label(new Rect(cluster_center.x, cluster_center.y , 20, 20), farm_cluster.farms_contained.ToString());
             offset++;
         }
 
