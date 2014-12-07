@@ -89,7 +89,7 @@ public class Zombie : MonoBehaviour {
 	}
 
 	bool Attackable (){
-		return (this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y] == null);
+		return (this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y] != null);
 	}
 
 
