@@ -13,6 +13,8 @@ public class GameLoop : MonoBehaviour {
 
 		Vector3 pos1 = new Vector3(2 , 9, 0);
 		GameObject zombie = (GameObject) Instantiate(zombieFab, pos1, Quaternion.identity);
+		Zombie comp = zombie.GetComponent<Zombie> ();
+		comp.gameObject.transform.position = new Vector3 ();
 		Vector3 pos2 = new Vector3(4 , 9, 0);
 		GameObject zombie2 = (GameObject) Instantiate(zombieFab, pos2, Quaternion.identity);
 
@@ -34,16 +36,16 @@ public class GameLoop : MonoBehaviour {
 	}
 
 	void ZombieTurn(){
-		foreach (Zombie z in Board.zombies) {
+		foreach (Zombie z in board.zombies) {
 			z.TakeTurn();
 
 		}
 	}
 
 	void TurretTurn(){
-		foreach (Tower t in Board.towers) {
-			z.TakeTurn();
-			
+		foreach (Tower t in board.towers) {
+			t.TakeTurn();
+
 		}
 	}
 }

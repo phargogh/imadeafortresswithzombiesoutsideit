@@ -47,6 +47,6 @@ public class Card : MonoBehaviour {
 
 	void OnMouseDown(){
 		Debug.Log ("This card was clicked");
-		hand.playCard (this);
+		hand.SelectCard(this);
 	}
 }
