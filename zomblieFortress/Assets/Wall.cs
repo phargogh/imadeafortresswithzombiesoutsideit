@@ -16,16 +16,20 @@ public class Wall : MonoBehaviour {
 	void Update () {
 	
 	}
-	/*
-	void TakeDamage(float damage) {
+
+	public void TakeDamage(float damage) {
 		this.health -= damage;
-		if (this.health < 0) {
-				//
+		if (this.health < 0f) {
+			MonoBehaviour.print("This wall is dead");
 				}
 
 	}
 
-*/
+	void RemoveDeadWall(){
+		//board.gridpos2D;
+		}
+
+
 
 
 }
