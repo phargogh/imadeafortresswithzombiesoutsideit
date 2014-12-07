@@ -13,6 +13,7 @@ public class Board : MonoBehaviour {
 	public Hand hand;
 	public static int widthx = 32;
 	public static int widthy = 32;
+	public List<Point> borderList = new List<Point> ();
 	public Wall [,] boardwall = new Wall[widthx,widthy];
 	public Zombie [,] boardzombie = new Zombie[widthx,widthy];
 	public List<GameObject> farms = new List<GameObject>();
@@ -38,6 +39,7 @@ public class Board : MonoBehaviour {
 		List<Point> start_towers = CardGen.getCardinal (center);
 
 		spawnWalls (start_walls, start_towers, new Point());
+		BorderPoints();
 
 		Farm.DetectFarmland(this);
 
@@ -147,6 +149,34 @@ public class Board : MonoBehaviour {
 		boardwall [p.x, p.y] = wall.GetComponent<Wall>();
 		this.walls.Add(wall.GetComponent<Wall>());
 		wall.GetComponent<Wall> ().gridpos2D = p;
+	}
+
+	public void BorderPoints(){
+		List<Point> plist = new List<Point> ();
+
+		for (int i = 0; i < widthx; i++) {
+			Point newp = new Point(i,0);
+			plist.Add (newp);
+				}
+
+
+		for (int i = 0; i < widthx; i++) {
+		Point newp = new Point(i, widthy - 1);
+		plist.Add (newp);
+	}
+
+	for (int i = 1; i <  widthy - 1; i++) {
+		Point newp = new Point(0,i);
+		plist.Add (newp);
+		}
+
+	for (int i = 1; i < widthy - 1; i++) {
+		Point newp = new Point(widthx - 1,i);
+			plist.Add (newp);
+		}
+
+	this.borderList = plist;
+
 	}
 
     void OnGUI() {
