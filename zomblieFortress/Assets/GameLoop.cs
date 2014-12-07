@@ -10,6 +10,8 @@ public class GameLoop : MonoBehaviour {
 
 	float tickLength = 0.1f;
 	float timeSinceTick = 0f;
+	int ticksElapsed = 0;
+	int spawnNzombies = 10;
 
 	// Use this for initialization
 	void Start () {
@@ -45,29 +47,23 @@ public class GameLoop : MonoBehaviour {
 	}
 
 	void Tick(){
-				
-		//SpawnZombieTurn ();
+		this.ticksElapsed += 1;
+		if (this.ticksElapsed == 100) {
+			SpawnZombieTurn ();
+			this.spawnNzombies += 1;
+			this.ticksElapsed = 0;
+		}
 		ZombieTurn ();
 		TowerTurn ();
 
 	}
 
 	void SpawnZombieTurn(){
-		print("SpawnZombieTurn");
+		SpawnZombies(this.spawnNzombies);
 
-		SpawnZombies(10);
 
-		/*
-		comp.gameObject.transform.position = new Vector3 ();
-		Vector3 pos2 = new Vector3(4 , 9, 0);
-		GameObject zombie2 = (GameObject) Instantiate(zombieFab, pos2, Quaternion.identity);
+
 		
-		Vector3 pos3 = new Vector3(9 , 9, 0);
-		GameObject zombie3 = (GameObject) Instantiate(zombieFab, pos3, Quaternion.identity);
-		
-		Point zSpawngridpos2D = new Point(9, 9);
-		Zombie mydeadfriend = new Zombie (zSpawngridpos2D, 1, board);
-		*/
 		}
 
 	void SpawnZombies(int z){
