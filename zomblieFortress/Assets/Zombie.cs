@@ -64,7 +64,7 @@ public class Zombie : MonoBehaviour {
 		foreach (Wall w in this.metaboard.walls) {
 			Point p = w.gridpos2D;
 		
-			int cdistance = Math.Abs(this.gridpos2D.x - p.x) + Math.Abs(this.gridpos2D.y - p.y);
+			int cdistance = Point.ManhattanDistance(this.gridpos2D, p);
 			if (cdistance <= distance) {
 				distance = cdistance;
 				candgridpos2D = p;
@@ -72,8 +72,6 @@ public class Zombie : MonoBehaviour {
 		}
 
 		this.targetgridpos2D = candgridpos2D;
-		this.targetgridpos2D.x = candgridpos2D.x;
-		this.targetgridpos2D.y = candgridpos2D.y;
 		DirectionUpdate();
 
 	}
@@ -90,9 +88,8 @@ public class Zombie : MonoBehaviour {
 		int wallN = this.metaboard.walls.Count;
 
 		int wallR = UnityEngine.Random.Range (0, wallN);
-		this.targetgridpos2D.x = this.metaboard.walls [wallR].gridpos2D.x;
-		this.targetgridpos2D.y = this.metaboard.walls [wallR].gridpos2D.y;
-		MonoBehaviour.print ("Got random wall! " + wallR.ToString());
+		this.targetgridpos2D = this.metaboard.walls [wallR].gridpos2D;
+		//MonoBehaviour.print ("Got random wall! " + wallR.ToString());
 	}
 
 	void FindTargetDumbLoop(){
@@ -100,7 +97,7 @@ public class Zombie : MonoBehaviour {
 		for (int i = 0; i <= this.xmax; i++){
 			for (int j = 0; j <= this.ymax; j++){
 				if(Attackable()){ //need to actually define attackable or eliminate
-					this.targetgridpos2D.x = i; 
+					this.targetgridpos2D.x = i;
 					this.targetgridpos2D.y = j;
 					MonoBehaviour.print ("Target acquired!");
 					DirectionUpdate();
@@ -135,12 +132,12 @@ public class Zombie : MonoBehaviour {
 		int failcount = 0;
 
 		while (nonewmove & failcount < 5) {
-				Move();
-				if(this.gridpos2D == this.oldgridpos2D){
-					failcount += 1;
-					this.FindTargetRandom();
-				}
-				else{
+			Move();
+			if(this.gridpos2D == this.oldgridpos2D){
+				failcount += 1;
+				this.FindTargetRandom();
+			}
+			else{
 				nonewmove = false;
 			}
 		}
@@ -174,8 +171,8 @@ public class Zombie : MonoBehaviour {
 			return true;
 		}
 		return false;
-
 	}
+
 	void WallNextDoor(){
 		List<Point> nextdoor = CardGen.getCardinal (this.gridpos2D);
 		foreach (Point p in nextdoor) {
