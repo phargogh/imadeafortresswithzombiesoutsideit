@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class Card : MonoBehaviour {
 
+
+	private static System.Random rand = new System.Random();
+
 	public List<Point> walls = new List<Point>();
 	public List<Point> towers = new List<Point>();
 	public int cost = 5;
@@ -27,7 +30,15 @@ public class Card : MonoBehaviour {
 	}
 
 	void SetWalls() {
-		walls = CardGen.createShape (7);
+		int num_walls = rand.Next (3, 8);
+		walls = CardGen.createShape (num_walls);
+	}
+
+	void SetTowers (){
+		int num_towers = rand.Next (0,1);
+		for (int i = 0; i < num_towers; i++){
+			this.towers.Add(CardGen.ChoosePoint(this.walls));
+		};
 	}
 	
 	// Update is called once per frame
