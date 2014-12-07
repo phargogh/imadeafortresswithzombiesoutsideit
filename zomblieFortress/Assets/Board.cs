@@ -73,19 +73,24 @@ public class Board : MonoBehaviour {
 
 	public bool spawnWalls(List<Point> walls, List<Point> towers, Point gridPos){
 		Debug.Log("placing walls near: " + gridPos.x + ", " + gridPos.y + " like " + walls[0].x);
+		List<Point> wallsToPlace = new List<Point> ();
 		foreach (Point w in walls) {
 			Point p = new Point(gridPos.x + w.x, gridPos.y + w.y);
 			if (p.x >= 0 && p.x < widthx && p.y >= 0 && p.y < widthy && boardwall[p.x,p.y] == null){
-				Vector3 pos = new Vector3(p.x - Board.widthx/2, p.y - Board.widthy/2, 0);
-				GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
-				boardwall[p.x, p.y] = wall;
-				this.walls.Add(wall.GetComponent<Wall>());
+				wallsToPlace.Add(p);
 			}
 			else{
-				Debug.Log("Tried to place a wall on an occupied space: " + w.x + ", " + w.y );
+				Debug.Log("Tried to place a wall on an occupied space: " + p.x + ", " + p.y );
 				return false;
 			}
 		}
+		foreach (Point p in wallsToPlace) {
+			Vector3 pos = new Vector3(p.x - Board.widthx/2, p.y - Board.widthy/2, 0);
+			GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
+			boardwall[p.x, p.y] = wall;
+			this.walls.Add(wall.GetComponent<Wall>());
+		}
+
 		return true;
 	}
 
