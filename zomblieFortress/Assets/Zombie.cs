@@ -15,7 +15,7 @@ public class Zombie : MonoBehaviour {
 	int targetdistancex;
 	int targetdistancey;
 	int attackrange = 1;
-	int attackdamage = 5;
+	float attackdamage = 5f;
 	bool xmove = true;
 	public bool needtarget = true;
 	public Board metaboard;
@@ -25,7 +25,7 @@ public class Zombie : MonoBehaviour {
 	public Zombie (Point gridpos2D, int attackrange, Board gameboard){
 		this.gridpos2D = gridpos2D;
 		this.attackrange = attackrange;
-		this.metaboard = metaboard;
+		this.metaboard = gameboard;
 		MonoBehaviour.print("A zombie is on the loose!");
 		//this.FindTargetDumbLoop ();
 		this.PrintZombiePosition ();
@@ -164,7 +164,7 @@ public class Zombie : MonoBehaviour {
 		}
 
 	void Attack(){
-		//this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].health - 20;
+		this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(self.attackdamage);
 		// this.targetgridpos2D.x, this.targetgridpos2D.y, this.damage
 		}
 
@@ -271,4 +271,3 @@ public class Zombie : MonoBehaviour {
 		
 	}
 	
-

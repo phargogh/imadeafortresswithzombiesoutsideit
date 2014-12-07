@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Wall : MonoBehaviour {
 
-	public int health = 100;
+	public float health = 100f;
 	Tower tower = null;
 	public Point gridpos2D;
 
@@ -17,7 +17,13 @@ public class Wall : MonoBehaviour {
 	
 	}
 
-	void TakeDamage(float damage) {
+	float TakeDamage(float damage) {
+		this.health -= damage;
+		if (this.health < 0) {
+			DeleteObject(self);
+				}
 
 	}
+
+
 }
