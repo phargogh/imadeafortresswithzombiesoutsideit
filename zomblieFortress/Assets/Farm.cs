@@ -90,7 +90,7 @@ public class Farm : MonoBehaviour {
 				if (wasteland[row, col] == 0 && board.boardwall[row, col] == null) {
 					farmland[row, col] = true;
 
-					Vector3 pos = new Vector3(row - Board.widthx/2, col - Board.widthy/2, 0);
+					Vector3 pos = board.gridPointToWorldPos(new Point(row, col), 0);
 					GameObject farm = (GameObject) Instantiate(board.farmFab, pos, Quaternion.identity);
 					board.farms.Add (farm);
 

@@ -102,7 +102,7 @@ public class Board : MonoBehaviour {
 			int y = gridPos.y + w.y;
 			GameObject g = inactiveShadowSquares.Count > 0 ? inactiveShadowSquares.Pop() : (GameObject) Instantiate(wallFab, new Vector3(), Quaternion.identity);
 			g.SetActive(true);
-			g.transform.position = gridPointToWorldPos(new Point(x, y), -1);
+			g.transform.position = gridPointToWorldPos(new Point(x, y), 0f);
 			Color c = (x >= 1 && x < widthx-1 && y >= 1 && y < widthy-1 && boardwall[x,y] == null) ? (boardzombie[x,y] == null ? Color.white : Color.magenta) : Color.red;
 			g.GetComponent<SpriteRenderer>().color = c;
 			shadowSquares.Push(g);
@@ -118,7 +118,7 @@ public class Board : MonoBehaviour {
 			int y = gridPos.y + t.y;
 			GameObject g = inactiveShadowTowers.Count > 0 ? inactiveShadowTowers.Pop() : (GameObject) Instantiate(towerFab, new Vector3(), Quaternion.identity);
 			g.SetActive(true);
-			g.transform.position = gridPointToWorldPos(new Point(x, y), -2);
+			g.transform.position = gridPointToWorldPos(new Point(x, y), -0.2f);
 			shadowTowers.Push(g);
 		}
 
@@ -131,11 +131,11 @@ public class Board : MonoBehaviour {
 		return gridPos;
 	}
 
-	public Vector3 gridPointToWorldPos(Point gridPoint, float z) {
+	public Vector3 gridPointToWorldPos(Point gridPoint, float zOffest) {
 		Vector3 worldPos = new Vector3 ();
 		worldPos.x = transform.position.x + gridPoint.x - widthx / 2;
 		worldPos.y = transform.position.y + gridPoint.y - widthy / 2;
-		worldPos.z = z;
+		worldPos.z = transform.position.z - widthy + gridPoint.y + zOffest;
 		return worldPos;
 	}
 
@@ -156,7 +156,7 @@ public class Board : MonoBehaviour {
 		}
 		foreach (Point t in towers) {
 			Point towerGridPos = new Point(gridPos.x + t.x, gridPos.y + t.y);
-			Vector3 pos = gridPointToWorldPos(towerGridPos, -0.5f);
+			Vector3 pos = gridPointToWorldPos(towerGridPos, -0.2f);
 			GameObject towerObj = (GameObject) Instantiate(towerFab, pos, Quaternion.identity);
 			Tower tower = towerObj.GetComponent<Tower>();
 			boardwall[towerGridPos.x, towerGridPos.y].SetTower(tower);
@@ -166,7 +166,7 @@ public class Board : MonoBehaviour {
 	}
 
 	void placeWall(Point p){
-		Vector3 pos = new Vector3(p.x - Board.widthx/2, p.y - Board.widthy/2, 0);
+		Vector3 pos = gridPointToWorldPos (p, 0);
 		GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
 		boardwall [p.x, p.y] = wall.GetComponent<Wall>();
 		this.walls.Add(wall.GetComponent<Wall>());
