@@ -58,7 +58,14 @@ public class GameLoop : MonoBehaviour {
 		*/
 		}
 
-	void SpawnZombie(){
+	void SpawnZombies(int z){
+		int i = 0;
+		while(i < z){
+			i += SpawnZombie()
+
+
+
+	int SpawnZombie(){
 				int x;
 				int y;
 				Point gridpos2D;
@@ -84,12 +91,16 @@ public class GameLoop : MonoBehaviour {
 		if (board.boardwall [gridpos2D.x, gridpos2D.y] == null & board.boardzombie [gridpos2D.x, gridpos2D.y]) {
 
 						Vector3 pos = new Vector3 (gridpos2D.x, gridpos2D.y, 0);
-						GameObject zombie = (GameObject)Instantiate (zombieFab, pos, Quaternion.identity);
-						Zombie comp = zombie.GetComponent<Zombie> ();
-						board.zombies.Add(comp);
+						GameObject gzombie = (GameObject)Instantiate (zombieFab, pos, Quaternion.identity);
+						Zombie czombie = gzombie.GetComponent<Zombie> ();
+						czombie.gridpos2D = gridpos2D;
+						board.zombies.Add(czombie);
+						return 1;
 
 				}
+		
 		}
+		return 0;
 
 
 
