@@ -20,8 +20,8 @@ public class Board : MonoBehaviour {
 	public List<Point> zombiegridpos2D = new List<Point>();
 	public List<Point> wallgridpos2D = new List<Point>();
 
-	public List<GameObject> shadowSquares = new List<GameObject> ();
-	public List<GameObject> inacticcveShadowSquares = new List<GameObject> ();
+	public Stack<GameObject> shadowSquares = new Stack<GameObject> ();
+	public Stack<GameObject> inacticcveShadowSquares = new Stack<GameObject> ();
 
 
 	private static int wall = 2;
@@ -71,21 +71,41 @@ public class Board : MonoBehaviour {
 			this.trigger_farm_detection = false;  // reset so we don't re-detect farmland
 		}
 
-		if (hand.selected && Input.GetMouseButtonUp(0)) {
+		if (hand.selected) {
 			Point gridPos =  worldPosToGridPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 			SetShadowSquares(hand.selected.walls, hand.selected.towers, gridPos);
+		} else {
+			SetShadowSquares(new List<Point>(), new List<Point>(), new Point());
 		}
 	}
 
 	void SetShadowSquares(List<Point> walls, List<Point> towers, Point gridPos){
+		//Debug.Log(" ----------------------------------------------------- " + gridPos.x + " " + gridPos.y);
+
 		foreach(GameObject g in shadowSquares) {
 			g.SetActive(false);
-			shadowSquares.Remove(g);
-			inacticcveShadowSquares.Add(g);
+			//shadowSquares.Remove(g);
+			//g.GetComponent<SpriteRenderer>().color = Color.clear;
+			//g.transform.position = new Vector3(-100, -100, 100); 
+			//Destroy(g);
+			inacticcveShadowSquares.Push(g);
 		}
+		shadowSquares.Clear();
 		foreach(Point w in walls) {
-			//GameObject g = 
+			int x = gridPos.x + w.x;
+			int y = gridPos.y + w.y;
+			if (x >= 0 && x < widthx && y >= 0 && y < widthy) {
+				//Debug.Log(" ----------------------------------------------------- " + x + " " + y);
+				GameObject g = inacticcveShadowSquares.Count > 0 ? inacticcveShadowSquares.Pop() : (GameObject) Instantiate(wallFab, new Vector3(), Quaternion.identity);
+				//GameObject g = (GameObject) Instantiate(wallFab, new Vector3(), Quaternion.identity);
+				g.SetActive(true);
+				g.transform.position = gridPointToWorldPos(new Point(x, y), -1);
+				Color c = boardwall[x,y] == null ? (boardzombie[x,y] == null ? Color.white : Color.magenta) : Color.red;
+				g.GetComponent<SpriteRenderer>().color = c;
+				shadowSquares.Push(g);
+			}
 		}
+		// TODO: check for zombies or towers?
 	}
 
 	public Point worldPosToGridPoint(Vector3 worldPos) {
@@ -104,7 +124,7 @@ public class Board : MonoBehaviour {
 	}
 
 	public bool spawnWalls(List<Point> walls, List<Point> towers, Point gridPos){
-		Debug.Log("placing walls near: " + gridPos.x + ", " + gridPos.y + " like " + walls[0].x);
+		//Debug.Log("placing walls near: " + gridPos.x + ", " + gridPos.y + " like " + walls[0].x);
 		List<Point> wallsToPlace = new List<Point> ();
 		foreach (Point w in walls) {
 			Point p = new Point(gridPos.x + w.x, gridPos.y + w.y);
