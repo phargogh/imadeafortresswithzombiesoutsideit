@@ -18,6 +18,10 @@ public class FarmCluster {
     }
 
     public static Point CenterPoint(List<Point> point_list) {
+        if (point_list.Count == 0) {
+            return new Point(0, 0);
+        }
+
         return point_list[0];  // TODO: calculate the centerpoint.
     }
 
