@@ -78,9 +78,11 @@ public class Board : MonoBehaviour {
 	void SetShadowSquares(List<Point> walls, List<Point> towers, Point gridPos){
 		foreach(GameObject g in shadowSquares) {
 			g.SetActive(false);
-
+			shadowSquares.Remove(g);
+			inacticcveShadowSquares.Add(g);
 		}
-		foreach(Wall w in walls) {
+		foreach(Point w in walls) {
+			//GameObject g = 
 		}
 	}
 
@@ -91,7 +93,7 @@ public class Board : MonoBehaviour {
 		return gridPos;
 	}
 
-	public Point gridPointToWorldPos(Point gridPoint, float z) {
+	public Vector3 gridPointToWorldPos(Point gridPoint, float z) {
 		Vector3 worldPos = new Vector3 ();
 		worldPos.x = transform.position.x + gridPoint.x - widthx / 2;
 		worldPos.y = transform.position.y + gridPoint.y - widthy / 2;
