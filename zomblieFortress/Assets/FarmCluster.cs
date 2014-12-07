@@ -1,3 +1,6 @@
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public class FarmCluster {
@@ -7,6 +10,15 @@ public class FarmCluster {
     public FarmCluster (int center_x, int center_y, int num_contained) {
         this.center = new Point(center_x, center_y);
         this.farms_contained = num_contained;
+    }
+
+    public FarmCluster (List<Point> contained_farms) {
+        this.center = CenterPoint(contained_farms);
+        this.farms_contained = contained_farms.Count;
+    }
+
+    public static Point CenterPoint(List<Point> point_list) {
+        return point_list[0];  // TODO: calculate the centerpoint.
     }
 
     public static List<FarmCluster> FindClusters (bool[,] known_farms) {
@@ -27,8 +39,32 @@ public class FarmCluster {
                 }
             }
         }
-        List<FarmCluster> cluster_list = new List<FarmCluster>();
-        return cluster_list;
+
+        Hashtable cluster_hash = new Hashtable();
+        for (int i = 0; i < found_clusters.GetLength(0); i++) {
+            for (int j = 0; j < found_clusters.GetLength(1); j++) {
+                int found_id = found_clusters[i, j];
+                Point found_point = new Point(i, j);
+                if (cluster_hash.ContainsKey(found_id)) {
+                    List<Point> cluster_points = (List<Point>) cluster_hash[found_id];
+                    cluster_points.Add(found_point);
+                    cluster_hash[found_id] = cluster_points;
+                }
+                else {
+                    List<Point> cluster_list = new List<Point>();
+                    cluster_hash.Add(found_id, cluster_list);
+                }
+            }
+        }
+
+        List<FarmCluster> final_cluster_list = new List<FarmCluster>();
+        foreach (DictionaryEntry dict in cluster_hash){
+            // dict.key is the cluster ID
+            // dict.value is a list of points belonging to the cluster.
+            FarmCluster farm_cluster = new FarmCluster((List<Point>) dict.Value);
+            final_cluster_list.Add(farm_cluster);
+        }
+        return final_cluster_list;
     }
 
     public static bool PointInBounds(Point point, int[,] matrix){
