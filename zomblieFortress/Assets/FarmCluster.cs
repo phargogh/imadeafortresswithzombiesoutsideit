@@ -17,17 +17,45 @@ public class FarmCluster {
         this.farms_contained = contained_farms.Count;
     }
 
+    // Get the centroid of the bounding box, returned as a point.
     public static Point CenterPoint(List<Point> point_list) {
         if (point_list.Count == 0) {
             return new Point(0, 0);
         }
 
-        return point_list[0];  // TODO: calculate the centerpoint.
+        int minx = point_list[0].x;
+        int maxx = point_list[0].x;
+        int miny = point_list[0].y;
+        int maxy = point_list[0].y;
+
+        foreach (Point point in point_list) {
+            if (point.x <= minx) {
+                minx = point.x;
+            }
+            if (point.x >= maxx) {
+                maxx = point.x;
+            }
+            if (point.y <= miny) {
+                miny = point.y;
+            }
+            if (point.y >= maxy) {
+                maxy = point.y;
+            }
+        }
+
+        int x_center = minx + maxx / 2;
+        int y_center = miny + maxy / 2;
+
+        return new Point(x_center, y_center);
     }
 
     public static Point ToPixelDims(Point target_point) {
-        int label_x_pos = Screen.width/2 + target_point.x;
-        int label_y_pos = Screen.height/2 - target_point.y;
+        int board_centerx = Board.widthx / 2;
+        int board_centery = Board.widthy / 2;
+
+
+        int label_x_pos = Screen.width/2 + (target_point.x * 5);
+        int label_y_pos = Screen.height/2 - (target_point.y * 5);
 
         return new Point(label_x_pos, label_y_pos);
     }
