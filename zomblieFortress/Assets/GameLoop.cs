@@ -13,11 +13,11 @@ public class GameLoop : MonoBehaviour {
 	int ticksElapsed = 0;
 	int spawnNzombies = 1;
 	int ticksTozombies = 50;
-	int apocalypse = 1000;
+	int apocalypse = 1000000;
 
 	// Use this for initialization
 	void Start () {
-		MonoBehaviour.print("Game loop started");
+		//MonoBehaviour.print("Game loop started");
 		//ZombieApocalypse ();
 		SpawnZombies(this.spawnNzombies);
 
@@ -62,14 +62,14 @@ public class GameLoop : MonoBehaviour {
 				this.ticksElapsed += 1;
 				if (this.ticksElapsed == this.ticksTozombies) {
 						int zN = UnityEngine.Random.Range (1, this.spawnNzombies + 1);
-						MonoBehaviour.print (zN.ToString () + " zombies spawning out of " + this.spawnNzombies.ToString ());
+						//MonoBehaviour.print (zN.ToString () + " zombies spawning out of " + this.spawnNzombies.ToString ());
 						SpawnZombies (zN);
 						this.spawnNzombies += 1;
 						this.ticksElapsed = 0;
 				}
 				this.apocalypse -= 1;
 				if (UnityEngine.Random.Range (0, this.apocalypse)  == 0) {
-						this.apocalypse = 10000;
+						this.apocalypse = 1000000;
 						ZombieApocalypse ();
 
 
@@ -91,7 +91,7 @@ public class GameLoop : MonoBehaviour {
 						i += sresult;
 						
 						if (sresult == 0) {
-							MonoBehaviour.print("Error spawning zombie");
+							//MonoBehaviour.print("Error spawning zombie");
 								failcount += 1;
 								if (failcount > 30) {
 										return;

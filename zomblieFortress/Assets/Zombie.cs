@@ -19,17 +19,19 @@ public class Zombie : MonoBehaviour {
 	public float attackdamage;
 	bool xmove = true;
 	public bool needtarget = true;
+	public bool inrange = false;
 	public Board metaboard;
 
 
 	public void init(Board board, Point Spawngridpos2D){
 		this.attackrange = 1;
-		this.attackdamage = 10f;
+		this.attackdamage = 5f;
 		this.health = 100f;
 		this.metaboard = board;
 		this.gridpos2D = Spawngridpos2D;
 		this.oldgridpos2D = Spawngridpos2D;
 		this.needtarget = true;
+		this.inrange = false;
 		this.UpdateZombieBoard();
 	}
 	
@@ -48,7 +50,7 @@ public class Zombie : MonoBehaviour {
 		Debug.Log ("ow " + health + " - " + damage);
 		this.health -= damage;
 		if (this.health < 0f) {
-			MonoBehaviour.print("This zombie is dead");
+			//MonoBehaviour.print("This zombie is dead");
 			Board.gameBoard.boardzombie[this.gridpos2D.x,this.gridpos2D.y]= null;
 			Board.gameBoard.zombies.Remove(this);
 			Destroy(gameObject);
@@ -89,7 +91,6 @@ public class Zombie : MonoBehaviour {
 
 		int wallR = UnityEngine.Random.Range (0, wallN);
 		this.targetgridpos2D = this.metaboard.walls [wallR].gridpos2D;
-		//MonoBehaviour.print ("Got random wall! " + wallR.ToString());
 	}
 
 	void FindTargetDumbLoop(){
@@ -99,7 +100,7 @@ public class Zombie : MonoBehaviour {
 				if(Attackable()){ //need to actually define attackable or eliminate
 					this.targetgridpos2D.x = i;
 					this.targetgridpos2D.y = j;
-					MonoBehaviour.print ("Target acquired!");
+					//MonoBehaviour.print ("Target acquired!");
 					DirectionUpdate();
 					//MonoBehaviour.print(i);
 					//MonoBehaviour.print(j);
@@ -107,7 +108,7 @@ public class Zombie : MonoBehaviour {
 				}
 			}
 		}
-		MonoBehaviour.print("A target was not acquired");
+		//MonoBehaviour.print("A target was not acquired");
 	}
 
 	public void UpdateZombieBoard(){
@@ -128,6 +129,12 @@ public class Zombie : MonoBehaviour {
 			this.FindTargetRandom(); //this.FindTargetDumbLoop();
 			needtarget = false; //eventually change
 		}
+
+
+		//if (inrange) {
+			//this.Attack();
+				//}
+
 		bool nonewmove = true;
 		int failcount = 0;
 
@@ -157,8 +164,8 @@ public class Zombie : MonoBehaviour {
 	}
 
 	void Attack(){
-		//his.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(this.attackdamage);
-		// this.targetgridpos2D.x, this.targetgridpos2D.y, this.damage
+		this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(this.attackdamage);
+
 	}
 
 	void PrintZombiePosition(){
@@ -237,44 +244,7 @@ public class Zombie : MonoBehaviour {
 		this.gridpos2D = move;
 		DirectionUpdate ();
 	}
-		
 
-	void OldMove(){
-		MonoBehaviour.print ("Zombie position before move");
-		PrintZombiePosition ();
-		
-		if (Math.Abs (this.targetdistancex) + Math.Abs (this.targetdistancey) <= this.attackrange) {
-			this.Attack ();
-			return;
-		}
-
-		if (this.gridpos2D.x == this.targetgridpos2D.x){
-			this.xmove = false;
-		}
-		
-		if (this.gridpos2D.y == this.targetgridpos2D.y){
-			this.xmove = true; 
-		}			
-			
-		if (this.xmove & this.gridpos2D.x != this.targetgridpos2D.x) {
-			this.xmove = false;
-			if (this.targetdistancex > 0) {
-					this.gridpos2D.x += 1;
-			} else {
-					this.gridpos2D.x -= 1;
-			}
-		} else {
-			if (this.xmove == false & this.gridpos2D.y != this.targetgridpos2D.y) {
-				this.xmove = true;
-				if (this.targetdistancey > 0) {
-						this.gridpos2D.y += 1;
-				} else {
-						this.gridpos2D.y -= 1;
-				}	
-			}
-		}
-		this.DirectionUpdate ();	
-	}
 		
 }
 
