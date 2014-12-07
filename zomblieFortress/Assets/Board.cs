@@ -24,7 +24,6 @@ public class Board : MonoBehaviour {
 	public List<GameObject> farms = new List<GameObject>();
 	public List<Zombie> zombies = new List<Zombie>();
 	public List<Wall> walls = new List<Wall>();
-	//public List<Tower> towers = new List<Tower>();
 
 	public Stack<GameObject> shadowSquares = new Stack<GameObject> ();
 	public Stack<GameObject> inactiveShadowSquares = new Stack<GameObject> ();
@@ -160,28 +159,16 @@ public class Board : MonoBehaviour {
 		List<Point> plist = new List<Point> ();
 
 		for (int i = 0; i < widthx; i++) {
-			Point newp = new Point(i,0);
-			plist.Add (newp);
-				}
-
-
-		for (int i = 0; i < widthx; i++) {
-		Point newp = new Point(i, widthy - 1);
-		plist.Add (newp);
-	}
-
-	for (int i = 1; i <  widthy - 1; i++) {
-		Point newp = new Point(0,i);
-		plist.Add (newp);
+			plist.Add (new Point(i,0));
+			plist.Add (new Point(i, widthy - 1));
 		}
 
-	for (int i = 1; i < widthy - 1; i++) {
-		Point newp = new Point(widthx - 1,i);
-			plist.Add (newp);
+		for (int i = 1; i < widthy - 1; i++) {
+			plist.Add (new Point(0,i));
+			plist.Add (new Point(widthx - 1,i));
 		}
 
-	this.borderList = plist;
-
+		this.borderList = plist;
 	}
 
 	public void SideBorder(){

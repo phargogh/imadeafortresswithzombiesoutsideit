@@ -23,6 +23,9 @@ public class Wall : MonoBehaviour {
 		this.health -= damage;
 		if (this.health < 0f) {
 			//MonoBehaviour.print("This wall is dead");
+			if (Board.gameBoard.boardwall[this.gridpos2D.x,this.gridpos2D.y] != this) { // test only code
+				Debug.LogError("***** A Wall is lost *****");
+			}
 			Board.gameBoard.boardwall[this.gridpos2D.x,this.gridpos2D.y]= null;
 			Board.gameBoard.walls.Remove(this);
 			if (tower) {
