@@ -34,16 +34,16 @@ public class GameLoop : MonoBehaviour {
 	}
 
 	void ZombieTurn(){
-		foreach (Zombie z in Board.zombies) {
+		foreach (Zombie z in board.zombies) {
 			z.TakeTurn();
 
 		}
 	}
 
 	void TurretTurn(){
-		foreach (Tower t in Board.towers) {
-			z.TakeTurn();
-			
+		foreach (Tower t in board.towers) {
+			t.TakeTurn();
+
 		}
 	}
 }

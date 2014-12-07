@@ -13,6 +13,6 @@ public class Tower : MonoBehaviour {
 	
 	}
 
-	void TakeTurn(){
+	public void TakeTurn(){
 	}
 }

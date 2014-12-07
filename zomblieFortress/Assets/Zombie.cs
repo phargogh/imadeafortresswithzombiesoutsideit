@@ -114,7 +114,7 @@ public class Zombie : MonoBehaviour {
 
 	
 	
-	void TakeTurn(){
+	public void TakeTurn(){
 		}
 	void DirectionUpdate(){
 		this.targetdistancex = this.targetgridpos2D.x - this.gridpos2D.x;
