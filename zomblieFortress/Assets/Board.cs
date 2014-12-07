@@ -89,16 +89,13 @@ public class Board : MonoBehaviour {
 		foreach(Point w in walls) {
 			int x = gridPos.x + w.x;
 			int y = gridPos.y + w.y;
-			if (x >= 0 && x < widthx && y >= 0 && y < widthy) {
-				//Debug.Log(" ----------------------------------------------------- " + x + " " + y);
-				GameObject g = inacticcveShadowSquares.Count > 0 ? inacticcveShadowSquares.Pop() : (GameObject) Instantiate(wallFab, new Vector3(), Quaternion.identity);
-				//GameObject g = (GameObject) Instantiate(wallFab, new Vector3(), Quaternion.identity);
-				g.SetActive(true);
-				g.transform.position = gridPointToWorldPos(new Point(x, y), -1);
-				Color c = boardwall[x,y] == null ? (boardzombie[x,y] == null ? Color.white : Color.magenta) : Color.red;
-				g.GetComponent<SpriteRenderer>().color = c;
-				shadowSquares.Push(g);
-			}
+			GameObject g = inacticcveShadowSquares.Count > 0 ? inacticcveShadowSquares.Pop() : (GameObject) Instantiate(wallFab, new Vector3(), Quaternion.identity);
+			//GameObject g = (GameObject) Instantiate(wallFab, new Vector3(), Quaternion.identity);
+			g.SetActive(true);
+			g.transform.position = gridPointToWorldPos(new Point(x, y), -1);
+			Color c = (x >= 1 && x < widthx-1 && y >= 1 && y < widthy-1 && boardwall[x,y] == null) ? (boardzombie[x,y] == null ? Color.white : Color.magenta) : Color.red;
+			g.GetComponent<SpriteRenderer>().color = c;
+			shadowSquares.Push(g);
 		}
 		// TODO: check for zombies or towers?
 	}
@@ -123,7 +120,7 @@ public class Board : MonoBehaviour {
 		List<Point> wallsToPlace = new List<Point> ();
 		foreach (Point w in walls) {
 			Point p = new Point(gridPos.x + w.x, gridPos.y + w.y);
-			if (p.x >= 0 && p.x < widthx && p.y >= 0 && p.y < widthy && boardwall[p.x,p.y] == null){
+			if (p.x >= 1 && p.x < widthx-1 && p.y >= 1 && p.y < widthy-1 && boardwall[p.x,p.y] == null){
 				wallsToPlace.Add(p);
 			}
 			else{
