@@ -14,7 +14,8 @@ public class Zombie : MonoBehaviour {
 	int searchy;
 	int targetdistancex;
 	int targetdistancey;
-	int attackrange;
+	int attackrange = 1;
+	int attackdamage = 5;
 	bool xmove = true;
 	public bool needtarget = true;
 	public Board metaboard;
@@ -127,8 +128,8 @@ public class Zombie : MonoBehaviour {
 		}
 
 	public void UpdateZombieBoard(){
-		this.metaboard.boardzombie [this.oldgridpos2D.x, this.oldgridpos2D.y] = null;
-		this.metaboard.boardzombie [this.gridpos2D.x, this.gridpos2D.y] = this.gameObject;
+		this.metaboard.boardzombie [this.oldgridpos2D.x, this.oldgridpos2D.y] = null; //need to delete object?
+		this.metaboard.boardzombie [this.gridpos2D.x, this.gridpos2D.y] = this;
 	}
 
 	
@@ -163,6 +164,7 @@ public class Zombie : MonoBehaviour {
 		}
 
 	void Attack(){
+		//this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].health - 20;
 		// this.targetgridpos2D.x, this.targetgridpos2D.y, this.damage
 		}
 

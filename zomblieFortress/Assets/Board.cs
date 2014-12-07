@@ -11,8 +11,8 @@ public class Board : MonoBehaviour {
 	public Hand hand;
 	public static int widthx = 32;
 	public static int widthy = 32;
-	public GameObject [,] boardwall = new GameObject[widthx,widthy];
-	public GameObject [,] boardzombie = new GameObject[widthx,widthy];
+	public Wall [,] boardwall = new Wall[widthx,widthy];
+	public Zombie [,] boardzombie = new Zombie[widthx,widthy];
 	public List<GameObject> farms = new List<GameObject>();
 	public List<Zombie> zombies = new List<Zombie>();
 	public List<Wall> walls = new List<Wall>();
@@ -137,7 +137,7 @@ public class Board : MonoBehaviour {
 	void placeWall(Point p){
 		Vector3 pos = new Vector3(p.x - Board.widthx/2, p.y - Board.widthy/2, 0);
 		GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
-		boardwall[p.x, p.y] = wall;
+		boardwall [p.x, p.y] = wall.GetComponent<Wall>();
 		this.walls.Add(wall.GetComponent<Wall>());
 		wall.GetComponent<Wall> ().gridpos2D = p;
 	}
