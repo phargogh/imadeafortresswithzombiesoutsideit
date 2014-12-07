@@ -12,11 +12,6 @@ public class GameLoop : MonoBehaviour {
 	void Start () {
 
 
-
-
-
-
-	
 	}
 	
 	// Update is called once per frame
@@ -49,10 +44,7 @@ public class GameLoop : MonoBehaviour {
 		}
 
 	void SpawnZombieTurn(){
-		Vector3 pos1 = new Vector3(2 , 9, 0);
-		GameObject zombie = (GameObject) Instantiate(zombieFab, pos1, Quaternion.identity);
-		Zombie comp = zombie.GetComponent<Zombie> ();
-		board.zombies.Add(comp);
+
 		/*
 		comp.gameObject.transform.position = new Vector3 ();
 		Vector3 pos2 = new Vector3(4 , 9, 0);
@@ -65,4 +57,40 @@ public class GameLoop : MonoBehaviour {
 		Zombie mydeadfriend = new Zombie (zgridpos2D, 1, board);
 		*/
 		}
+
+	void SpawnZombie(){
+				int x;
+				int y;
+				Point gridpos2D;
+
+
+				if (UnityEngine.Random.Range (0, 1) == 1) {
+						gridpos2D.x = UnityEngine.Random.Range (0, Board.widthx - 1);
+						if (UnityEngine.Random.Range (0, 1) == 1) {
+								gridpos2D.y = Board.widthy - 1;
+						} else {
+								gridpos2D.y = 0;
+						}
+				} else {
+						gridpos2D.y = UnityEngine.Random.Range (0, Board.widthy - 1);
+
+						if (UnityEngine.Random.Range (0, 1) == 1) {
+								gridpos2D.x = Board.widthy - 1;
+						} else {
+								gridpos2D.x = 0;
+						}
+				}
+
+		if (board.boardwall [gridpos2D.x, gridpos2D.y] == null & board.boardzombie [gridpos2D.x, gridpos2D.y]) {
+
+						Vector3 pos = new Vector3 (gridpos2D.x, gridpos2D.y, 0);
+						GameObject zombie = (GameObject)Instantiate (zombieFab, pos, Quaternion.identity);
+						Zombie comp = zombie.GetComponent<Zombie> ();
+						board.zombies.Add(comp);
+
+				}
+		}
+
+
+
 	}
