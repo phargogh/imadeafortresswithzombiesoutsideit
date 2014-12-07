@@ -52,7 +52,7 @@ public class Board : MonoBehaviour {
 		
 		spawnWalls (start_walls, start_walls, new Point());
 		spawnWalls (corners,corners, new Point());
-		DetectFarmland();
+		Farm.DetectFarmland(this);
 
 	}
 	
@@ -61,7 +61,7 @@ public class Board : MonoBehaviour {
 		long num_ticks = DateTime.Now.Ticks;
 		long current_time = num_ticks / 10000;  // time in ms
 		if (current_time >= this.last_update + 1000 || this.trigger_farm_detection == true) {
-			DetectFarmland();
+			Farm.DetectFarmland(this);
 			this.last_update = current_time;
 			this.trigger_farm_detection = false;  // reset so we don't re-detect farmland
 		}
@@ -138,32 +138,5 @@ public class Board : MonoBehaviour {
 		}
 		this.trigger_farm_detection = true;  // trigger farmland to be re-detected.
 		return true;
-	}
-
-	bool[,] DetectFarmland () {
-		Debug.Log ("Determining farms");
-		int[,] wasteland = Farm.DetectWasteland(this);
-
-		// remove all the farm sites that were set up in the last frame.
-		foreach (GameObject farm_site in this.farms) {
-			Destroy(farm_site);
-		}
-		this.farms = new List<GameObject>();
-
-		// farmland is anything that's not wasteland and not walls.
-		bool[,] farmland = new bool[wasteland.GetLength(0), wasteland.GetLength(1)];
-		for (int row = 0; row < wasteland.GetLength(0); row++) {
-			for (int col = 0; col < wasteland.GetLength(1); col++) {
-				if (wasteland[row, col] == 0 && this.boardwall[row, col] == null) {
-					farmland[row, col] = true;
-
-					Vector3 pos = new Vector3(row - Board.widthx/2, col - Board.widthy/2, 0);
-					GameObject farm = (GameObject) Instantiate(farmFab, pos, Quaternion.identity);
-					this.farms.Add (farm);
-
-				}
-			}
-		}
-		return farmland;
 	}
 }
