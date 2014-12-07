@@ -51,7 +51,7 @@ public class Zombie : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//this.Move ();
+
 		
 	}
 
@@ -112,13 +112,17 @@ public class Zombie : MonoBehaviour {
 		}
 		
 
-	
+	void UpdateUnityPosition(){
+		this.gameObject.transform.position = new Vector3 (this.gridpos2D.x, this.gridpos2D.y, 0);
+		}
 	
 	public void TakeTurn(){
+		Move();
+		UpdateUnityPosition ();
 		}
 	void DirectionUpdate(){
 		this.targetdistancex = this.targetgridpos2D.x - this.gridpos2D.x;
-		this.targetdistancey = this.targetgridpos2D.y - this.gridpos2D.y;
+		//this.targetdistancey = this.targetgridpos2D.y - this.gridpos2D.y;
 	}
 
 	void Attack(){
