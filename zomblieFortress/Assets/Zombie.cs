@@ -14,39 +14,23 @@ public class Zombie : MonoBehaviour {
 	int searchy;
 	int targetdistancex;
 	int targetdistancey;
-	float health = 100f;
-	public int attackrange = 1;
-	public float attackdamage = 5f;
+	float health;
+	public int attackrange;
+	public float attackdamage;
 	bool xmove = true;
 	public bool needtarget = true;
 	public Board metaboard;
 
 
-	
-	public Zombie (Point gridpos2D, int attackrange, Board gameboard){
-		MonoBehaviour.print ("this is not being called");
-		this.gridpos2D = gridpos2D;
-		this.attackrange = attackrange;
-		this.metaboard = gameboard;
-		MonoBehaviour.print("A zombie is on the loose!");
-		//this.FindTargetDumbLoop ();
-		this.PrintZombiePosition ();
-		MonoBehaviour.print (this.targetgridpos2D.x);
-	
-		//MonoBehaviour.print (Math.Abs (this.targetdistancex) + Math.Abs (this.targetdistancey) > this.attackrange);
-		//MonoBehaviour.print (Math.Abs (this.targetdistancex));
-		//MonoBehaviour.print (Math.Abs (this.targetdistancey));
-		//MonoBehaviour.print (this.attackrange);
-		int counter = 1;
-		while (Math.Abs (this.targetdistancex) + Math.Abs (this.targetdistancey) > this.attackrange & counter < 50) {
-
-			this.Move();
-			counter += 1;
-			//this.PrintZombiePosition ();
-
-				}
-
-		
+	public void init(Board board, Point Spawngridpos2D){
+		this.attackrange = 1;
+		this.attackdamage = 10f;
+		this.health = 100f;
+		this.metaboard = board;
+		this.gridpos2D = Spawngridpos2D;
+		this.oldgridpos2D = Spawngridpos2D;
+		this.needtarget = true;
+		this.UpdateZombieBoard();
 	}
 	
 	// Use this for initialization
@@ -61,6 +45,7 @@ public class Zombie : MonoBehaviour {
 	}
 
 	public void TakeDamage(float damage) {
+		Debug.Log ("ow " + health + " - " + damage);
 		this.health -= damage;
 		if (this.health < 0f) {
 			MonoBehaviour.print("This zombie is dead");

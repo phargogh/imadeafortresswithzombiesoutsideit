@@ -35,17 +35,10 @@ public class Board : MonoBehaviour {
 	void Start () {
 		Point center = new Point (16, 16);
 		List<Point> start_walls = CardGen.getAdjacent (center);
+		List<Point> start_towers = CardGen.getCardinal (center);
 
+		spawnWalls (start_walls, start_towers, new Point());
 
-		List<Point> corners = new List<Point> (){
-			new Point (0, 0),
-			new Point (0, 31),
-			new Point (31, 0),
-			new Point (31, 31),
-		};
-		
-		spawnWalls (start_walls, start_walls, new Point());
-		spawnWalls (corners,corners, new Point());
 		Farm.DetectFarmland(this);
 
 	}
