@@ -34,6 +34,11 @@ public class Hand : MonoBehaviour {
 		}
 	}
 
+	public void Unselect() {
+		selected.unselect ();
+		selected = null;
+	}
+
 	public void playCard(Card card, Point pos) {
 		if (resources >= card.cost && board.spawnWalls(card.walls, card.towers, pos)) {
 			resources -= card.cost;
@@ -48,8 +53,6 @@ public class Hand : MonoBehaviour {
 		if (selected && Input.GetMouseButtonUp(0)) {
 			Point gridPos =  board.worldPosToGridPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 			playCard(selected, gridPos);
-			//Input.mousePosition.
-			//Debug.Log("Pressed left click " + gridPos.x + ", " + gridPos.y);
 		}
 		if (cards.Count < handSize) {
 			Debug.Log("Create a card");

@@ -8,6 +8,7 @@ public class Board : MonoBehaviour {
 	public GameObject wallFab;
 	public GameObject towerFab;
 	public GameObject farmFab;
+	public Hand hand;
 	public static int widthx = 32;
 	public static int widthy = 32;
 	public GameObject [,] boardwall = new GameObject[widthx,widthy];
@@ -19,8 +20,8 @@ public class Board : MonoBehaviour {
 	public List<Point> zombiegridpos2D = new List<Point>();
 	public List<Point> wallgridpos2D = new List<Point>();
 
-	public GameObject shadowSquareFab;
 	public List<GameObject> shadowSquares = new List<GameObject> ();
+	public List<GameObject> inacticcveShadowSquares = new List<GameObject> ();
 
 
 	private static int wall = 2;
@@ -67,6 +68,20 @@ public class Board : MonoBehaviour {
 			DetectFarmland();
 			this.last_update = current_time;
 		}
+
+		if (hand.selected && Input.GetMouseButtonUp(0)) {
+			Point gridPos =  worldPosToGridPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+			SetShadowSquares(hand.selected.walls, hand.selected.towers, gridPos);
+		}
+	}
+
+	void SetShadowSquares(List<Point> walls, List<Point> towers, Point gridPos){
+		foreach(GameObject g in shadowSquares) {
+			g.SetActive(false);
+
+		}
+		foreach(Wall w in walls) {
+		}
 	}
 
 	public Point worldPosToGridPoint(Vector3 worldPos) {
@@ -74,6 +89,14 @@ public class Board : MonoBehaviour {
 		gridPos.x = Mathf.RoundToInt(worldPos.x - transform.position.x) + widthx/2;
 		gridPos.y = Mathf.RoundToInt(worldPos.y - transform.position.y) + widthy/2;
 		return gridPos;
+	}
+
+	public Point gridPointToWorldPos(Point gridPoint, float z) {
+		Vector3 worldPos = new Vector3 ();
+		worldPos.x = transform.position.x + gridPoint.x - widthx / 2;
+		worldPos.y = transform.position.y + gridPoint.y - widthy / 2;
+		worldPos.z = z;
+		return worldPos;
 	}
 
 	public bool spawnWalls(List<Point> walls, List<Point> towers, Point gridPos){

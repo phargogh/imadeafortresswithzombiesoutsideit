@@ -104,11 +104,11 @@ MonoBehaviour:
   wallFab: {fileID: 100000, guid: 5e742100692e5a840acd5b4b9efea534, type: 2}
   towerFab: {fileID: 100000, guid: aef3536ae67f2bf48939c805c6e03650, type: 2}
   farmFab: {fileID: 100000, guid: d540852fcdf914744a257591b28889d4, type: 2}
+  hand: {fileID: 2059387484}
   farms: []
   zombies: []
   walls: []
   towers: []
-  shadowSquareFab: {fileID: 0}
   shadowSquares: []
 --- !u!4 &381910383
 Transform:
