@@ -14,8 +14,8 @@ public class Zombie : MonoBehaviour {
 	int searchy;
 	int targetdistancex;
 	int targetdistancey;
-	int attackrange = 1;
-	float attackdamage = 5f;
+	public int attackrange = 1;
+	public float attackdamage = 5f;
 	bool xmove = true;
 	public bool needtarget = true;
 	public Board metaboard;
@@ -23,6 +23,7 @@ public class Zombie : MonoBehaviour {
 
 	
 	public Zombie (Point gridpos2D, int attackrange, Board gameboard){
+		MonoBehaviour.print ("this is not being called");
 		this.gridpos2D = gridpos2D;
 		this.attackrange = attackrange;
 		this.metaboard = gameboard;
@@ -141,7 +142,7 @@ public class Zombie : MonoBehaviour {
 
 	public void TakeTurn(){
 		//MonoBehaviour.print ("zombie is taking a turn");
-		MonoBehaviour.print (needtarget);
+		//MonoBehaviour.print (needtarget);
 		if (needtarget) {
 			this.FindTargetRandom(); //this.FindTargetDumbLoop();
 			needtarget = false; //eventually change
@@ -164,7 +165,8 @@ public class Zombie : MonoBehaviour {
 		}
 
 	void Attack(){
-		//this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(self.attackdamage);
+
+		this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(this.attackdamage);
 		// this.targetgridpos2D.x, this.targetgridpos2D.y, this.damage
 		}
 
@@ -178,8 +180,10 @@ public class Zombie : MonoBehaviour {
 	void Move(){
 				this.DirectionUpdate ();
 				this.oldgridpos2D = this.gridpos2D;
-
-				if (Math.Abs (this.targetdistancex) + Math.Abs (this.targetdistancey) <= this.attackrange) {
+				//MonoBehaviour.print("Distance to target: " + DistanceToTarget(this.gridpos2D).ToString() + " Attack range: " + this.attackrange.ToString());
+				//MonoBehaviour.print (DistanceToTarget (this.gridpos2D) <= this.attackrange);
+		        if (DistanceToTarget(this.gridpos2D) <= this.attackrange) {
+						//MonoBehaviour.print("condition met for an attack");
 						this.Attack ();
 						return;
 				}
