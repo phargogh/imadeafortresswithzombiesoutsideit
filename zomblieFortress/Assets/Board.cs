@@ -146,6 +146,12 @@ public class Board : MonoBehaviour {
 		foreach (Point p in wallsToPlace) {
 			placeWall(p);
 		}
+		foreach (Point t in towers) {
+			Point towerGridPos = new Point(gridPos.x + t.x, gridPos.y + t.y);
+			Vector3 pos = gridPointToWorldPos(towerGridPos, -0.5f);
+			GameObject towerObj = (GameObject) Instantiate(towerFab, pos, Quaternion.identity);
+			boardwall[towerGridPos.x, towerGridPos.y].SetTower(towerObj.GetComponent<Tower>());
+		}
 		this.trigger_farm_detection = true;  // trigger farmland to be re-detected.
 		return true;
 	}

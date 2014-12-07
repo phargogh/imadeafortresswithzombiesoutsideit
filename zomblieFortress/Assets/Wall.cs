@@ -16,6 +16,10 @@ public class Wall : MonoBehaviour {
 	void Update () {
 	
 	}
+
+	public void SetTower(Tower tower) {
+		this.tower = tower;
+	}
 	/*
 	void TakeDamage(float damage) {
 		this.health -= damage;

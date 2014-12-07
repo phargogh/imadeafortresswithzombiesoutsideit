@@ -141,7 +141,7 @@ public class Zombie : MonoBehaviour {
 
 	public void TakeTurn(){
 		//MonoBehaviour.print ("zombie is taking a turn");
-		MonoBehaviour.print (needtarget);
+		//MonoBehaviour.print (needtarget);
 		if (needtarget) {
 			this.FindTargetRandom(); //this.FindTargetDumbLoop();
 			needtarget = false; //eventually change
