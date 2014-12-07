@@ -133,18 +133,13 @@ public class Zombie : MonoBehaviour {
 
 		}
 
-		/*
+
 		if (this.targetinrange) {
-			if(this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y] != null){
-				this.Attack ();
+			if(this.Attack()){
 				return;
 			}
-			else{
-				this.FindTargetRandom();
-			}
+		}
 
-				}
-*/
 		bool nonewmove = true;
 		int failcount = 0;
 
@@ -164,7 +159,7 @@ public class Zombie : MonoBehaviour {
 	}
 
 	void Move(){
-		WallNextDoor ();
+		WallNextDoor();
 		this.DirectionUpdate ();
 		this.oldgridpos2D = this.gridpos2D;
 		//MonoBehaviour.print("Distance to target: " + DistanceToTarget(this.gridpos2D).ToString() + " Attack range: " + this.attackrange.ToString());
@@ -173,12 +168,9 @@ public class Zombie : MonoBehaviour {
 		int distance = DistanceToTarget (this.gridpos2D);
 		if (distance <= this.attackrange) {
 			//MonoBehaviour.print("condition met for an attack");
-			if(this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y] != null){
-				this.Attack ();
+			this.targetinrange = true;
+			if(this.Attack ()){
 				return;
-			}
-			else{
-				this.FindTargetRandom();
 			}
 		}
 		Point move = new Point (this.gridpos2D.x, this.gridpos2D.y);
@@ -230,10 +222,17 @@ public class Zombie : MonoBehaviour {
 		return Point.ManhattanDistance (this.targetgridpos2D, move);
 	}
 
-	void Attack(){
-		this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(this.attackdamage);
+	bool Attack(){
+				if (Attackable ()) {
+						this.metaboard.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage (this.attackdamage);
+						return true;
+				} else {
+						this.FindTargetRandom ();
+						return false;
 
-	}
+
+				}
+		}
 	
 	
 
