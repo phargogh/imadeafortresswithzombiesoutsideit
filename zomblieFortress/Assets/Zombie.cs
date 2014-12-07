@@ -79,10 +79,7 @@ public class Zombie : MonoBehaviour {
 	}
 
 	bool Attackable (){
-		if (this.metaboard.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y] == null) {
-			return false;
-		}
-		return true;
+		return (this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y] == null);
 	}
 
 
@@ -165,7 +162,6 @@ public class Zombie : MonoBehaviour {
 
 	void Attack(){
 		this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(this.attackdamage);
-
 	}
 
 	void PrintZombiePosition(){
@@ -201,13 +197,14 @@ public class Zombie : MonoBehaviour {
 		this.oldgridpos2D = this.gridpos2D;
 		//MonoBehaviour.print("Distance to target: " + DistanceToTarget(this.gridpos2D).ToString() + " Attack range: " + this.attackrange.ToString());
 		//MonoBehaviour.print (DistanceToTarget (this.gridpos2D) <= this.attackrange);
-        if (DistanceToTarget(this.gridpos2D) <= this.attackrange) {
+		int distance = DistanceToTarget (this.gridpos2D);
+		if (distance <= this.attackrange) {
 			//MonoBehaviour.print("condition met for an attack");
 			this.Attack ();
 			return;
 		}
 		Point move = new Point (this.gridpos2D.x, this.gridpos2D.y);
-		int distance = DistanceToTarget (this.gridpos2D);
+
 		int cdistance;
 
 		Point up = new Point (this.gridpos2D.x, this.gridpos2D.y + 1);
