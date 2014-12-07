@@ -25,6 +25,10 @@ public class Wall : MonoBehaviour {
 
 	}
 
+	public void SetTower(Tower tower) {
+		this.tower = tower;
+	}
+
 	void RemoveDeadWall(){
 		//board.gridpos2D;
 		}
