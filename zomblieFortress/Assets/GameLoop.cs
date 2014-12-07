@@ -13,6 +13,8 @@ public class GameLoop : MonoBehaviour {
 
 		Vector3 pos1 = new Vector3(2 , 9, 0);
 		GameObject zombie = (GameObject) Instantiate(zombieFab, pos1, Quaternion.identity);
+		Zombie comp = zombie.GetComponent<Zombie> ();
+		comp.gameObject.transform.position = new Vector3 ();
 		Vector3 pos2 = new Vector3(4 , 9, 0);
 		GameObject zombie2 = (GameObject) Instantiate(zombieFab, pos2, Quaternion.identity);
 
