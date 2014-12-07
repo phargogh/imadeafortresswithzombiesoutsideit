@@ -21,8 +21,11 @@ public class Wall : MonoBehaviour {
 	public void TakeDamage(float damage) {
 		this.health -= damage;
 		if (this.health < 0f) {
-			MonoBehaviour.print("This wall is dead");
-				}
+			//MonoBehaviour.print("This wall is dead");
+			Board.gameBoard.boardwall[this.gridpos2D.x,this.gridpos2D.y]= null;
+			Board.gameBoard.walls.Remove(this);
+			Destroy(gameObject);
+		}
 
 	}
 
