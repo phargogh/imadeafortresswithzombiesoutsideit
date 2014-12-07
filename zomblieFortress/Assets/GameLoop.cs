@@ -14,6 +14,7 @@ public class GameLoop : MonoBehaviour {
 	int spawnNzombies = 3;
 	int ticksTozombies = 100;
 	int apocalypse = 1000000;
+	int wallofzombies = 10000;
 
 	// Use this for initialization
 	void Start () {
@@ -55,10 +56,13 @@ public class GameLoop : MonoBehaviour {
 		SpawnZombieTurn ();
 		ZombieTurn ();
 		TowerTurn ();
+		//ZombieWall ();
+		//ZombieApocalypse ();
 
 	}
 
 	void SpawnZombieTurn(){
+
 				this.ticksElapsed += 1;
 				if (this.ticksElapsed == this.ticksTozombies) {
 						int zN = UnityEngine.Random.Range (1, this.spawnNzombies + 1);
@@ -68,15 +72,21 @@ public class GameLoop : MonoBehaviour {
 						this.ticksElapsed = 0;
 				}
 				this.apocalypse -= 1;
+				this.wallofzombies -= 1;
 				if (UnityEngine.Random.Range (0, this.apocalypse)  == 0) {
 						this.apocalypse = 1000000;
-						ZombieApocalypse ();
-
-
-
-
-		
+						ZombieApocalypse ();		
 				}
+
+		if (UnityEngine.Random.Range (0, this.wallofzombies)  == 0) {
+			this.wallofzombies = 10000;
+			ZombieWall();
+			
+			
+			
+			
+			
+		}
 		}
 
 	void SpawnZombies(int z){
@@ -128,10 +138,10 @@ public class GameLoop : MonoBehaviour {
 		//MonoBehaviour.print (Spawngridpos2D.x.ToString() + ',' + Spawngridpos2D.y.ToString());
 		//MonoBehaviour.print (board.boardwall [Spawngridpos2D.x, Spawngridpos2D.y]);
 
-		return SpawnZomblieP(Spawngridpos2D);
+		return SpawnZombieP(Spawngridpos2D);
 		}
 		
-	int SpawnZomblieP(Point Spawngridpos2D){
+	int SpawnZombieP(Point Spawngridpos2D){
 		if (board.boardwall [Spawngridpos2D.x, Spawngridpos2D.y] == null & board.boardzombie [Spawngridpos2D.x, Spawngridpos2D.y] == null) {
 			
 			Vector3 pos = board.gridPointToWorldPos(Spawngridpos2D, 0);
@@ -149,38 +159,44 @@ public class GameLoop : MonoBehaviour {
 	void ZombieApocalypse(){
 		int r = 0;
 		foreach (Point p in board.borderList) {
-			r += SpawnZomblieP(p);
+			r += SpawnZombieP(p);
 				}
 		}
 
 
 	void ZombieWall(){
-	int r = 0;
-	int side = UnityEngine.Random.Range(0,4);
+		int r = 0;
+		int side = UnityEngine.Random.Range(0,4);
 	
-	if(side == 0){
-		foreach (Point p in board.borderListLeft) {
-			r += SpawnZomblieP(p);
-		}
-	}
+		int left = board.borderListLeft.Count;
+		MonoBehaviour.print ("Left list length: " + left.ToString());
 
-	if(side == 1){
-		foreach (Point p in board.borderListRight) {
-			r += SpawnZomblieP(p);
+	
+		if(side == 0){
+			//MonoBehaviour.print ("Zombie wall 0 selected " + board.borderListLeft.Count);
+			foreach (Point p in board.borderListLeft) {
+				r += SpawnZombieP(p);
+			}
 		}
-	}
 
-	if(side == 2){
-		foreach (Point p in board.borderListTop) {
-			r += SpawnZomblieP(p);
+		if(side == 1){
+			foreach (Point p in board.borderListRight) {
+				r += SpawnZombieP(p);
+			}
 		}
-	}
 
-	if(side == 3){
-		foreach (Point p in board.borderListBottom) {
-			r += SpawnZomblieP(p);
+		if(side == 2){
+			foreach (Point p in board.borderListTop) {
+				r += SpawnZombieP(p);
+			}
 		}
+
+		if(side == 3){
+			foreach (Point p in board.borderListBottom) {
+				r += SpawnZombieP(p);
+			}
 	}
+	//MonoBehaviour.print ("Zombie wall selected " + side.ToString () + " " + r.ToString () + " spawned!");
 }
 
 
