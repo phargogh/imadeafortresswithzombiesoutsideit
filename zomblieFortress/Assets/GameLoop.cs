@@ -94,8 +94,6 @@ public class GameLoop : MonoBehaviour {
 
 
 	int SpawnZombie(){
-				int x;
-				int y;
 				Point Spawngridpos2D;
 
 

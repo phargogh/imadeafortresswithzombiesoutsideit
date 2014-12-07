@@ -32,17 +32,7 @@ public class Board : MonoBehaviour {
 	private long last_cash_update;
 	private bool trigger_farm_detection ;
 
-	private List<Point> adjacency_mask = new List<Point>(){
-		new Point(0,-1),
-		new Point(-1,0),
-		new Point(0,1),
-		new Point(1,0),
-		new Point(-1,-1),
-		new Point(-1,1),
-		new Point(1,-1),
-		new Point(1,1),
-	};
-	
+
 	// Use this for initialization
 	void Start () {
 		Point center = new Point (16, 16);

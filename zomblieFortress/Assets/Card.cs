@@ -92,7 +92,7 @@ public class Card : MonoBehaviour {
 		int base_cost = 5;
 		int wall_cost = 1;
 		int tower_cost = 5;
-		this.cost = 5 + this.walls.Count + 5*this.towers.Count;
+		this.cost = base_cost + wall_cost*this.walls.Count + tower_cost*this.towers.Count;
 	}
 	
 	// Update is called once per frame
