@@ -13,10 +13,6 @@ public class GameLoop : MonoBehaviour {
 
 		SpawnZombieTurn ();
 
-
-
-
-
 	}
 	
 	// Update is called once per frame

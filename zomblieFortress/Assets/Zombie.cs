@@ -55,7 +55,7 @@ public class Zombie : MonoBehaviour {
 
 
 	void FindTargetClosest(){
-		Point candgridpos2D;
+		Point candgridpos2D = board.walls[0].gridpos2D;
 		int distance = xmax + ymax; 
 		
 
@@ -65,10 +65,11 @@ public class Zombie : MonoBehaviour {
 
 			int cdistance = Math.Abs(this.gridpos2D.x - p.x) + Math.Abs(this.gridpos2D.y - p.y);
 						if (cdistance <= distance) {
-								distance = cdistance;
+							distance = cdistance;
+							candgridpos2D = p;
 						}
 				}
-		candgridpos2D = this.gridpos2D;
+
 		this.targetgridpos2D = candgridpos2D;
 		this.targetgridpos2D.x = candgridpos2D.x;
 		this.targetgridpos2D.y = candgridpos2D.y;
