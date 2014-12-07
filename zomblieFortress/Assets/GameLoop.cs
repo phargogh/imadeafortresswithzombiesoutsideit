@@ -12,10 +12,14 @@ public class GameLoop : MonoBehaviour {
 	float tickLength = 0.1f;
 	float timeSinceTick = 0f;
 	int ticksElapsed = 0;
-	int spawnNzombies = 3;
+	float spawnNzombies = 3f;
 	int ticksTozombies = 100;
 	int apocalypse = 1000000;
 	int wallofzombies = 100000;
+	float ftoz = 1f;
+	int priorfarmcount = 1;
+
+
 
 	// Use this for initialization
 	void Start () {
@@ -58,14 +62,20 @@ public class GameLoop : MonoBehaviour {
 		SpawnZombieTurn ();
 		ZombieTurn ();
 		TowerTurn ();
+		this.priorfarmcount = board.farms.Count;
+		this.ftoz += .005f;
 		//ZombieWall ();
 		//ZombieApocalypse ();
 
 	}
 
 	bool GameBalance(){
-		int ftoz = 1;
-		if (this.spawnNzombies * ftoz > board.farms.Count) {
+
+		if (priorfarmcount > board.farms.Count) {
+
+			this.spawnNzombies = Math.Max(1, this.spawnNzombies - 2);
+				}
+		if (this.spawnNzombies > board.farms.Count * this.ftoz) {
 						MonoBehaviour.print("Game is not balanced, not increading zombie wave size");	
 						return false;
 				}
@@ -77,7 +87,7 @@ public class GameLoop : MonoBehaviour {
 
 		this.ticksElapsed += 1;
 		if (this.ticksElapsed == this.ticksTozombies) {
-			int zN = UnityEngine.Random.Range (1, this.spawnNzombies + 1);
+			float zN = UnityEngine.Random.Range (1, this.spawnNzombies + 1);
 			//MonoBehaviour.print (zN.ToString () + " zombies spawning out of " + this.spawnNzombies.ToString ());
 			SpawnZombies (zN);
 						
@@ -107,10 +117,10 @@ public class GameLoop : MonoBehaviour {
 		}
 		}
 
-	void SpawnZombies(int z){
+	void SpawnZombies(float z){
 		//MonoBehaviour.print("SpawnZombies running");
 
-				int i = 0;
+				float i = 0;
 				int failcount = 0;
 				int sresult;
 				while (i < z) {
