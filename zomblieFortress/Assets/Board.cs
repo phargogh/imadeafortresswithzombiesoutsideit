@@ -171,7 +171,39 @@ public class Board : MonoBehaviour {
 		}
 		return farmland;
 	}
-	
+
+    List<Point> BoundaryPixels () {
+        List<int> xrange = new List<int>();
+        for (int i = 0; i < Board.widthx; i++) {
+            xrange.Add(i);
+        }
+
+        List<int> yrange = new List<int>();
+        for (int i = 0; i < Board.widthx; i++) {
+            yrange.Add(i);
+        }
+
+        List<Point> boundary_points = new List<Point>();
+        // North, south walls
+        foreach (int i in xrange) {
+            Point n = new Point(i, 0);
+            Point s = new Point(i, Board.widthy - 1);
+
+            boundary_points.Add(n);
+            boundary_points.Add(s);
+        }
+        
+        // West, East walls
+        foreach (int i in yrange) {
+            Point w = new Point(0, i);
+            Point e = new Point(Board.widthx - 1, i);
+
+            boundary_points.Add(w);
+            boundary_points.Add(e);
+        }
+        return boundary_points;
+    }
+
 	int[,] DetectWasteland () {
 		// build up an empty 2d matrix for indicating which cells are wasteland.
 		// initialize to false.
@@ -182,21 +214,22 @@ public class Board : MonoBehaviour {
 		// 2 = has been searched, is wall.
 		int[,] wasteland = new int[Board.widthx, Board.widthy];
 
-		// start out by starting from (0, 0) and investigating the board from there.
-		//bool[,] wasteland = new bool[landscape.GetLength(0), landscape.GetLength (1)];
-		Point start_point = new Point();
-		if (this.zombies.Count == 0) {
-			start_point.x = 0;
-			start_point.y = 1;
-			RecurseWasteland(ref wasteland, start_point);
+
+        // Create a list of points to use as starting points for our farms search.
+		List<Point> starting_points = new List<Point>();
+		foreach (Zombie zom in this.zombies) {
+            Point z_point = new Point(zom.gridpos2D.x, zom.gridpos2D.y);
+			starting_points.Add(z_point);
 		}
-		else {
-			foreach (Zombie live_zombie in this.zombies) {
-				start_point.x = live_zombie.gridpos2D.x;
-				start_point.y = live_zombie.gridpos2D.y;
-				RecurseWasteland(ref wasteland, start_point);
-			}
-		}
+
+        foreach (Point boundary in BoundaryPixels()){
+            starting_points.Add(boundary);
+        }
+
+        // Search for farms.
+        foreach (Point starting_point in starting_points) {
+            RecurseWasteland(ref wasteland, starting_point);
+        }
 		return wasteland;
 	}
 
