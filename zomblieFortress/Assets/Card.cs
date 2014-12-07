@@ -14,7 +14,7 @@ public class Card : MonoBehaviour {
 	private Hand hand;
 	public bool isSelected = false;
 
-	public Color defaultColor = Color.gray;
+	public Color defaultColor = new Color32(139,138,127,255);
 	public Color selectedColor = Color.yellow;
 
 	// Use this for initialization
