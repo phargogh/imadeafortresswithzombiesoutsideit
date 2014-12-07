@@ -17,6 +17,9 @@ public class Board : MonoBehaviour {
 	public List<Point> zombiegridpos2D = new List<Point>();
 	public List<Point> wallgridpos2D = new List<Point>();
 
+	public GameObject shadowSquareFab;
+	public List<GameObject> shadowSquares = new List<GameObject> ();
+
 
 	private static int wall = 2;
 	private static int wasteland = 1;
