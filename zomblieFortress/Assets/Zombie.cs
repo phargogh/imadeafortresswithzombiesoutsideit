@@ -224,7 +224,7 @@ public class Zombie : MonoBehaviour {
 	}
 
 	bool Attack(){
-				MonoBehaviour.print("Inside attack function!");
+				//MonoBehaviour.print("Inside attack function!");
 				if (Attackable ()) {
 						this.metaboard.boardwall [this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage (this.attackdamage);
 						return true;

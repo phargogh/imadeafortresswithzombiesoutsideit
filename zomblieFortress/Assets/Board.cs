@@ -46,6 +46,7 @@ public class Board : MonoBehaviour {
 
 		spawnWalls (start_walls, start_towers, new Point());
 		BorderPoints();
+		SideBorder ();
 
 		List<Point> corners = new List<Point> (){
 			new Point (0, 0),
@@ -189,37 +190,34 @@ public class Board : MonoBehaviour {
 	}
 
 	public void SideBorder(){
-		List<Point> plist = new List<Point> ();
+		List<Point> plist1 = new List<Point> ();
 		
 		for (int i = 0; i < widthx; i++) {
-			Point newp = new Point(i,0);
-			plist.Add (newp);
+			plist1.Add (new Point(i,0));
 		}
 		
-		this.borderListBottom = plist;
+		this.borderListBottom = plist1;
 		
-		//plist.Clear();
+		List<Point> plist2 = new List<Point> ();
 		
 		for (int i = 0; i < widthx; i++) {
-			Point newp = new Point(i, widthy - 1);
-			plist.Add (newp);
+			plist2.Add (new Point(i, widthy - 1));
 		}
-		this.borderListTop = plist;
-		//plist.Clear();
+		this.borderListTop = plist2;
+
+		List<Point> plist3 = new List<Point> ();
 		
 		for (int i = 1; i <  widthy; i++) {
-			Point newp = new Point(0,i);
-			plist.Add (newp);
+			plist3.Add (new Point(0,i));
 		}
-		this.borderListLeft = plist;
-		//plist.Clear();
+		this.borderListLeft = plist3;
+		List<Point> plist4 = new List<Point> ();
 		
 		for (int i = 1; i < widthy; i++) {
-			Point newp = new Point(widthx - 1,i);
-			plist.Add (newp);
+			plist4.Add (new Point(widthx - 1,i));
 		}
 		
-		this.borderListRight = plist;
+		this.borderListRight = plist4;
 
 	}
 
