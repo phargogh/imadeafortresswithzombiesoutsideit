@@ -59,8 +59,8 @@ public class GameLoop : MonoBehaviour {
 		Vector3 pos3 = new Vector3(9 , 9, 0);
 		GameObject zombie3 = (GameObject) Instantiate(zombieFab, pos3, Quaternion.identity);
 		
-		Point zgridpos2D = new Point(9, 9);
-		Zombie mydeadfriend = new Zombie (zgridpos2D, 1, board);
+		Point zSpawngridpos2D = new Point(9, 9);
+		Zombie mydeadfriend = new Zombie (zSpawngridpos2D, 1, board);
 		*/
 		}
 
@@ -84,32 +84,32 @@ public class GameLoop : MonoBehaviour {
 	int SpawnZombie(){
 				int x;
 				int y;
-				Point gridpos2D;
+				Point Spawngridpos2D;
 
 
 				if (UnityEngine.Random.Range (0, 1) == 1) {
-						gridpos2D.x = UnityEngine.Random.Range (0, Board.widthx - 1);
+						Spawngridpos2D.x = UnityEngine.Random.Range (0, Board.widthx - 1);
 						if (UnityEngine.Random.Range (0, 1) == 1) {
-								gridpos2D.y = Board.widthy - 1;
+								Spawngridpos2D.y = Board.widthy - 1;
 						} else {
-								gridpos2D.y = 0;
+								Spawngridpos2D.y = 0;
 						}
 				} else {
-						gridpos2D.y = UnityEngine.Random.Range (0, Board.widthy - 1);
+						Spawngridpos2D.y = UnityEngine.Random.Range (0, Board.widthy - 1);
 
 						if (UnityEngine.Random.Range (0, 1) == 1) {
-								gridpos2D.x = Board.widthy - 1;
+								Spawngridpos2D.x = Board.widthy - 1;
 						} else {
-								gridpos2D.x = 0;
+								Spawngridpos2D.x = 0;
 						}
 				}
 
-		if (board.boardwall [gridpos2D.x, gridpos2D.y] == null & board.boardzombie [gridpos2D.x, gridpos2D.y]) {
+		if (board.boardwall [Spawngridpos2D.x, Spawngridpos2D.y] == null & board.boardzombie [Spawngridpos2D.x, Spawngridpos2D.y]) {
 
-						Vector3 pos = new Vector3 (gridpos2D.x, gridpos2D.y, 0);
+						Vector3 pos = new Vector3 (Spawngridpos2D.x, Spawngridpos2D.y, 0);
 						GameObject gzombie = (GameObject)Instantiate (zombieFab, pos, Quaternion.identity);
 						Zombie czombie = gzombie.GetComponent<Zombie> ();
-						czombie.gridpos2D = gridpos2D;
+						czombie.gridpos2D = Spawngridpos2D;
 						board.zombies.Add(czombie);
 						return 1;
 

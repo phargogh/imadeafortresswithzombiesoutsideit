@@ -4,12 +4,11 @@ using System.Collections;
 using System;
 
 public class Zombie : MonoBehaviour {
-	int x;
-	int y;
+	public Board board;
 	public Point gridpos2D;
 	Point targetgridpos2D;
-	int xmax = Board.widthx;
-	int ymax = Board.widthy;
+	int xmax = Board.widthx -1;
+	int ymax = Board.widthy -1;
 	int searchx;
 	int searchy;
 	int targetdistancex;
@@ -19,7 +18,7 @@ public class Zombie : MonoBehaviour {
 	Board metaboardobj;
 
 	
-	public Zombie (Point gridpos2D, int attackrange, Board metaboardobj){
+	public Zombie (Point gridpos2D, int attackrange){
 		this.gridpos2D = gridpos2D;
 		this.metaboardobj = metaboardobj;
 		this.attackrange = attackrange;
@@ -120,6 +119,7 @@ public class Zombie : MonoBehaviour {
 		Move();
 		UpdateUnityPosition ();
 		}
+
 	void DirectionUpdate(){
 		this.targetdistancex = this.targetgridpos2D.x - this.gridpos2D.x;
 		//this.targetdistancey = this.targetgridpos2D.y - this.gridpos2D.y;
