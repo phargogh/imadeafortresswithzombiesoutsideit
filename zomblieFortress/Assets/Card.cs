@@ -14,10 +14,11 @@ public class Card : MonoBehaviour {
 	private Hand hand;
 	public bool isSelected = false;
 
-	public Color defaultColor; 
-	public Color selectedColor; 
+	public Color defaultColor;
+	public Color selectedColor;
 
 	public Stack<GameObject> cardSquares = new Stack<GameObject> ();
+	public Stack<GameObject> cardTowers = new Stack<GameObject> ();
 	private float cardScale = 0.5f;
 
 	// Use this for initialization
@@ -42,20 +43,36 @@ public class Card : MonoBehaviour {
 			g.SetActive(false);
 		}
 		cardSquares.Clear ();
+		
+		foreach(GameObject g in cardTowers) {
+			g.SetActive(false);
+		}
+		cardTowers.Clear ();
+
 		foreach(Point w in walls) {
-			Vector3 pos = GridOffsetToCardPos(w);
+			Vector3 pos = GridOffsetToCardPos(w, -1);
 			GameObject g = (GameObject) Instantiate(board.wallFab, new Vector3(), Quaternion.identity);
 			g.transform.parent = this.transform;
 			g.transform.localPosition = pos;
 			g.transform.localScale = g.transform.localScale * cardScale;
 			g.GetComponent<SpriteRenderer>().color = Color.white;
 		}
+
+
+		foreach(Point t in towers) {
+			Vector3 pos = GridOffsetToCardPos(t, -2);
+			GameObject g = (GameObject) Instantiate(board.towerFab, new Vector3(), Quaternion.identity);
+			g.transform.parent = this.transform;
+			g.transform.localPosition = pos;
+			g.transform.localScale = g.transform.localScale * cardScale;
+			g.GetComponent<SpriteRenderer>().color = Color.yellow;
+		}
 	}
 
-	Vector3 GridOffsetToCardPos(Point gridOffest) {
+	Vector3 GridOffsetToCardPos(Point gridOffest, float z) {
 		float x = gridOffest.x * cardScale / transform.localScale.x;
 		float y = gridOffest.y * cardScale / transform.localScale.y;
-		return new Vector3 (x, y, -1);
+		return new Vector3 (x, y, z);
 	}
 
 	void SetWalls() {
@@ -64,7 +81,7 @@ public class Card : MonoBehaviour {
 	}
 
 	void SetTowers (){
-		int num_towers = rand.Next (0,1);
+		int num_towers = rand.Next (0,2);
 		for (int i = 0; i < num_towers; i++){
 			this.towers.Add(CardGen.ChoosePoint(this.walls));
 		};
@@ -86,7 +103,7 @@ public class Card : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
-		Debug.Log ("This card was clicked");
+		//Debug.Log ("This card was clicked");
 		if (isSelected) {
 			hand.Unselect();
 		} else {

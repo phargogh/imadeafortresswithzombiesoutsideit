@@ -21,7 +21,10 @@ public class Board : MonoBehaviour {
 	public List<Point> wallgridpos2D = new List<Point>();
 
 	public Stack<GameObject> shadowSquares = new Stack<GameObject> ();
-	public Stack<GameObject> inacticcveShadowSquares = new Stack<GameObject> ();
+	public Stack<GameObject> inactiveShadowSquares = new Stack<GameObject> ();
+
+	public Stack<GameObject> shadowTowers = new Stack<GameObject> ();
+	public Stack<GameObject> inactiveShadowTowers = new Stack<GameObject> ();
 
 	private long last_update;
 	private long last_cash_update;
@@ -81,29 +84,36 @@ public class Board : MonoBehaviour {
 	}
 
 	void SetShadowSquares(List<Point> walls, List<Point> towers, Point gridPos){
-		//Debug.Log(" ----------------------------------------------------- " + gridPos.x + " " + gridPos.y);
-
-		foreach(GameObject g in shadowSquares) {
+		while(shadowSquares.Count > 0) {
+			GameObject g = shadowSquares.Pop();
 			g.SetActive(false);
-			//shadowSquares.Remove(g);
-			//g.GetComponent<SpriteRenderer>().color = Color.clear;
-			//g.transform.position = new Vector3(-100, -100, 100); 
-			//Destroy(g);
-			inacticcveShadowSquares.Push(g);
+			inactiveShadowSquares.Push(g);
 		}
-		shadowSquares.Clear();
 		foreach(Point w in walls) {
 			int x = gridPos.x + w.x;
 			int y = gridPos.y + w.y;
-			GameObject g = inacticcveShadowSquares.Count > 0 ? inacticcveShadowSquares.Pop() : (GameObject) Instantiate(wallFab, new Vector3(), Quaternion.identity);
-			//GameObject g = (GameObject) Instantiate(wallFab, new Vector3(), Quaternion.identity);
+			GameObject g = inactiveShadowSquares.Count > 0 ? inactiveShadowSquares.Pop() : (GameObject) Instantiate(wallFab, new Vector3(), Quaternion.identity);
 			g.SetActive(true);
 			g.transform.position = gridPointToWorldPos(new Point(x, y), -1);
 			Color c = (x >= 1 && x < widthx-1 && y >= 1 && y < widthy-1 && boardwall[x,y] == null) ? (boardzombie[x,y] == null ? Color.white : Color.magenta) : Color.red;
 			g.GetComponent<SpriteRenderer>().color = c;
 			shadowSquares.Push(g);
 		}
-		// TODO: check for zombies or towers?
+
+		while(shadowTowers.Count > 0) {
+			GameObject g = shadowTowers.Pop();
+			g.SetActive(false);
+			inactiveShadowTowers.Push(g);
+		}
+		foreach(Point t in towers) {
+			int x = gridPos.x + t.x;
+			int y = gridPos.y + t.y;
+			GameObject g = inactiveShadowTowers.Count > 0 ? inactiveShadowTowers.Pop() : (GameObject) Instantiate(towerFab, new Vector3(), Quaternion.identity);
+			g.SetActive(true);
+			g.transform.position = gridPointToWorldPos(new Point(x, y), -2);
+			shadowTowers.Push(g);
+		}
+
 	}
 
 	public Point worldPosToGridPoint(Vector3 worldPos) {
