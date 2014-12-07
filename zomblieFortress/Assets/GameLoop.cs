@@ -8,6 +8,8 @@ public class GameLoop : MonoBehaviour {
 	public Board board;
 	public GameObject zombieFab;
 
+	float tickLength = 0.1f;
+
 	// Use this for initialization
 	void Start () {
 		MonoBehaviour.print("Game loop started");
@@ -21,7 +23,7 @@ public class GameLoop : MonoBehaviour {
 		//SpawnZombieTurn ();
 		ZombieTurn ();
 
-	 
+		//Time.deltaTime
 	}
 
 	void ZombieTurn(){
