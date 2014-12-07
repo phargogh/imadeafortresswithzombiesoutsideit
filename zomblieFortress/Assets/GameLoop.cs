@@ -122,6 +122,7 @@ public class GameLoop : MonoBehaviour {
 						czombie.metaboard = board;
 						czombie.gridpos2D = Spawngridpos2D;
 						czombie.oldgridpos2D = Spawngridpos2D;
+						czombie.needtarget = true;
 						czombie.UpdateZombieBoard();
 						board.zombies.Add(czombie);
 						return 1;

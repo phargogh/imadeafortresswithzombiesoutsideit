@@ -128,13 +128,18 @@ public class Board : MonoBehaviour {
 			}
 		}
 		foreach (Point p in wallsToPlace) {
-			Vector3 pos = new Vector3(p.x - Board.widthx/2, p.y - Board.widthy/2, 0);
-			GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
-			boardwall[p.x, p.y] = wall;
-			this.walls.Add(wall.GetComponent<Wall>());
+			placeWall(p);
 		}
 		this.trigger_farm_detection = true;  // trigger farmland to be re-detected.
 		return true;
+	}
+
+	void placeWall(Point p){
+		Vector3 pos = new Vector3(p.x - Board.widthx/2, p.y - Board.widthy/2, 0);
+		GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
+		boardwall[p.x, p.y] = wall;
+		this.walls.Add(wall.GetComponent<Wall>());
+		wall.GetComponent<Wall> ().gridpos2D = p;
 	}
 
 	bool[,] DetectFarmland () {

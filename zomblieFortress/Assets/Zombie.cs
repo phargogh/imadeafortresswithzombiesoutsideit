@@ -16,7 +16,7 @@ public class Zombie : MonoBehaviour {
 	int targetdistancey;
 	int attackrange;
 	bool xmove = true;
-	bool needtarget = false;
+	public bool needtarget = true;
 	public Board metaboard;
 
 
@@ -26,7 +26,7 @@ public class Zombie : MonoBehaviour {
 		this.attackrange = attackrange;
 		this.metaboard = metaboard;
 		MonoBehaviour.print("A zombie is on the loose!");
-		this.FindTargetDumbLoop ();
+		//this.FindTargetDumbLoop ();
 		this.PrintZombiePosition ();
 		MonoBehaviour.print (this.targetgridpos2D.x);
 	
@@ -92,7 +92,13 @@ public class Zombie : MonoBehaviour {
 
 
 	void FindTargetRandom(){
-		//metaboard.walls.Count()
+		int wallN = this.metaboard.walls.Count;
+
+		int wallR = UnityEngine.Random.Range (0, wallN);
+		this.targetgridpos2D.x = this.metaboard.walls [wallR].gridpos2D.x;
+		this.targetgridpos2D.y = this.metaboard.walls [wallR].gridpos2D.y;
+		MonoBehaviour.print ("Got random wall! " + wallR.ToString());
+
 
 
 		}
@@ -133,11 +139,11 @@ public class Zombie : MonoBehaviour {
 
 
 	public void TakeTurn(){
-		MonoBehaviour.print ("zombie is taking a turn");
-
+		//MonoBehaviour.print ("zombie is taking a turn");
+		MonoBehaviour.print (needtarget);
 		if (needtarget) {
-			this.FindTargetDumbLoop();
-			needtarget = true; //eventually change
+			this.FindTargetRandom(); //this.FindTargetDumbLoop();
+			needtarget = false; //eventually change
 				}
 
 		Move();
