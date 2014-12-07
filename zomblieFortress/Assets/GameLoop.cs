@@ -12,6 +12,7 @@ public class GameLoop : MonoBehaviour {
 	void Start () {
 
 
+
 	}
 	
 	// Update is called once per frame
@@ -40,11 +41,12 @@ public class GameLoop : MonoBehaviour {
 		SpawnZombieTurn ();
 		ZombieTurn ();
 		TurretTurn ();
+
 		}
 
 	void SpawnZombieTurn(){
 
-		SpawnZombies (2)
+		SpawnZombies (2);
 
 		/*
 		comp.gameObject.transform.position = new Vector3 ();
