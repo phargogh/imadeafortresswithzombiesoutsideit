@@ -27,7 +27,7 @@ public class Card : MonoBehaviour {
 	}
 
 	void SetWalls() {
-		walls = CardGen.createShape (4);
+		walls = CardGen.createShape (7);
 	}
 	
 	// Update is called once per frame

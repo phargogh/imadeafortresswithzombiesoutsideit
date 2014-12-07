@@ -18,7 +18,7 @@ public class CardGen{
 			Point p = ChoosePoint(shape);
 
 			//then choose a random unoccupied adjacent point and place point
-			List<Point> adjacent_points = getAdjacent(p);
+			List<Point> adjacent_points = getCardinal(p);
 			Point new_point = ChoosePoint(adjacent_points);
 			shape.Add(new_point);
 
@@ -44,11 +44,23 @@ public class CardGen{
 		return adjacent_points;
 	}
 
+	public static List<Point> getCardinal(Point p){
+		List<Point> cardinal_mask = new List<Point>(){
+			new Point(0,-1),
+			new Point(-1,0),
+			new Point(0,1),
+			new Point(1,0),
+		};
+		List<Point> cardinal_points = new List<Point>();
+		foreach (Point a in cardinal_mask){
+			cardinal_points.Add(p+a);
+		}
+		return cardinal_points;
+	}
 
 	public static Point ChoosePoint(List<Point> points){
 		int index = CardGen.rand.Next(0, points.Count -1);
 		if (index >= points.Count) {
-			Debug.Log("index " + index + " is over " + points.Count + " --------------------------------------------------");
 			return new Point();
 		}
 		Point p = points[index];
