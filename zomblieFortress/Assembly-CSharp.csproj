@@ -50,6 +50,7 @@
      <Compile Include="Assets\Card.cs" />
      <Compile Include="Assets\CardGen.cs" />
      <Compile Include="Assets\Farm.cs" />
+     <Compile Include="Assets\FarmCluster.cs" />
      <Compile Include="Assets\GameLoop.cs" />
      <Compile Include="Assets\Hand.cs" />
      <Compile Include="Assets\Palette.cs" />

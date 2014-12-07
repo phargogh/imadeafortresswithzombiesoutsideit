@@ -40,6 +40,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd26262cd49d89b40b1e2f02d4f87698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackrange: 0
+  attackdamage: 0
+  needtarget: 1
+  targetinrange: 0
+  metaboard: {fileID: 0}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -60,7 +65,7 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300002, guid: 29df5be3a396c7a4f9b8ad6cbd9479c1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 29df5be3a396c7a4f9b8ad6cbd9479c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
