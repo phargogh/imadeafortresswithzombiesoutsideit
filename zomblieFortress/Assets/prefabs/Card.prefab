@@ -52,10 +52,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6df7aa7247b1be409fd62ef09d2dbb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 5
-  isSelected: 0
-  defaultColor: {r: .5, g: .5, b: .5, a: 1}
-  selectedColor: {r: 1, g: .921568632, b: .0156862754, a: 1}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
