@@ -1,4 +1,4 @@
-﻿//using UnityEngine;
+﻿using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,7 +46,8 @@ public class CardGen{
 
 
 	public static Point ChoosePoint(List<Point> points){
-		int index = (int)Math.Floor((double)CardGen.rand.Next() * (double)points.Count);
+		int index = (int)Math.Floor((double)CardGen.rand.Next(0, points.Count));
+		Debug.Log("ChoosePoint " + index + " from " + points.Count);
 		Point p = points[index];
 
 		return p;

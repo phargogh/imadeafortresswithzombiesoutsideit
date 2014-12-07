@@ -21,8 +21,8 @@ public class GameLoop : MonoBehaviour {
 		Vector3 pos3 = new Vector3(9 , 9, 0);
 		GameObject zombie3 = (GameObject) Instantiate(zombieFab, pos3, Quaternion.identity);
 			
-		Point zgridpos2D = new Point(9, 9);
-		Zombie mydeadfriend = new Zombie (zgridpos2D, 1, board);
+		//Point zgridpos2D = new Point(9, 9);
+		//Zombie mydeadfriend = new Zombie (zgridpos2D, 1, board);
 
 
 	
