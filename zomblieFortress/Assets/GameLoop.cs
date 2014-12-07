@@ -8,10 +8,18 @@ public class GameLoop : MonoBehaviour {
 	public Board board;
 	public GameObject zombieFab;
 
+	float tickLength = 0.1f;
+	float timeSinceTick = 0f;
+	int ticksElapsed = 0;
+	int spawnNzombies = 1;
+	int ticksTozombies = 500;
+	int apocalypse = 1000000;
+
 	// Use this for initialization
 	void Start () {
-		MonoBehaviour.print("Game loop started");
-		SpawnZombieTurn ();
+		//MonoBehaviour.print("Game loop started");
+		//ZombieApocalypse ();
+		SpawnZombies(this.spawnNzombies);
 
 	}
 	
@@ -19,54 +27,60 @@ public class GameLoop : MonoBehaviour {
 	void Update () {
 		//MonoBehaviour.print("Game loop started");
 		//SpawnZombieTurn ();
-		ZombieTurn ();
+		//ZombieTurn ();
 
-	 
+		timeSinceTick += Time.deltaTime;
+		if (timeSinceTick > tickLength) {
+			timeSinceTick -= tickLength;
+			Tick();
+		}
 	}
 
 	void ZombieTurn(){
-		MonoBehaviour.print("Zombie turn");
+		//MonoBehaviour.print("Zombie turn");
 		foreach (Zombie z in board.zombies) {
 			z.TakeTurn();
-
 		}
 	}
 
 	void TowerTurn(){
-		foreach (Tower t in board.towers) {
-			t.TakeTurn();
-
+		foreach (Wall w in board.walls) {
+			w.TakeTurn();
 		}
 	}
 
+
 	void Tick(){
-				
+
 		SpawnZombieTurn ();
 		ZombieTurn ();
 		TowerTurn ();
 
-		}
+	}
 
 	void SpawnZombieTurn(){
-		print("SpawnZombieTurn");
+				this.ticksElapsed += 1;
+				if (this.ticksElapsed == this.ticksTozombies) {
+						int zN = UnityEngine.Random.Range (1, this.spawnNzombies + 1);
+						//MonoBehaviour.print (zN.ToString () + " zombies spawning out of " + this.spawnNzombies.ToString ());
+						SpawnZombies (zN);
+						this.spawnNzombies += 1;
+						this.ticksElapsed = 0;
+				}
+				this.apocalypse -= 1;
+				if (UnityEngine.Random.Range (0, this.apocalypse)  == 0) {
+						this.apocalypse = 1000000;
+						ZombieApocalypse ();
 
-		SpawnZombies(10);
 
-		/*
-		comp.gameObject.transform.position = new Vector3 ();
-		Vector3 pos2 = new Vector3(4 , 9, 0);
-		GameObject zombie2 = (GameObject) Instantiate(zombieFab, pos2, Quaternion.identity);
+
+
 		
-		Vector3 pos3 = new Vector3(9 , 9, 0);
-		GameObject zombie3 = (GameObject) Instantiate(zombieFab, pos3, Quaternion.identity);
-		
-		Point zSpawngridpos2D = new Point(9, 9);
-		Zombie mydeadfriend = new Zombie (zSpawngridpos2D, 1, board);
-		*/
+				}
 		}
 
 	void SpawnZombies(int z){
-		MonoBehaviour.print("SpawnZombies running");
+		//MonoBehaviour.print("SpawnZombies running");
 
 				int i = 0;
 				int failcount = 0;
@@ -77,7 +91,7 @@ public class GameLoop : MonoBehaviour {
 						i += sresult;
 						
 						if (sresult == 0) {
-							MonoBehaviour.print("Error spawning zombie");
+							//MonoBehaviour.print("Error spawning zombie");
 								failcount += 1;
 								if (failcount > 30) {
 										return;
@@ -88,9 +102,9 @@ public class GameLoop : MonoBehaviour {
 
 
 
+
+
 	int SpawnZombie(){
-				int x;
-				int y;
 				Point Spawngridpos2D;
 
 
@@ -114,24 +128,28 @@ public class GameLoop : MonoBehaviour {
 		//MonoBehaviour.print (Spawngridpos2D.x.ToString() + ',' + Spawngridpos2D.y.ToString());
 		//MonoBehaviour.print (board.boardwall [Spawngridpos2D.x, Spawngridpos2D.y]);
 
-		if (board.boardwall [Spawngridpos2D.x, Spawngridpos2D.y] == null & board.boardzombie [Spawngridpos2D.x, Spawngridpos2D.y] == null) {
-
-						Vector3 pos = board.gridPointToWorldPos(Spawngridpos2D, 0);
-						GameObject gzombie = (GameObject)Instantiate (zombieFab, pos, Quaternion.identity);
-						Zombie czombie = gzombie.GetComponent<Zombie> ();
-						czombie.metaboard = board;
-						czombie.gridpos2D = Spawngridpos2D;
-						czombie.oldgridpos2D = Spawngridpos2D;
-						czombie.needtarget = true;
-						czombie.UpdateZombieBoard();
-						board.zombies.Add(czombie);
-						return 1;
-
-				}
-		return 0;
+		return SpawnZomblieP(Spawngridpos2D);
 		}
 		
+	int SpawnZomblieP(Point Spawngridpos2D){
+		if (board.boardwall [Spawngridpos2D.x, Spawngridpos2D.y] == null & board.boardzombie [Spawngridpos2D.x, Spawngridpos2D.y] == null) {
+			
+			Vector3 pos = board.gridPointToWorldPos(Spawngridpos2D, 0);
+			GameObject gzombie = (GameObject)Instantiate (zombieFab, pos, Quaternion.identity);
+			Zombie czombie = gzombie.GetComponent<Zombie> ();
+			czombie.init(board, Spawngridpos2D);
+			board.zombies.Add(czombie);
+			return 1;
+			
+		}
+		return 0;
+		
+	}
 
-
-
+	void ZombieApocalypse(){
+		int r = 0;
+		foreach (Point p in board.borderList) {
+			r += SpawnZomblieP(p);
+				}
+		}
 	}

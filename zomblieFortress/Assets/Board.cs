@@ -5,21 +5,27 @@ using System.Collections.Generic;
 
 public class Board : MonoBehaviour {
 
+	public static Board gameBoard;
+
 	public GameObject wallFab;
 	public GameObject towerFab;
 	public GameObject farmFab;
 	public Hand hand;
 	public static int widthx = 32;
 	public static int widthy = 32;
+	public List<Point> borderList = new List<Point> ();
+	public List<Point> borderListLeft = new List<Point> ();
+	public List<Point> borderListRight = new List<Point> ();
+	public List<Point> borderListTop = new List<Point> ();
+	public List<Point> borderListBottom = new List<Point> ();
+
 	public Wall [,] boardwall = new Wall[widthx,widthy];
 	public Zombie [,] boardzombie = new Zombie[widthx,widthy];
 	public List<GameObject> farms = new List<GameObject>();
 	public List<Zombie> zombies = new List<Zombie>();
 	public List<Wall> walls = new List<Wall>();
-	public List<Tower> towers = new List<Tower>();
-	public List<Point> zombiegridpos2D = new List<Point>();
-	public List<Point> wallgridpos2D = new List<Point>();
     public List<FarmCluster> farmclusters = new List<FarmCluster>();
+	//public List<Tower> towers = new List<Tower>();
 
 	public Stack<GameObject> shadowSquares = new Stack<GameObject> ();
 	public Stack<GameObject> inactiveShadowSquares = new Stack<GameObject> ();
@@ -31,22 +37,15 @@ public class Board : MonoBehaviour {
 	private long last_cash_update;
 	private bool trigger_farm_detection ;
 
-	private List<Point> adjacency_mask = new List<Point>(){
-		new Point(0,-1),
-		new Point(-1,0),
-		new Point(0,1),
-		new Point(1,0),
-		new Point(-1,-1),
-		new Point(-1,1),
-		new Point(1,-1),
-		new Point(1,1),
-	};
-	
+
 	// Use this for initialization
 	void Start () {
 		Point center = new Point (16, 16);
 		List<Point> start_walls = CardGen.getAdjacent (center);
+		List<Point> start_towers = CardGen.getCardinal (center);
 
+		spawnWalls (start_walls, start_towers, new Point());
+		BorderPoints();
 
 		List<Point> corners = new List<Point> (){
 			new Point (0, 0),
@@ -69,6 +68,7 @@ public class Board : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Board.gameBoard = this;
 		long num_ticks = DateTime.Now.Ticks;
 		long current_time = num_ticks / 10000;  // time in ms
 		if (current_time >= this.last_update + 1000 || this.trigger_farm_detection == true) {
@@ -153,6 +153,13 @@ public class Board : MonoBehaviour {
 		foreach (Point p in wallsToPlace) {
 			placeWall(p);
 		}
+		foreach (Point t in towers) {
+			Point towerGridPos = new Point(gridPos.x + t.x, gridPos.y + t.y);
+			Vector3 pos = gridPointToWorldPos(towerGridPos, -0.5f);
+			GameObject towerObj = (GameObject) Instantiate(towerFab, pos, Quaternion.identity);
+			Tower tower = towerObj.GetComponent<Tower>();
+			boardwall[towerGridPos.x, towerGridPos.y].SetTower(tower);
+		}
 		this.trigger_farm_detection = true;  // trigger farmland to be re-detected.
 		return true;
 	}
@@ -163,6 +170,69 @@ public class Board : MonoBehaviour {
 		boardwall [p.x, p.y] = wall.GetComponent<Wall>();
 		this.walls.Add(wall.GetComponent<Wall>());
 		wall.GetComponent<Wall> ().gridpos2D = p;
+	}
+
+	public void BorderPoints(){
+		List<Point> plist = new List<Point> ();
+
+		for (int i = 0; i < widthx; i++) {
+			Point newp = new Point(i,0);
+			plist.Add (newp);
+				}
+
+
+		for (int i = 0; i < widthx; i++) {
+		Point newp = new Point(i, widthy - 1);
+		plist.Add (newp);
+	}
+
+	for (int i = 1; i <  widthy - 1; i++) {
+		Point newp = new Point(0,i);
+		plist.Add (newp);
+		}
+
+	for (int i = 1; i < widthy - 1; i++) {
+		Point newp = new Point(widthx - 1,i);
+			plist.Add (newp);
+		}
+
+	this.borderList = plist;
+
+	}
+
+	public void SideBorder(){
+		List<Point> plist = new List<Point> ();
+		
+		for (int i = 0; i < widthx; i++) {
+			Point newp = new Point(i,0);
+			plist.Add (newp);
+		}
+		
+		this.borderListBottom = plist;
+		
+		//plist.Clear();
+		
+		for (int i = 0; i < widthx; i++) {
+			Point newp = new Point(i, widthy - 1);
+			plist.Add (newp);
+		}
+		this.borderListTop = plist;
+		//plist.Clear();
+		
+		for (int i = 1; i <  widthy; i++) {
+			Point newp = new Point(0,i);
+			plist.Add (newp);
+		}
+		this.borderListLeft = plist;
+		//plist.Clear();
+		
+		for (int i = 1; i < widthy; i++) {
+			Point newp = new Point(widthx - 1,i);
+			plist.Add (newp);
+		}
+		
+		this.borderListRight = plist;
+
 	}
 
     void OnGUI() {

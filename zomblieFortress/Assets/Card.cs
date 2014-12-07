@@ -33,6 +33,7 @@ public class Card : MonoBehaviour {
 		this.hand = hand;
 		SetWalls ();
 		SetTowers ();
+		SetCost ();
 		RefreshDisplay ();
 
 	}
@@ -85,6 +86,13 @@ public class Card : MonoBehaviour {
 		for (int i = 0; i < num_towers; i++){
 			this.towers.Add(CardGen.ChoosePoint(this.walls));
 		};
+	}
+
+	void SetCost (){
+		int base_cost = 5;
+		int wall_cost = 1;
+		int tower_cost = 5;
+		this.cost = base_cost + wall_cost*this.walls.Count + tower_cost*this.towers.Count;
 	}
 	
 	// Update is called once per frame
