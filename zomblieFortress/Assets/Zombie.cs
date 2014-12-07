@@ -154,45 +154,6 @@ public class Zombie : MonoBehaviour {
 		UpdateUnityPosition();
 	}
 
-	void DirectionUpdate(){
-		this.targetdistancex = this.targetgridpos2D.x - this.gridpos2D.x;
-		this.targetdistancey = this.targetgridpos2D.y - this.gridpos2D.y;
-	}
-
-	int DistanceToTarget(Point move){
-		return Point.ManhattanDistance (this.targetgridpos2D, move);
-	}
-
-	void Attack(){
-		this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(this.attackdamage);
-	}
-
-	void PrintZombiePosition(){
-		string pstring = "Zombie position: " + this.gridpos2D.x.ToString() + ',' + this.gridpos2D.y.ToString();
-		MonoBehaviour.print(pstring);
-	}
-
-	bool OnBoard(Point p){
-		if (p.x < Board.widthx & p.y < Board.widthy & p.x >= 0 & p.y >= 0) {
-			return true;
-		}
-		return false;
-	}
-
-	void WallNextDoor(){
-		List<Point> nextdoor = CardGen.getCardinal (this.gridpos2D);
-		foreach (Point p in nextdoor) {
-			if (OnBoard (p)) {
-				if (Board.gameBoard.boardwall [p.x, p.y] == null) {
-
-				} else {
-					this.targetgridpos2D = p;
-					return;
-				}
-			}
-		}
-	}
-
 	void Move(){
 		WallNextDoor ();
 		this.DirectionUpdate ();
@@ -200,7 +161,8 @@ public class Zombie : MonoBehaviour {
 		//MonoBehaviour.print("Distance to target: " + DistanceToTarget(this.gridpos2D).ToString() + " Attack range: " + this.attackrange.ToString());
 		//MonoBehaviour.print (DistanceToTarget (this.gridpos2D) <= this.attackrange);
 
-		if (DistanceToTarget(this.gridpos2D) <= this.attackrange) {
+		int distance = DistanceToTarget (this.gridpos2D);
+		if (distance <= this.attackrange) {
 			//MonoBehaviour.print("condition met for an attack");
 			if(this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y] != null){
 				this.Attack ();
