@@ -66,6 +66,7 @@ public class Zombie : MonoBehaviour {
 			MonoBehaviour.print("This zombie is dead");
 			Board.gameBoard.boardzombie[this.gridpos2D.x,this.gridpos2D.y]= null;
 			Board.gameBoard.zombies.Remove(this);
+			Destroy(gameObject);
 		}
 		
 	}
