@@ -52,6 +52,7 @@
      <Compile Include="Assets\Farm.cs" />
      <Compile Include="Assets\GameLoop.cs" />
      <Compile Include="Assets\Hand.cs" />
+     <Compile Include="Assets\Palette.cs" />
      <Compile Include="Assets\Point.cs" />
      <Compile Include="Assets\Tower.cs" />
      <Compile Include="Assets\Wall.cs" />

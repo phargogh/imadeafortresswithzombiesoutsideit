@@ -17,6 +17,9 @@ public class Card : MonoBehaviour {
 	public Color defaultColor = new Color32(139,138,127,255);
 	public Color selectedColor = Color.yellow;
 
+	public Stack<GameObject> cardSquares = new Stack<GameObject> ();
+	private float cardScale = 0.5f;
+
 	// Use this for initialization
 	void Start () {
 
@@ -27,6 +30,27 @@ public class Card : MonoBehaviour {
 		this.board = board;
 		this.hand = hand;
 		SetWalls ();
+		//RefreshDisplay ();
+	}
+
+	void RefreshDisplay ()
+	{
+		foreach(GameObject g in cardSquares) {
+			g.SetActive(false);
+		}
+		cardSquares.Clear ();
+		foreach(Point w in walls) {
+			Vector3 pos = GridOffsetToCardPos(w);
+			GameObject g = (GameObject) Instantiate(board.wallFab, pos, Quaternion.identity);
+			g.transform.localScale = g.transform.localScale * cardScale;
+			g.GetComponent<SpriteRenderer>().color = Color.white;
+		}
+	}
+
+	Vector3 GridOffsetToCardPos(Point gridOffest) {
+		float x = transform.position.x + gridOffest.x * cardScale;
+		float y = transform.position.y + gridOffest.y * cardScale;
+		return new Vector3 (x, y, -5);
 	}
 
 	void SetWalls() {
