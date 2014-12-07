@@ -14,9 +14,10 @@ public class Zombie : MonoBehaviour {
 	int searchy;
 	int targetdistancex;
 	int targetdistancey;
-	int attackrange;
+	int attackrange = 1;
+	int attackdamage = 5;
 	bool xmove = true;
-	bool needtarget = false;
+	public bool needtarget = true;
 	public Board metaboard;
 
 
@@ -26,7 +27,7 @@ public class Zombie : MonoBehaviour {
 		this.attackrange = attackrange;
 		this.metaboard = metaboard;
 		MonoBehaviour.print("A zombie is on the loose!");
-		this.FindTargetDumbLoop ();
+		//this.FindTargetDumbLoop ();
 		this.PrintZombiePosition ();
 		MonoBehaviour.print (this.targetgridpos2D.x);
 	
@@ -92,7 +93,13 @@ public class Zombie : MonoBehaviour {
 
 
 	void FindTargetRandom(){
-		//metaboard.walls.Count()
+		int wallN = this.metaboard.walls.Count;
+
+		int wallR = UnityEngine.Random.Range (0, wallN);
+		this.targetgridpos2D.x = this.metaboard.walls [wallR].gridpos2D.x;
+		this.targetgridpos2D.y = this.metaboard.walls [wallR].gridpos2D.y;
+		MonoBehaviour.print ("Got random wall! " + wallR.ToString());
+
 
 
 		}
@@ -121,8 +128,8 @@ public class Zombie : MonoBehaviour {
 		}
 
 	public void UpdateZombieBoard(){
-		this.metaboard.boardzombie [this.oldgridpos2D.x, this.oldgridpos2D.y] = null;
-		this.metaboard.boardzombie [this.gridpos2D.x, this.gridpos2D.y] = this.gameObject;
+		this.metaboard.boardzombie [this.oldgridpos2D.x, this.oldgridpos2D.y] = null; //need to delete object?
+		this.metaboard.boardzombie [this.gridpos2D.x, this.gridpos2D.y] = this;
 	}
 
 	
@@ -133,11 +140,11 @@ public class Zombie : MonoBehaviour {
 
 
 	public void TakeTurn(){
-		MonoBehaviour.print ("zombie is taking a turn");
-
+		//MonoBehaviour.print ("zombie is taking a turn");
+		MonoBehaviour.print (needtarget);
 		if (needtarget) {
-			this.FindTargetDumbLoop();
-			needtarget = true; //eventually change
+			this.FindTargetRandom(); //this.FindTargetDumbLoop();
+			needtarget = false; //eventually change
 				}
 
 		Move();
@@ -157,6 +164,7 @@ public class Zombie : MonoBehaviour {
 		}
 
 	void Attack(){
+		//this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].health - 20;
 		// this.targetgridpos2D.x, this.targetgridpos2D.y, this.damage
 		}
 

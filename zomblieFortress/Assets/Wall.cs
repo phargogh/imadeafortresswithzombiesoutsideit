@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Wall : MonoBehaviour {
 
-	float health = 100f;
+	public int health = 100;
 	Tower tower = null;
 	public Point gridpos2D;
 
