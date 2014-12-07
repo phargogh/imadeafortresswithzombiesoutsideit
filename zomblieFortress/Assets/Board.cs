@@ -7,12 +7,14 @@ public class Board : MonoBehaviour {
 
 	public GameObject wallFab;
 	public GameObject towerFab;
+	public GameObject farmFab;
 	public static int widthx = 32;
 	public static int widthy = 32;
 	public GameObject [,] boardwall = new GameObject[widthx,widthy];
 	public GameObject [,] boardzombie = new GameObject[widthx,widthy];
 	List<Zombie> zombies = new List<Zombie>();
 	List<Wall> walls = new List<Wall>();
+	List<GameObject> farms = new List<GameObject>();
 	public List<Point> zombiegridpos2D = new List<Point>();
 	public List<Point> wallgridpos2D = new List<Point>();
 
@@ -83,12 +85,23 @@ public class Board : MonoBehaviour {
 		Debug.Log ("Determining farms");
 		int[,] wasteland = DetectWasteland();
 
+		// remove all the farm sites that were set up in the last frame.
+		foreach (GameObject farm_site in this.farms) {
+			Destroy(farm_site);
+		}
+		this.farms = new List<GameObject>();
+
 		// farmland is anything that's not wasteland and not walls.
 		bool[,] farmland = new bool[wasteland.GetLength(0), wasteland.GetLength(1)];
 		for (int row = 0; row < wasteland.GetLength(0); row++) {
 			for (int col = 0; col < wasteland.GetLength(1); col++) {
 				if (wasteland[row, col] == 0) {
 					farmland[row, col] = true;
+
+					Vector3 pos = new Vector3(row - Board.widthx/2, col - Board.widthy/2, 0);
+					GameObject farm = (GameObject) Instantiate(farmFab, pos, Quaternion.identity);
+					this.farms.Add (farm);
+
 				}
 			}
 		}
