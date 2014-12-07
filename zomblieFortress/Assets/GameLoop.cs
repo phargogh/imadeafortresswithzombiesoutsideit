@@ -122,13 +122,7 @@ public class GameLoop : MonoBehaviour {
 						Vector3 pos = board.gridPointToWorldPos(Spawngridpos2D, 0);
 						GameObject gzombie = (GameObject)Instantiate (zombieFab, pos, Quaternion.identity);
 						Zombie czombie = gzombie.GetComponent<Zombie> ();
-						czombie.attackrange = 1;
-						czombie.attackdamage = 10f;
-						czombie.metaboard = board;
-						czombie.gridpos2D = Spawngridpos2D;
-						czombie.oldgridpos2D = Spawngridpos2D;
-						czombie.needtarget = true;
-						czombie.UpdateZombieBoard();
+						czombie.init(board, Spawngridpos2D);
 						board.zombies.Add(czombie);
 						return 1;
 
