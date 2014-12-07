@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class Zombie : MonoBehaviour {
 	public Point gridpos2D;
@@ -116,10 +117,13 @@ public class Zombie : MonoBehaviour {
 		
 
 	void UpdateUnityPosition(){
-		this.gameObject.transform.position = new Vector3 (this.gridpos2D.x, this.gridpos2D.y, 0);
+		Vector3 pos = this.metaboard.gridPointToWorldPos (this.gridpos2D, 0);
+		this.gameObject.transform.position = pos;
 		}
 	
 	public void TakeTurn(){
+		MonoBehaviour.print ("zombie is taking a turn");
+
 		if (needtarget) {
 			this.FindTargetDumbLoop();
 			needtarget = true; //eventually change
@@ -133,6 +137,11 @@ public class Zombie : MonoBehaviour {
 		this.targetdistancey = this.targetgridpos2D.y - this.gridpos2D.y;
 	}
 
+	int DistanceToTarget(Point move){
+		return Math.Abs(this.targetgridpos2D.x - move.x) + Math.Abs(this.targetgridpos2D.y - move.y);
+
+		}
+
 	void Attack(){
 		// this.targetgridpos2D.x, this.targetgridpos2D.y, this.damage
 		}
@@ -145,8 +154,48 @@ public class Zombie : MonoBehaviour {
 
 
 	void Move(){
+				this.DirectionUpdate ();
+
+				if (Math.Abs (this.targetdistancex) + Math.Abs (this.targetdistancey) <= this.attackrange) {
+						this.Attack ();
+						return;
+				}
+				Point move = new Point (this.gridpos2D.x, this.gridpos2D.y);
+				int distance = DistanceToTarget (this.gridpos2D);
+				int cdistance;
+
+
+
+				Point up = new Point (this.gridpos2D.x, this.gridpos2D.y + 1);
+				Point down = new Point (this.gridpos2D.x, this.gridpos2D.y - 1);
+				Point right = new Point (this.gridpos2D.x + 1, this.gridpos2D.y);
+				Point left = new Point (this.gridpos2D.x - 1, this.gridpos2D.y);
+		
+				List<Point> cmoves = new List<Point> ();
+				cmoves.Add (up);
+				cmoves.Add (down);
+				cmoves.Add (right);
+				cmoves.Add (left);
+
+				foreach (Point p in cmoves) {
+						cdistance = DistanceToTarget (p);
+						if (cdistance < distance) {
+								distance = cdistance;
+								move = p;
+						}
+
+						this.gridpos2D = move;
+
+				}
+		DirectionUpdate ();
+		}
+
+
+	void OldMove(){
 		MonoBehaviour.print ("Zombie position before move");
 		PrintZombiePosition ();
+
+
 
 		
 		
@@ -188,6 +237,7 @@ public class Zombie : MonoBehaviour {
 			
 			
 		this.DirectionUpdate ();
+
 			
 		}
 		

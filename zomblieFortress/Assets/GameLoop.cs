@@ -25,6 +25,7 @@ public class GameLoop : MonoBehaviour {
 	}
 
 	void ZombieTurn(){
+		MonoBehaviour.print("Zombie turn");
 		foreach (Zombie z in board.zombies) {
 			z.TakeTurn();
 
@@ -115,7 +116,7 @@ public class GameLoop : MonoBehaviour {
 
 		if (board.boardwall [Spawngridpos2D.x, Spawngridpos2D.y] == null & board.boardzombie [Spawngridpos2D.x, Spawngridpos2D.y] == null) {
 
-						Vector3 pos = new Vector3 (Spawngridpos2D.x, Spawngridpos2D.y, 0);
+						Vector3 pos = board.gridPointToWorldPos(Spawngridpos2D, 0);
 						GameObject gzombie = (GameObject)Instantiate (zombieFab, pos, Quaternion.identity);
 						Zombie czombie = gzombie.GetComponent<Zombie> ();
 						czombie.metaboard = board;
