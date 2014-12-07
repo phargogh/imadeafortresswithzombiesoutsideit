@@ -111,7 +111,7 @@ public class Zombie : MonoBehaviour {
 		int wallR = UnityEngine.Random.Range (0, wallN);
 		this.targetgridpos2D.x = this.metaboard.walls [wallR].gridpos2D.x;
 		this.targetgridpos2D.y = this.metaboard.walls [wallR].gridpos2D.y;
-		//MonoBehaviour.print ("Got random wall! " + wallR.ToString());
+		MonoBehaviour.print ("Got random wall! " + wallR.ToString());
 
 
 
@@ -195,7 +195,7 @@ public class Zombie : MonoBehaviour {
 
 	void Attack(){
 
-		this.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(this.attackdamage);
+		//his.metaboard.boardwall[this.targetgridpos2D.x, this.targetgridpos2D.y].TakeDamage(this.attackdamage);
 		// this.targetgridpos2D.x, this.targetgridpos2D.y, this.damage
 		}
 
@@ -212,16 +212,21 @@ public class Zombie : MonoBehaviour {
 
 	}
 	void WallNextDoor(){
-				List<Point> nextdoor = CardGen.getCardinal (this.gridpos2D);
+		List<Point> nextdoor = CardGen.getCardinal (this.gridpos2D);
+	
 				foreach (Point p in nextdoor) {
+
 						if (OnBoard (p)) {
 
 								if (Board.gameBoard.boardwall [p.x, p.y] == null) {
-								} else {
-										MonoBehaviour.print (Board.gameBoard.boardwall [p.x, p.y]);
+
+				}
+				else {
+
 										this.targetgridpos2D = p;
 										return;
 								}
+								
 						}
 
 
@@ -231,7 +236,7 @@ public class Zombie : MonoBehaviour {
 
 	
 	void Move(){
-		//WallNextDoor ();
+		WallNextDoor ();
 		this.DirectionUpdate ();
 		this.oldgridpos2D = this.gridpos2D;
 				//MonoBehaviour.print("Distance to target: " + DistanceToTarget(this.gridpos2D).ToString() + " Attack range: " + this.attackrange.ToString());
