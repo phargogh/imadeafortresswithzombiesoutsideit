@@ -112,7 +112,7 @@ public class Board : MonoBehaviour {
 		bool[,] farmland = new bool[wasteland.GetLength(0), wasteland.GetLength(1)];
 		for (int row = 0; row < wasteland.GetLength(0); row++) {
 			for (int col = 0; col < wasteland.GetLength(1); col++) {
-				if (wasteland[row, col] == 0) {
+				if (wasteland[row, col] == 0 && this.boardwall[row, col] == null) {
 					farmland[row, col] = true;
 
 					Vector3 pos = new Vector3(row - Board.widthx/2, col - Board.widthy/2, 0);
