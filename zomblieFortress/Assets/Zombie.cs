@@ -203,11 +203,37 @@ public class Zombie : MonoBehaviour {
 		MonoBehaviour.print(pstring);
 		}
 
+	bool OnBoard(Point p){
+		if (p.x < Board.widthx & p.y < Board.widthy & p.x >= 0 & p.y >= 0) {
+			return true;
+		}
+		return false;
+
+	}
+	void WallNextDoor(){
+				List<Point> nextdoor = CardGen.getCardinal (this.gridpos2D);
+				foreach (Point p in nextdoor) {
+						if (OnBoard (p)) {
+
+								if (Board.gameBoard.boardwall [p.x, p.y] == null) {
+								} else {
+										MonoBehaviour.print ("wall next door error");
+										MonoBehaviour.print (Board.gameBoard.boardwall [p.x, p.y]);
+										this.targetgridpos2D = p;
+										return;
+								}
+						}
 
 
+				}
+
+		}
+
+	
 	void Move(){
-				this.DirectionUpdate ();
-				this.oldgridpos2D = this.gridpos2D;
+		WallNextDoor ();
+		this.DirectionUpdate ();
+		this.oldgridpos2D = this.gridpos2D;
 				//MonoBehaviour.print("Distance to target: " + DistanceToTarget(this.gridpos2D).ToString() + " Attack range: " + this.attackrange.ToString());
 				//MonoBehaviour.print (DistanceToTarget (this.gridpos2D) <= this.attackrange);
 		        if (DistanceToTarget(this.gridpos2D) <= this.attackrange) {
@@ -231,8 +257,22 @@ public class Zombie : MonoBehaviour {
 				cmoves.Add (down);
 				cmoves.Add (right);
 				cmoves.Add (left);
+				
+				int count = 0;
+				while (count < 5) {
+						count += 1;
+						for (int i = 0; i < cmoves.Count; i++) {
+								Point temp = cmoves [i];
+								int randomIndex = UnityEngine.Random.Range (i, cmoves.Count);
+								cmoves [i] = cmoves [randomIndex];
+								cmoves [randomIndex] = temp;
+						}
+				}
+		
 
-				foreach (Point p in cmoves) {
+		
+		
+		foreach (Point p in cmoves) {
 							
 						cdistance = DistanceToTarget (p);
 						if (p.x < Board.widthx & p.y < Board.widthy & p.x >= 0 & p.y >= 0) {
