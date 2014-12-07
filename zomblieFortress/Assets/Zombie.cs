@@ -19,6 +19,7 @@ public class Zombie : MonoBehaviour {
 	public float attackdamage;
 	bool xmove = true;
 	public bool needtarget = true;
+	public bool inrange = false;
 	public Board metaboard;
 
 
@@ -30,6 +31,7 @@ public class Zombie : MonoBehaviour {
 		this.gridpos2D = Spawngridpos2D;
 		this.oldgridpos2D = Spawngridpos2D;
 		this.needtarget = true;
+		this.inrange = false;
 		this.UpdateZombieBoard();
 	}
 	
@@ -131,6 +133,12 @@ public class Zombie : MonoBehaviour {
 			this.FindTargetRandom(); //this.FindTargetDumbLoop();
 			needtarget = false; //eventually change
 		}
+
+
+		//if (inrange) {
+			//this.Attack();
+				//}
+
 		bool nonewmove = true;
 		int failcount = 0;
 
