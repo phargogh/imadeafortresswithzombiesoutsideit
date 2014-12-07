@@ -142,7 +142,7 @@ public class Board : MonoBehaviour {
 
 	bool[,] DetectFarmland () {
 		Debug.Log ("Determining farms");
-		int[,] wasteland = DetectWasteland();
+		int[,] wasteland = Farm.DetectWasteland(this);
 
 		// remove all the farm sites that were set up in the last frame.
 		foreach (GameObject farm_site in this.farms) {
@@ -165,78 +165,5 @@ public class Board : MonoBehaviour {
 			}
 		}
 		return farmland;
-	}
-
-    List<Point> BoundaryPixels () {
-        List<int> xrange = new List<int>();
-        for (int i = 0; i < Board.widthx; i++) {
-            xrange.Add(i);
-        }
-
-        List<int> yrange = new List<int>();
-        for (int i = 0; i < Board.widthx; i++) {
-            yrange.Add(i);
-        }
-
-        List<Point> boundary_points = new List<Point>();
-        // North, south walls
-        foreach (int i in xrange) {
-            Point n = new Point(i, 0);
-            Point s = new Point(i, Board.widthy - 1);
-
-            boundary_points.Add(n);
-            boundary_points.Add(s);
-        }
-        
-        // West, East walls
-        foreach (int i in yrange) {
-            Point w = new Point(0, i);
-            Point e = new Point(Board.widthx - 1, i);
-
-            boundary_points.Add(w);
-            boundary_points.Add(e);
-        }
-        return boundary_points;
-    }
-
-	int[,] DetectWasteland () {
-		// build up an empty 2d matrix for indicating which cells are wasteland.
-		// initialize to false.
-
-		// wasteland meanings:
-		// 0 = not searched
-		// 1 = has been searched, is wasteland
-		// 2 = has been searched, is wall.
-		int[,] wasteland = new int[Board.widthx, Board.widthy];
-
-
-        // Create a list of points to use as starting points for our farms search.
-		List<Point> starting_points = new List<Point>();
-		foreach (Zombie zom in this.zombies) {
-            Point z_point = new Point(zom.gridpos2D.x, zom.gridpos2D.y);
-			starting_points.Add(z_point);
-		}
-
-        foreach (Point boundary in BoundaryPixels()){
-            starting_points.Add(boundary);
-        }
-
-        // Search for farms.
-        foreach (Point starting_point in starting_points) {
-            Farm.RecurseWasteland(ref wasteland, starting_point, this.boardwall);
-        }
-		return wasteland;
-	}
-
-	// pretty-print the numeric value of an int matrix.
-	void PrintMatrix(int[,] matrix){
-		string row_string;
-		for (int i = 0; i < matrix.GetLength(0); i++){
-			row_string = "";
-			for (int j = 0; j < matrix.GetLength(1); j++){
-				row_string += " " + matrix[i, j];
-			}
-			Debug.Log (row_string);
-		}
 	}
 }
