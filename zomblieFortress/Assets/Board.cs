@@ -29,6 +29,7 @@ public class Board : MonoBehaviour {
 	private static int unsearched = 0;
 
 	private long last_update;
+	private bool trigger_farm_detection ;
 
 	private List<Point> adjacency_mask = new List<Point>(){
 		new Point(0,-1),
@@ -64,9 +65,10 @@ public class Board : MonoBehaviour {
 	void Update () {
 		long num_ticks = DateTime.Now.Ticks;
 		long current_time = num_ticks / 10000;  // time in ms
-		if (current_time >= this.last_update + 1000) {
+		if (current_time >= this.last_update + 1000 || this.trigger_farm_detection == true) {
 			DetectFarmland();
 			this.last_update = current_time;
+			this.trigger_farm_detection = false;  // reset so we don't re-detect farmland
 		}
 
 		if (hand.selected && Input.GetMouseButtonUp(0)) {
@@ -119,7 +121,7 @@ public class Board : MonoBehaviour {
 			boardwall[p.x, p.y] = wall;
 			this.walls.Add(wall.GetComponent<Wall>());
 		}
-		
+		this.trigger_farm_detection = true;  // trigger farmland to be re-detected.
 		return true;
 	}
 
