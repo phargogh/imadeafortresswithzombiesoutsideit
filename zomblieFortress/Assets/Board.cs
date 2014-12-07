@@ -24,6 +24,7 @@ public class Board : MonoBehaviour {
 	public Stack<GameObject> inacticcveShadowSquares = new Stack<GameObject> ();
 
 	private long last_update;
+	private long last_cash_update;
 	private bool trigger_farm_detection ;
 
 	private List<Point> adjacency_mask = new List<Point>(){
@@ -65,6 +66,11 @@ public class Board : MonoBehaviour {
 			this.last_update = current_time;
 			this.trigger_farm_detection = false;  // reset so we don't re-detect farmland
 		}
+
+        if (current_time >= this.last_cash_update + 5000) {
+            hand.add_resources(this.farms.Count);
+            this.last_cash_update = current_time;
+        }
 
 		if (hand.selected) {
 			Point gridPos =  worldPosToGridPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
@@ -139,4 +145,18 @@ public class Board : MonoBehaviour {
 		this.trigger_farm_detection = true;  // trigger farmland to be re-detected.
 		return true;
 	}
+
+    void OnGUI() {
+        // write the resources to the screen.
+        int label_x_pos = Screen.width/2 + 200;
+        int label_y_pos = Screen.height/2 - 200;
+        int row_y_offset = 20;
+
+        string label_string = "Resources: ";
+        GUI.Label(new Rect(label_x_pos, label_y_pos, 150, 150), label_string + hand.get_resources().ToString());
+
+        string farm_count_label = "Active farms: ";
+        GUI.Label(new Rect(label_x_pos, label_y_pos + row_y_offset, 150, 150), farm_count_label + this.farms.Count.ToString());
+
+    }
 }

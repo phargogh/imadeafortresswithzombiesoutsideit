@@ -34,6 +34,14 @@ public class Hand : MonoBehaviour {
 		}
 	}
 
+    public int get_resources() {
+        return this.resources;
+    }
+
+    public void add_resources(int new_resources) {
+        this.resources += new_resources;
+    }
+
 	public void Unselect() {
 		selected.unselect ();
 		selected = null;
