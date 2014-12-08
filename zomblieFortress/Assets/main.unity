@@ -83,6 +83,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 381910383}
   - 114: {fileID: 381910382}
+  - 82: {fileID: 381910384}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -103,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallFab: {fileID: 100000, guid: 5e742100692e5a840acd5b4b9efea534, type: 2}
   towerFab: {fileID: 100000, guid: aef3536ae67f2bf48939c805c6e03650, type: 2}
-  farmFab: {fileID: 100000, guid: d540852fcdf914744a257591b28889d4, type: 2}
+  farmFab: {fileID: 100000, guid: 900335d7043464b9189d42a2748e86c0, type: 2}
   hand: {fileID: 2059387484}
   farms: []
   zombies: []
@@ -120,6 +121,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!82 &381910384
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 381910381}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: db41597e336b549099f31a1eff3297df, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 255
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &527252007
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +345,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 381910382}
-  zombieFab: {fileID: 100000, guid: 0136b8d6448988844b9122cee1949a92, type: 2}
+  zombieFab: {fileID: 100000, guid: 1c124e501844f46cbb0fc196a99f0bc3, type: 2}
+  hand: {fileID: 2059387484}
 --- !u!4 &1767643614
 Transform:
   m_ObjectHideFlags: 0
@@ -408,10 +468,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2059387481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f9f0858d01b8984f80bbd48a79a8fc2, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a7a3d29b4dc04920810307d98d49aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardFab: {fileID: 100000, guid: 34bfdbc5462aace40839b9aeb71c41af, type: 2}
+  cardFab: {fileID: 100000, guid: 802436f96b19444e6bd499cc13181964, type: 2}
   board: {fileID: 381910382}
   cards: []
   handSize: 5

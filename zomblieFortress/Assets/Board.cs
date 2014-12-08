@@ -61,10 +61,14 @@ public class Board : MonoBehaviour {
 	}
 
     void FindFarmClusters(){
+        int num_current_clusters = this.farmclusters.Count;
 		bool[,] known_farms = Farm.DetectFarmland(this);
         List<FarmCluster> detected_clusters = FarmCluster.FindClusters(known_farms);
         this.farmclusters = detected_clusters;
 
+        if (this.farmclusters.Count > num_current_clusters){
+            audio.Play();
+        }
     }
 	
 	// Update is called once per frame
