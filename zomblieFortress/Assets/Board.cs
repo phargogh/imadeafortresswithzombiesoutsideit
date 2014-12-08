@@ -220,24 +220,48 @@ public class Board : MonoBehaviour {
 
 	}
 
+    public int CellSize() {
+        // returns a reasonably close approximation of the length of the side of one game piece (in pixels)
+        int min_screen_size;
+        int board_size;
+        if (Screen.width > Screen.height) {
+            min_screen_size = Screen.height;
+            board_size = Board.widthx;
+        }
+        else {
+            min_screen_size = Screen.width;
+            board_size = Board.widthy;
+        }
+        return min_screen_size / board_size;
+    }
+
+    public Point ScreenCenter() {
+        return new Point(Screen.width/2, Screen.height/2);
+    }
+
     void OnGUI() {
         // write the resources to the screen.
         int label_x_pos = Screen.width/2 + 200;
         int label_y_pos = Screen.height/2 - 200;
         int row_y_offset = 20;
 
+        int cell_size = CellSize();
+        Point screen_center = ScreenCenter();
+        int stats_x = screen_center.x + cell_size * Board.widthx/2;
+        int stats_y = screen_center.y - cell_size * Board.widthy/2;
+
         string label_string = "Resources: ";
-        GUI.Label(new Rect(label_x_pos, label_y_pos, 150, 150), label_string + hand.get_resources().ToString());
+        GUI.Label(new Rect(stats_x, stats_y, 150, 150), label_string + hand.get_resources().ToString());
 
         string farm_count_label = "Active farms: ";
-        GUI.Label(new Rect(label_x_pos, label_y_pos + row_y_offset, 150, 150), farm_count_label + this.farms.Count.ToString());
+        GUI.Label(new Rect(stats_x, stats_y + row_y_offset, 150, 150), farm_count_label + this.farms.Count.ToString());
 
         string farm_cluster_label = "Active farm clusters: ";
-        GUI.Label(new Rect(label_x_pos, label_y_pos + 40, 150, 150), farm_cluster_label + this.farmclusters.Count.ToString());
+        GUI.Label(new Rect(stats_x, stats_y + 40, 150, 150), farm_cluster_label + this.farmclusters.Count.ToString());
 
         int offset = 3;
         foreach (FarmCluster farm_cluster in this.farmclusters) {
-            GUI.Label(new Rect(label_x_pos, label_y_pos + row_y_offset*offset , 150, 150), farm_cluster.farms_contained.ToString());
+            GUI.Label(new Rect(stats_x, stats_y + row_y_offset * offset , 150, 150), farm_cluster.farms_contained.ToString());
             Point cluster_center = FarmCluster.ToPixelDims(farm_cluster.center);
             GUI.Label(new Rect(cluster_center.x, cluster_center.y , 20, 20), farm_cluster.farms_contained.ToString());
             offset++;
