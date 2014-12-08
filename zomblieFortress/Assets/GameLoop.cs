@@ -15,9 +15,10 @@ public class GameLoop : MonoBehaviour {
 	float spawnNzombies = 3f;
 	int ticksTozombies = 100;
 	int apocalypse = 1000000;
-	int wallofzombies = 100000;
+	int wallofzombies = 10000;
 	float ftoz = 1f;
 	int priorfarmcount = 1;
+
 
 
 
@@ -73,18 +74,26 @@ public class GameLoop : MonoBehaviour {
 
 		if (priorfarmcount > board.farms.Count) {
 
-			this.spawnNzombies = Math.Max(1, this.spawnNzombies - 2);
+			this.spawnNzombies = Math.Max(1, this.spawnNzombies - 1);
 				}
 		if (this.spawnNzombies > board.farms.Count * this.ftoz) {
-						MonoBehaviour.print("Game is not balanced, not increading zombie wave size");	
+						//MonoBehaviour.print("Game is not balanced, not increasing zombie wave size");	
 						return false;
 				}
 		return true;
 		}
 
 
-	void SpawnZombieTurn(){
 
+	void RandomZombieSpawn(){
+		if(UnityEngine.Random.Range (0, ticksTozombies * 2) == 0){
+			float zN = UnityEngine.Random.Range (1, this.spawnNzombies + 1);
+			SpawnZombies (zN);
+		}
+		}
+
+	void SpawnZombieTurn(){
+		RandomZombieSpawn ();
 		this.ticksElapsed += 1;
 		if (this.ticksElapsed == this.ticksTozombies) {
 			float zN = UnityEngine.Random.Range (1, this.spawnNzombies + 1);
@@ -107,11 +116,8 @@ public class GameLoop : MonoBehaviour {
 			}
 
 		if (UnityEngine.Random.Range (0, this.wallofzombies)  == 0) {
-			this.wallofzombies = 100000;
+			this.wallofzombies = 5000;
 			ZombieWall();
-			
-			
-			
 			
 			
 		}
