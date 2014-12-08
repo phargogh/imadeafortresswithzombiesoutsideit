@@ -97,11 +97,16 @@ public class Zombie : MonoBehaviour {
 		needtarget = false; //eventually change
 		this.targetinrange = false; //eventually program call
 		int wallN = this.metaboard.walls.Count;
-
-		int wallR = UnityEngine.Random.Range (0, wallN);
-		this.targetgridpos2D.x = this.metaboard.walls [wallR].gridpos2D.x;
-		this.targetgridpos2D.y = this.metaboard.walls [wallR].gridpos2D.y;
-		//MonoBehaviour.print ("Got random wall! " + wallR.ToString());
+        if (wallN == 0){
+            this.targetgridpos2D.x = Board.widthx / 2;
+            this.targetgridpos2D.y = Board.widthy / 2;
+        }
+        else {
+            int wallR = UnityEngine.Random.Range (0, wallN);
+            this.targetgridpos2D.x = this.metaboard.walls [wallR].gridpos2D.x;
+            this.targetgridpos2D.y = this.metaboard.walls [wallR].gridpos2D.y;
+            //MonoBehaviour.print ("Got random wall! " + wallR.ToString());
+        }
 	}
 
 	void FindTargetDumbLoop(){
