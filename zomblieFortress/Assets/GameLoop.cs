@@ -18,6 +18,7 @@ public class GameLoop : MonoBehaviour {
 	int wallofzombies = 10000;
 	float ftoz = 1f;
 	int priorfarmcount = 1;
+	int 
 
 
 

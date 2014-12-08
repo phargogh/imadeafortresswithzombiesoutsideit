@@ -22,6 +22,7 @@ public class Zombie : MonoBehaviour {
 	public bool needtarget = true;
 	public bool targetinrange = false; 
 	public Board metaboard;
+	int ticksToMove;
 
 	public Sprite[] healthFrames;
 
@@ -36,6 +37,7 @@ public class Zombie : MonoBehaviour {
 		this.oldgridpos2D = Spawngridpos2D;
 		this.needtarget = true;
 		this.targetinrange = false;
+		this.ticksToMove = 0;
 		this.UpdateZombieBoard();
 	}
 	
@@ -148,6 +150,11 @@ public class Zombie : MonoBehaviour {
 			}
 		}
 
+		if(this.ticksToMove > 0){
+			this.ticksToMove --;
+			return;
+		}
+		this.ticksToMove = 1;
 		bool nonewmove = true;
 		int failcount = 0;
 
