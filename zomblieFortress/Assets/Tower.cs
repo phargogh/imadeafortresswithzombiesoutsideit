@@ -12,9 +12,12 @@ public class Tower : MonoBehaviour {
 
 	int ticksToFire = 12;
 
+	private LineRenderer line;
+
 	// Use this for initialization
 	void Start () {
-	
+		line = gameObject.GetComponent<LineRenderer> ();
+		line.SetPosition(0, new Vector3(transform.position.x, transform.position.y, -120f));
 	}
 
 	public void init(Wall wall) {
@@ -27,13 +30,17 @@ public class Tower : MonoBehaviour {
 	}
 
 	public void TakeTurn(){
+		line.enabled = false;
 		ticksToFire--;
 		if (ticksToFire < 0) {
 			Zombie target = FindTarget();
 			if (target) {
 				ticksToFire = cooldown + Random.Range(0, coolDownVariation);
-				Debug.DrawLine(transform.position, target.transform.position, Color.yellow, 0.1f);
+				//Debug.DrawLine(transform.position, target.transform.position, Color.yellow, 0.1f);
 				target.TakeDamage(damage);
+				line.enabled = true;
+				//line.SetPosition(0, new Vector3(transform.position.x);
+				line.SetPosition(1, target.transform.position);
 			}
 		}
 	}

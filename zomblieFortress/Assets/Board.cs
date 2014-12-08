@@ -41,22 +41,42 @@ public class Board : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Point center = new Point (16, 16);
-		List<Point> start_walls = CardGen.getAdjacent (center);
-		List<Point> start_towers = CardGen.getCardinal (center);
+		//List<Point> start_walls = CardGen.getAdjacent (center);
+		//List<Point> start_towers = CardGen.getCardinal (center);
 
-		spawnWalls (start_walls, start_towers, new Point());
-		BorderPoints();
-		SideBorder ();
+		List<Point> start_walls = new List<Point> (){
+			new Point (2, -2),
+			new Point (2, -1),
+			new Point (2, 0),
+			new Point (2, 1),
+			new Point (2, 2),
+			new Point (1, -2),
+			new Point (1, 2),
+			new Point (0, -2),
+			new Point (0, 2),
+			new Point (-1, 2),
+			new Point (-1, -2),
+			new Point (-2, -2),
+			new Point (-2, -1),
+			new Point (-2, 0),
+			new Point (-2, 1),
+			new Point (-2, 2),
+		};
 
-		List<Point> corners = new List<Point> (){
-			new Point (0, 0),
-			new Point (0, 31),
-			new Point (31, 0),
-			new Point (31, 31),
+		List<Point> start_towers = new List<Point> (){
+			new Point (2, -2),
+			new Point (2, 0),
+			new Point (2, 2),
+			new Point (0, -2),
+			new Point (0, 2),
+			new Point (-2, -2),
+			new Point (-2, 0),
+			new Point (-2, 2),
 		};
 		
-		spawnWalls (start_walls, start_walls, new Point());
-		spawnWalls (corners,corners, new Point());
+		spawnWalls (start_walls, start_towers, new Point(16, 16));
+		BorderPoints();
+		SideBorder ();
         FindFarmClusters();
 	}
 
@@ -135,7 +155,7 @@ public class Board : MonoBehaviour {
 			GameObject g = inactiveShadowSquares.Count > 0 ? inactiveShadowSquares.Pop() : (GameObject) Instantiate(wallFab, new Vector3(), Quaternion.identity);
 			g.SetActive(true);
 			g.transform.position = gridPointToWorldPos(new Point(x, y), -0.5f);
-			Color c = (x >= 1 && x < widthx-1 && y >= 1 && y < widthy-1 && boardwall[x,y] == null) ? (boardzombie[x,y] == null ? Color.white : Color.magenta) : Color.red;
+			Color c = (x >= 1 && x < widthx-1 && y >= 1 && y < widthy-1 && boardwall[x,y] == null) ? (boardzombie[x,y] == null ? Palette.Shadow : Color.magenta) : Palette.ShadowRed;
 			g.GetComponent<SpriteRenderer>().color = c;
 			shadowSquares.Push(g);
 		}
@@ -151,6 +171,8 @@ public class Board : MonoBehaviour {
 			GameObject g = inactiveShadowTowers.Count > 0 ? inactiveShadowTowers.Pop() : (GameObject) Instantiate(towerFab, new Vector3(), Quaternion.identity);
 			g.SetActive(true);
 			g.transform.position = gridPointToWorldPos(new Point(x, y), -0.6f);
+			Color c = (x >= 1 && x < widthx-1 && y >= 1 && y < widthy-1 && boardwall[x,y] == null) ? (boardzombie[x,y] == null ? Palette.Shadow : Color.magenta) : Palette.ShadowRed;
+			g.GetComponent<SpriteRenderer>().color = c;
 			shadowTowers.Push(g);
 		}
 

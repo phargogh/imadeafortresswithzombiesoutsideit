@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{CB6D8357-8259-9F61-575F-A4537FDAA52D}") = "zomblieFortress", "Assembly-CSharp.csproj", "{16D17F6B-C106-2FE5-F0AE-0FE9100141A2}"
 EndProject
+Project("{CB6D8357-8259-9F61-575F-A4537FDAA52D}") = "zomblieFortress", "Assembly-UnityScript-firstpass.unityproj", "{C4C0627E-04AE-5C5F-1B99-9C9633179147}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,15 @@ Global
 		{16D17F6B-C106-2FE5-F0AE-0FE9100141A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16D17F6B-C106-2FE5-F0AE-0FE9100141A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16D17F6B-C106-2FE5-F0AE-0FE9100141A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4C0627E-04AE-5C5F-1B99-9C9633179147}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4C0627E-04AE-5C5F-1B99-9C9633179147}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4C0627E-04AE-5C5F-1B99-9C9633179147}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4C0627E-04AE-5C5F-1B99-9C9633179147}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																	GlobalSection(MonoDevelopProperties) = preSolution
+																																				GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
