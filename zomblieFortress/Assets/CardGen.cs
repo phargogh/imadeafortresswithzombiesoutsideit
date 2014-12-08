@@ -20,7 +20,7 @@ public class CardGen{
 			//then choose a random unoccupied adjacent point and place point
 			List<Point> adjacent_points = getCardinal(p);
 			Point new_point = ChoosePoint(adjacent_points);
-			shape.Add(new_point);
+			if (!shape.Contains(new_point)) shape.Add(new_point);
 
 			return shape;
 		}

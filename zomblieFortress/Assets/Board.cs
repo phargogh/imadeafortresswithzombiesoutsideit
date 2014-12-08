@@ -73,6 +73,34 @@ public class Board : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
+		foreach (Wall w in walls) {
+			if (boardwall[w.gridpos2D.x,w.gridpos2D.y] == null) {
+				w.gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
+				//Debug.LogError("***null case*** Wall in walls not at boardwall " + w.gridpos2D.x + ", " + w.gridpos2D.y);
+				//Debug.LogError("Wall in walls not boardwall", w.gameObject);
+			} 
+			else if (boardwall[w.gridpos2D.x,w.gridpos2D.y] != w) {
+				w.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+				//boardwall[w.gridpos2D.x,w.gridpos2D.y].gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+				//Debug.LogError("Wall in walls not at boardwall " + w.gridpos2D.x + ", " + w.gridpos2D.y);
+				//if (boardwall[w.gridpos2D.x,w.gridpos2D.y].gridpos2D != w.gridpos2D) {
+				//	boardwall[w.gridpos2D.x,w.gridpos2D.y].gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
+				//}
+			}
+//			else {
+//				w.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+//			}
+		}
+//		for (int i = 0; i < widthx; i++) {
+//			for (int j = 0; j < widthy; j++) {
+//				Wall w = boardwall[i,j];
+//				//if(w && (w.gridpos2D.x != i || w.gridpos2D.y != j)) {
+//				if(w && !walls.Contains(w)) {
+//					w.gameObject.GetComponent<SpriteRenderer>().color = Color.grey;
+//				}
+//			}
+//		}
 		Board.gameBoard = this;
 		long num_ticks = DateTime.Now.Ticks;
 		long current_time = num_ticks / 10000;  // time in ms
@@ -144,6 +172,26 @@ public class Board : MonoBehaviour {
 	}
 
 	public bool spawnWalls(List<Point> walls, List<Point> towers, Point gridPos){
+
+		foreach (Point w in walls) {
+			int count = 0;
+			foreach (Point p in walls) {
+				if (p == w) count++;
+			}
+			if (count != 1) {
+				Debug.LogError("*** Wrong number " + count + " of duplicate wall in spawnwalls");
+			}
+		}
+		foreach (Point t in towers) {
+			int count = 0;
+			foreach (Point p in walls) {
+				if (p == t) count++;
+			}
+			if (count != 1) {
+				Debug.LogError("*** Wrong number " + count + " of walls for this tower in spawnwalls");
+			}
+		}
+
 		//Debug.Log("placing walls near: " + gridPos.x + ", " + gridPos.y + " like " + walls[0].x);
 		List<Point> wallsToPlace = new List<Point> ();
 		foreach (Point w in walls) {
@@ -169,11 +217,17 @@ public class Board : MonoBehaviour {
 	}
 
 	void placeWall(Point p){
+		if (this.boardwall [p.x, p.y] != null) {
+			Debug.LogError("Already a wall at " + p.x + ", " + p.y + "  cannot place");
+			return;
+		}
+
 		Vector3 pos = gridPointToWorldPos (p, 0);
-		GameObject wall = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
-		boardwall [p.x, p.y] = wall.GetComponent<Wall>();
-		this.walls.Add(wall.GetComponent<Wall>());
-		wall.GetComponent<Wall> ().gridpos2D = p;
+		GameObject wallObj = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
+		Wall wall = wallObj.GetComponent<Wall>();
+		this.boardwall [p.x, p.y] = wall;
+		this.walls.Add(wall);
+		wall.gridpos2D = p;
 	}
 
 	public void BorderPoints(){
