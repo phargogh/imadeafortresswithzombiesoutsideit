@@ -30,6 +30,7 @@ public class Hand : MonoBehaviour {
 			foreach (Card c in cards) {
 				if (c.isSelected && c != selected) c.unselect();
 			}
+            audio.Play();
 		} else {
 			Debug.Log("Cannot aford. need: " + card.cost + " have: " + resources);
 		}
@@ -54,6 +55,7 @@ public class Hand : MonoBehaviour {
 			cards.Remove(card);
 			Destroy(card.gameObject);
 			ReposistionCards();
+            audio.Play();
 		}
 	}
 
