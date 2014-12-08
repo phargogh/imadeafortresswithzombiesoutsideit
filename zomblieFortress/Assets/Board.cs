@@ -220,7 +220,7 @@ public class Board : MonoBehaviour {
 
 	}
 
-    public int CellSize() {
+    public static int CellSize() {
         // returns a reasonably close approximation of the length of the side of one game piece (in pixels)
         int min_screen_size;
         int board_size;
