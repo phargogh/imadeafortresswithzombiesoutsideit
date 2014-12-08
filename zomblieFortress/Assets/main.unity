@@ -287,6 +287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   board: {fileID: 381910382}
   zombieFab: {fileID: 100000, guid: 0136b8d6448988844b9122cee1949a92, type: 2}
+  hand: {fileID: 0}
 --- !u!4 &1767643614
 Transform:
   m_ObjectHideFlags: 0
@@ -335,8 +336,8 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: .492647052, g: .418750018, b: .177497834, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 46fc4d816f3feee44bf07d93b0489f89, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &1991507765
 Transform:
   m_ObjectHideFlags: 0
@@ -345,7 +346,7 @@ Transform:
   m_GameObject: {fileID: 1991507763}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 2}
-  m_LocalScale: {x: 512, y: 512, z: 1}
+  m_LocalScale: {x: 7, y: 7, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5

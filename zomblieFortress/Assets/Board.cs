@@ -70,24 +70,24 @@ public class Board : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		foreach (Wall w in walls) {
-			if (boardwall[w.gridpos2D.x,w.gridpos2D.y] == null) {
-				w.gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
-				//Debug.LogError("***null case*** Wall in walls not at boardwall " + w.gridpos2D.x + ", " + w.gridpos2D.y);
-				//Debug.LogError("Wall in walls not boardwall", w.gameObject);
-			} 
-			else if (boardwall[w.gridpos2D.x,w.gridpos2D.y] != w) {
-				w.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-				//boardwall[w.gridpos2D.x,w.gridpos2D.y].gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
-				//Debug.LogError("Wall in walls not at boardwall " + w.gridpos2D.x + ", " + w.gridpos2D.y);
-				//if (boardwall[w.gridpos2D.x,w.gridpos2D.y].gridpos2D != w.gridpos2D) {
-				//	boardwall[w.gridpos2D.x,w.gridpos2D.y].gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
-				//}
-			}
+//		foreach (Wall w in walls) {
+//			if (boardwall[w.gridpos2D.x,w.gridpos2D.y] == null) {
+//				w.gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
+//				//Debug.LogError("***null case*** Wall in walls not at boardwall " + w.gridpos2D.x + ", " + w.gridpos2D.y);
+//				//Debug.LogError("Wall in walls not boardwall", w.gameObject);
+//			} 
+//			else if (boardwall[w.gridpos2D.x,w.gridpos2D.y] != w) {
+//				w.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+//				//boardwall[w.gridpos2D.x,w.gridpos2D.y].gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+//				//Debug.LogError("Wall in walls not at boardwall " + w.gridpos2D.x + ", " + w.gridpos2D.y);
+//				//if (boardwall[w.gridpos2D.x,w.gridpos2D.y].gridpos2D != w.gridpos2D) {
+//				//	boardwall[w.gridpos2D.x,w.gridpos2D.y].gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
+//				//}
+//			}
 //			else {
 //				w.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
 //			}
-		}
+//		}
 //		for (int i = 0; i < widthx; i++) {
 //			for (int j = 0; j < widthy; j++) {
 //				Wall w = boardwall[i,j];
@@ -169,24 +169,24 @@ public class Board : MonoBehaviour {
 
 	public bool spawnWalls(List<Point> walls, List<Point> towers, Point gridPos){
 
-		foreach (Point w in walls) {
-			int count = 0;
-			foreach (Point p in walls) {
-				if (p == w) count++;
-			}
-			if (count != 1) {
-				Debug.LogError("*** Wrong number " + count + " of duplicate wall in spawnwalls");
-			}
-		}
-		foreach (Point t in towers) {
-			int count = 0;
-			foreach (Point p in walls) {
-				if (p == t) count++;
-			}
-			if (count != 1) {
-				Debug.LogError("*** Wrong number " + count + " of walls for this tower in spawnwalls");
-			}
-		}
+//		foreach (Point w in walls) {
+//			int count = 0;
+//			foreach (Point p in walls) {
+//				if (p == w) count++;
+//			}
+//			if (count != 1) {
+//				Debug.LogError("*** Wrong number " + count + " of duplicate wall in spawnwalls");
+//			}
+//		}
+//		foreach (Point t in towers) {
+//			int count = 0;
+//			foreach (Point p in walls) {
+//				if (p == t) count++;
+//			}
+//			if (count != 1) {
+//				Debug.LogError("*** Wrong number " + count + " of walls for this tower in spawnwalls");
+//			}
+//		}
 
 		//Debug.Log("placing walls near: " + gridPos.x + ", " + gridPos.y + " like " + walls[0].x);
 		List<Point> wallsToPlace = new List<Point> ();
@@ -314,12 +314,12 @@ public class Board : MonoBehaviour {
         GUI.Label(new Rect(stats_x, stats_y + 40, 150, 150), farm_cluster_label + this.farmclusters.Count.ToString());
 
         int offset = 3;
-        foreach (FarmCluster farm_cluster in this.farmclusters) {
-            GUI.Label(new Rect(stats_x, stats_y + row_y_offset * offset , 150, 150), farm_cluster.farms_contained.ToString());
-            Point cluster_center = FarmCluster.ToPixelDims(farm_cluster.center);
-            GUI.Label(new Rect(cluster_center.x, cluster_center.y , 20, 20), farm_cluster.farms_contained.ToString());
-            offset++;
-        }
+//        foreach (FarmCluster farm_cluster in this.farmclusters) {
+//            GUI.Label(new Rect(stats_x, stats_y + row_y_offset * offset , 150, 150), farm_cluster.farms_contained.ToString());
+//            Point cluster_center = FarmCluster.ToPixelDims(farm_cluster.center);
+//            GUI.Label(new Rect(cluster_center.x, cluster_center.y , 20, 20), farm_cluster.farms_contained.ToString());
+//            offset++;
+//        }
 
     }
 }
