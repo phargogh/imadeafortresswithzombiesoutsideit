@@ -90,9 +90,9 @@ public class Card : MonoBehaviour {
 	}
 
 	void SetCost (){
-		int base_cost = 5;
-		int wall_cost = 1;
-		int tower_cost = 5;
+		int base_cost = 15;
+		int wall_cost = 3;
+		int tower_cost = 15;
 		this.cost = base_cost + wall_cost*this.walls.Count + tower_cost*this.towers.Count;
 	}
 	

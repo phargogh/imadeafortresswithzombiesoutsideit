@@ -14,7 +14,7 @@ public class Hand : MonoBehaviour {
 	public float leftCardPosition = -12f;
 	public float cardSpacing = 6f;
 
-	private int resources = 200;
+	private int resources = 300;
 
 	public Card selected;
 
