@@ -21,6 +21,7 @@ public class GameLoop : MonoBehaviour {
 
 
 
+
 	// Use this for initialization
 	void Start () {
 		//MonoBehaviour.print("Game loop started");
@@ -83,8 +84,16 @@ public class GameLoop : MonoBehaviour {
 		}
 
 
-	void SpawnZombieTurn(){
 
+	void RandomZombieSpawn(){
+		if(UnityEngine.Random.Range (0, ticksTozombies * 2) == 0){
+			float zN = UnityEngine.Random.Range (1, this.spawnNzombies + 1);
+			SpawnZombies (zN);
+		}
+		}
+
+	void SpawnZombieTurn(){
+		RandomZombieSpawn ();
 		this.ticksElapsed += 1;
 		if (this.ticksElapsed == this.ticksTozombies) {
 			float zN = UnityEngine.Random.Range (1, this.spawnNzombies + 1);
@@ -109,9 +118,6 @@ public class GameLoop : MonoBehaviour {
 		if (UnityEngine.Random.Range (0, this.wallofzombies)  == 0) {
 			this.wallofzombies = 5000;
 			ZombieWall();
-			
-			
-			
 			
 			
 		}
