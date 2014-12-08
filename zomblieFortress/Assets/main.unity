@@ -104,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallFab: {fileID: 100000, guid: 5e742100692e5a840acd5b4b9efea534, type: 2}
   towerFab: {fileID: 100000, guid: aef3536ae67f2bf48939c805c6e03650, type: 2}
-  farmFab: {fileID: 100000, guid: 900335d7043464b9189d42a2748e86c0, type: 2}
+  farmFab: {fileID: 100000, guid: d540852fcdf914744a257591b28889d4, type: 2}
   hand: {fileID: 2059387484}
   farms: []
   zombies: []
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 381910382}
-  zombieFab: {fileID: 100000, guid: 1c124e501844f46cbb0fc196a99f0bc3, type: 2}
+  zombieFab: {fileID: 100000, guid: 0136b8d6448988844b9122cee1949a92, type: 2}
   hand: {fileID: 2059387484}
 --- !u!4 &1767643614
 Transform:
@@ -469,10 +469,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2059387481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a7a3d29b4dc04920810307d98d49aab, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f9f0858d01b8984f80bbd48a79a8fc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardFab: {fileID: 100000, guid: 802436f96b19444e6bd499cc13181964, type: 2}
+  cardFab: {fileID: 100000, guid: 34bfdbc5462aace40839b9aeb71c41af, type: 2}
   board: {fileID: 381910382}
   cards: []
   handSize: 5

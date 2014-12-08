@@ -129,7 +129,7 @@ public class GameLoop : MonoBehaviour {
 
 	void SpawnZombies(float z){
 		//MonoBehaviour.print("SpawnZombies running");
-		gameObject.GetComponent<CamShakeSimple> ().CallShake(1f);
+		//gameObject.GetComponent<CamShakeSimple> ().CallShake(1f);
 
 				float i = 0;
 				int failcount = 0;
