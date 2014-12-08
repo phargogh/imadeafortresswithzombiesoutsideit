@@ -61,10 +61,14 @@ public class Board : MonoBehaviour {
 	}
 
     void FindFarmClusters(){
+        int num_current_clusters = this.farmclusters.Count;
 		bool[,] known_farms = Farm.DetectFarmland(this);
         List<FarmCluster> detected_clusters = FarmCluster.FindClusters(known_farms);
         this.farmclusters = detected_clusters;
 
+        if (this.farmclusters.Count > num_current_clusters){
+            audio.Play();
+        }
     }
 	
 	// Update is called once per frame
@@ -312,14 +316,5 @@ public class Board : MonoBehaviour {
 
         string farm_cluster_label = "Active farm clusters: ";
         GUI.Label(new Rect(stats_x, stats_y + 40, 150, 150), farm_cluster_label + this.farmclusters.Count.ToString());
-
-        int offset = 3;
-//        foreach (FarmCluster farm_cluster in this.farmclusters) {
-//            GUI.Label(new Rect(stats_x, stats_y + row_y_offset * offset , 150, 150), farm_cluster.farms_contained.ToString());
-//            Point cluster_center = FarmCluster.ToPixelDims(farm_cluster.center);
-//            GUI.Label(new Rect(cluster_center.x, cluster_center.y , 20, 20), farm_cluster.farms_contained.ToString());
-//            offset++;
-//        }
-
     }
 }

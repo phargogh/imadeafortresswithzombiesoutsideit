@@ -8,12 +8,14 @@ public class GameLoop : MonoBehaviour {
 	public Board board;
 	public GameObject zombieFab;
 	public Hand hand;
+	//public CamShakeSimple cam;
+
 
 	float tickLength = 0.1f;
 	float timeSinceTick = 0f;
 	int ticksElapsed = 0;
 	float spawnNzombies = 3f;
-	int ticksTozombies = 100;
+	int ticksTozombies = 200;
 	int apocalypse = 1000000;
 	int wallofzombies = 10000;
 	float ftoz = 1f;
@@ -28,6 +30,7 @@ public class GameLoop : MonoBehaviour {
 		//ZombieApocalypse ();
 
 		SpawnZombies(this.spawnNzombies);
+		//cam = gameObject.GetComponent<CamShakeSimple> ();
 
 	}
 	
@@ -60,6 +63,7 @@ public class GameLoop : MonoBehaviour {
 
 
 	void Tick(){
+		//CamShakeSimple.CameraShake(10);
 		SpawnZombieTurn ();
 		ZombieTurn ();
 		TowerTurn ();
@@ -125,6 +129,7 @@ public class GameLoop : MonoBehaviour {
 
 	void SpawnZombies(float z){
 		//MonoBehaviour.print("SpawnZombies running");
+		gameObject.GetComponent<CamShakeSimple> ().CallShake(1f);
 
 				float i = 0;
 				int failcount = 0;
