@@ -139,11 +139,38 @@ public class Board : MonoBehaviour {
         }
 
 		if (hand.selected) {
-			Point gridPos =  worldPosToGridPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+			Point gridPos =  wallPlacementPosFromGridPos(hand.selected.walls, worldPosToGridPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
 			SetShadowSquares(hand.selected.walls, hand.selected.towers, gridPos);
 		} else {
 			SetShadowSquares(new List<Point>(), new List<Point>(), new Point());
 		}
+	}
+
+	public Point wallPlacementPosFromGridPos(List<Point> walls, Point gridPos) {
+		if (canPlaceWalls(walls, gridPos)) return gridPos;
+		Point next = new Point (gridPos.x, gridPos.y + 1);
+		if (canPlaceWalls(walls, next)) return next;
+		next = new Point (gridPos.x, gridPos.y + 1);
+		if (canPlaceWalls(walls, next)) return next;
+		next = new Point (gridPos.x, gridPos.y - 1);
+		if (canPlaceWalls(walls, next)) return next;
+		next = new Point (gridPos.x + 1, gridPos.y);
+		if (canPlaceWalls(walls, next)) return next;
+		next = new Point (gridPos.x - 1, gridPos.y);
+		if (canPlaceWalls(walls, next)) return next;
+
+		return gridPos;
+	}
+
+	public bool canPlaceWalls(List<Point> walls, Point gridPos) {
+		bool canPlace = true;
+		foreach(Point p in walls) {
+			int x = gridPos.x + p.x;
+			int y = gridPos.y + p.y;
+			bool onBoard = x >= 0 && x < widthx && y >= 0 && y < widthy;
+			canPlace &= onBoard && boardwall[x,y] == null;
+		}
+		return canPlace;
 	}
 
 	void SetShadowSquares(List<Point> walls, List<Point> towers, Point gridPos){
@@ -221,7 +248,7 @@ public class Board : MonoBehaviour {
 	}
 
 	public bool spawnWalls(List<Point> walls, List<Point> towers, Point gridPos){
-
+		gridPos = wallPlacementPosFromGridPos (walls, gridPos);
 //		foreach (Point w in walls) {
 //			int count = 0;
 //			foreach (Point p in walls) {
@@ -270,7 +297,11 @@ public class Board : MonoBehaviour {
 			Debug.LogError("Already a wall at " + p.x + ", " + p.y + "  cannot place");
 			return;
 		}
-
+		if (this.boardzombie [p.x, p.y] != null) {
+			//Debug.LogError("zombie at " + p.x + ", " + p.y + "  cannot place");
+			return;
+		}
+		
 		Vector3 pos = gridPointToWorldPos (p, 0);
 		GameObject wallObj = (GameObject) Instantiate(wallFab, pos, Quaternion.identity);
 		Wall wall = wallObj.GetComponent<Wall>();
