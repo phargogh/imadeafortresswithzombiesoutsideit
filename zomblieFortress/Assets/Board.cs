@@ -33,6 +33,9 @@ public class Board : MonoBehaviour {
 	public Stack<GameObject> shadowTowers = new Stack<GameObject> ();
 	public Stack<GameObject> inactiveShadowTowers = new Stack<GameObject> ();
 
+	public Stack<GameObject> shadowRangeSquares = new Stack<GameObject> ();
+	public Stack<GameObject> inactiveShadowRangeSquares = new Stack<GameObject> ();
+
 	private long last_update;
 	private long last_cash_update;
 	private bool trigger_farm_detection ;
@@ -165,19 +168,43 @@ public class Board : MonoBehaviour {
 			g.SetActive(false);
 			inactiveShadowTowers.Push(g);
 		}
+		while(shadowRangeSquares.Count > 0) {
+			GameObject g = shadowRangeSquares.Pop();
+			g.SetActive(false);
+			inactiveShadowRangeSquares.Push(g);
+		}
 		foreach(Point t in towers) {
 			int x = gridPos.x + t.x;
 			int y = gridPos.y + t.y;
+			Point towerGridPoint = new Point(x, y);
 			GameObject g = inactiveShadowTowers.Count > 0 ? inactiveShadowTowers.Pop() : (GameObject) Instantiate(towerFab, new Vector3(), Quaternion.identity);
 			g.SetActive(true);
-			g.transform.position = gridPointToWorldPos(new Point(x, y), -0.6f);
+			g.transform.position = gridPointToWorldPos(towerGridPoint, -0.6f);
 			Color c = (x >= 1 && x < widthx-1 && y >= 1 && y < widthy-1 && boardwall[x,y] == null) ? (boardzombie[x,y] == null ? Palette.Shadow : Color.magenta) : Palette.ShadowRed;
 			g.GetComponent<SpriteRenderer>().color = c;
 			shadowTowers.Push(g);
-		}
 
+			foreach(Point p in Board.getPointsInRange(towerGridPoint, 5)) { // 5 is tower range, TODO: pull from descriptor
+				GameObject square = inactiveShadowRangeSquares.Count > 0 ? inactiveShadowRangeSquares.Pop() : (GameObject) Instantiate(farmFab, new Vector3(), Quaternion.identity);
+				square.SetActive(true);
+				square.transform.position = gridPointToWorldPos(p, -0.4f);
+
+				c = Palette.ShadowRed;
+				square.GetComponent<SpriteRenderer>().color = Palette.ShadowRangeSquare;
+				shadowRangeSquares.Push(square);
+			}
+		}
 	}
 
+	public static List<Point> getPointsInRange(Point p, int range) {
+		List<Point> points = new List<Point>();
+		for (int x = p.x - range; x <= p.x + range; x++) {
+			for (int y = p.y - range + Math.Abs(p.x - x); y <= p.y + range - Math.Abs(p.x - x); y++) {
+				points.Add(new Point(x, y));
+			}
+		}
+		return points;
+	}
 	public Point worldPosToGridPoint(Vector3 worldPos) {
 		Point gridPos = new Point ();
 		gridPos.x = Mathf.RoundToInt(worldPos.x - transform.position.x) + widthx/2;

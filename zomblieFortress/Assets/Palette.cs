@@ -12,4 +12,5 @@ public class Palette{
 
 	public static Color Shadow = new Color32(255,255,255,128);
 	public static Color ShadowRed = new Color32(255,0,0,128);
+	public static Color ShadowRangeSquare = new Color32(255,153,0,64);
 }
