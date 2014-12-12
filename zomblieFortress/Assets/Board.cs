@@ -283,10 +283,12 @@ public class Board : MonoBehaviour {
 		}
 		foreach (Point t in towers) {
 			Point towerGridPos = new Point(gridPos.x + t.x, gridPos.y + t.y);
-			Vector3 pos = gridPointToWorldPos(towerGridPos, -0.2f);
-			GameObject towerObj = (GameObject) Instantiate(towerFab, pos, Quaternion.identity);
-			Tower tower = towerObj.GetComponent<Tower>();
-			boardwall[towerGridPos.x, towerGridPos.y].SetTower(tower);
+			if (this.boardzombie [towerGridPos.x, towerGridPos.y] == null) {
+				Vector3 pos = gridPointToWorldPos(towerGridPos, -0.2f);
+				GameObject towerObj = (GameObject) Instantiate(towerFab, pos, Quaternion.identity);
+				Tower tower = towerObj.GetComponent<Tower>();
+				boardwall[towerGridPos.x, towerGridPos.y].SetTower(tower);
+			}
 		}
 		this.trigger_farm_detection = true;  // trigger farmland to be re-detected.
 		return true;
